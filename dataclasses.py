@@ -93,6 +93,6 @@ class UsingPokeballs:
 class DataPokemon:
     def __init__(self):
         with open('data/rare_pokemons.json', 'r') as file:
-            self.rarePokemons = json.load(file) # Rare pokemons
+            self.rarePokemons = [['187', 'Хоппип'], ['191', 'Санкерн']] # json.load(file) # Rare pokemons
         with open('data/priority_pokeballs.json', 'r') as file:
             self.priorityPokeballs = json.load(file) # Priority pokeballs for catch

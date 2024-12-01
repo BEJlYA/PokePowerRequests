@@ -90,7 +90,7 @@ class ResponseChecker:
             ):
                 for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Rare catch
                     for ball in client.pokeballs:
-                        if key in ball.id:
+                        if key in ball.name:
                             await client.catch(ball.id)
                             return # Написать обработку ситуации когда нашего покемона ранят или убивают и нужно идти лечиться или менять его на другого
             elif (
