@@ -2,13 +2,13 @@ import json
 
 
 class Settings:
-    def __init__(self, login, password): # Может сделать цели ловли в виде списков?
+    def __init__(self, login, password):
         self.login = login # User login
         self.password = password # User password
-        self.fight = None # Fight flag
-        self.targetItems = None # Items for drop
-        self.targetPokemons = [] # List catchable Pokémon ['nuber', 'name', 'count']
-        self.catchGender = None # Gender catching Pokémon
+        self.fight = 1500 # Fight flag
+        self.targetItems = [] # Items for drop [...['name item', 'count']...]
+        self.targetPokemons = [] # List catchable Pokémon [...['nuber', 'name', 'count']...]
+        self.catchGender = None # Gender catching Pokémon (venus/mars/genderless/None)
         self.catchTools = None # ID pokebal for catch Pokémon
         self.catchShine = 0 # 0/1 - catch flag shine Pokémon
 
@@ -25,10 +25,26 @@ class Settings:
             if element.name == self.catchTools:
                 self.catchTools = element.id
 
+    def check_drop(self, client, log):
+        for part in log:
+            if client.settings.targetItems:
+                for target in client.settings.targetItems:
+                    if part['object'] == 'item' and target[0] == part['name']:
+                        target[1] = str(int(target[1]) - int(part['count'].strip('x')))
+            elif client.settings.targetPokemons:
+                for target in client.settings.targetPokemons:
+                    if part['object'] == 'pokemon' and target[0] == part['num']:
+                        target[2] = str(int(target[2]) - 1)
+        self.check_fight()
+
+    def check_fight(self):
+        self.fight = self.fight - 1
+        if self.fight <= 0:
+            raise 'Исполнено желаемое количество боёв' # В будущем написать вызов алерта
 
 class MyTarget:
     def __init__(self, id):
-        self.atks = [] # List of attack [category, id, name, pp_count, max_pp, type]
+        self.atks = [] # List of attack [...[category, id, name, pp_count, max_pp, type]...]
         self.basenum2 = None # Pokedex number
         self.gender = None # Pokemon gender (venus/mars/genderless)
         self.hp = None # Count of HP
@@ -42,6 +58,11 @@ class MyTarget:
 
     def add_atk(self, data):
         self.atks.append(data)
+
+    def reduce_count(self, attack_id):
+        for attack in self.atks:
+            if attack_id in attack[1]:
+                attack[3] = str(int(attack[3]) - 1)
 
     def add_info(self, basenum2, gender, hp, lvl, name, sparka, sparka_number, start, type_text_color):
         self.basenum2 = basenum2
