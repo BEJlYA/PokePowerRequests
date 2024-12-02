@@ -11,7 +11,6 @@ async def main():
             await aclient.items()
             await aclient.init()
 
-
             await asyncio.create_task(await aclient.update())
     except asyncio.CancelledError:
         pass

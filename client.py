@@ -1,6 +1,5 @@
 import asyncio
 import aiohttp
-from aiohttp.log import client_logger
 
 from handler import ResponseChecker
 from dataclasses import DataPokemon
@@ -14,7 +13,6 @@ class AiohttpClient:
         self.enemy = None # Enemy Pokémon in battle
         self.data = DataPokemon() # Data
         self.assault = 'true' # Assault flag for wild Pokémon
-        self.id_atk = None # ID attack for send request in battle Зачееееем?
         self.settings = settings # Inherited setting of GUI
 
     async def __aenter__(self):
@@ -68,17 +66,6 @@ class AiohttpClient:
                 ) as response:
                 await ResponseChecker.main_response(self, response)
 
-    async def attack(self):
-        async with await self.session.post(
-                    url='https://pokepower.ru/do/makasimka',
-                    data={
-                        'makasimka': 'true',
-                        'type': 'battle',
-                        'targetAtk': self.id_atk # Зачем? Если получать будем из алгоритма вычисления наиболее эфф атаки и с массива тимы
-                    }
-                ) as response:
-            await ResponseChecker.main_response(self, response)
-
     async def items(self):
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',
@@ -103,4 +90,15 @@ class AiohttpClient:
             for element in self.pokeballs:
                 if pokeball == element.id:
                     element.reduce_count()
+            await ResponseChecker.main_response(self, response)
+
+    async def attack(self, attack_id):
+        async with await self.session.post(
+                    url='https://pokepower.ru/do/makasimka',
+                    data={
+                        'makasimka': 'true',
+                        'type': 'battle',
+                        'targetAtk': attack_id
+                    }
+                ) as response:
             await ResponseChecker.main_response(self, response)

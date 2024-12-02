@@ -28,7 +28,7 @@ class Settings:
 
 class MyTarget:
     def __init__(self, id):
-        self.atks = [] # List of attack [category, id, name, pp, type]
+        self.atks = [] # List of attack [category, id, name, pp_count, max_pp, type]
         self.basenum2 = None # Pokedex number
         self.gender = None # Pokemon gender (venus/mars/genderless)
         self.hp = None # Count of HP
@@ -92,7 +92,11 @@ class UsingPokeballs:
 
 class DataPokemon:
     def __init__(self):
-        with open('data/rare_pokemons.json', 'r') as file:
-            self.rarePokemons = [['187', 'Хоппип'], ['191', 'Санкерн']] # json.load(file) # Rare pokemons
-        with open('data/priority_pokeballs.json', 'r') as file:
-            self.priorityPokeballs = json.load(file) # Priority pokeballs for catch
+        with open('data/rare_pokemons.json', 'r') as file: # Rare pokemons
+            self.rarePokemons = json.load(file)
+        with open('data/priority_pokeballs.json', 'r') as file: # Priority pokeballs for catch
+            self.priorityPokeballs = json.load(file)
+        with open('data/pokedex.json', 'r') as file: # All Pokemons
+            self.pokedex = json.load(file)
+        with open('data/punch_effectiveness.json', 'r') as file: # Table of attack effectiveness
+            self.punchEffectiveness = json.load(file)

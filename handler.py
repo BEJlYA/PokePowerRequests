@@ -4,6 +4,13 @@ from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
 
 class ResponseChecker:
     @staticmethod
+    async def check_status(response):
+        if await response.status == 200:
+            return True
+        else:
+            return False
+
+    @staticmethod
     async def status_authentication(response):
         json_data = json.loads(await response.text())
         if json_data['error'] == 1:
@@ -69,7 +76,7 @@ class ResponseChecker:
         json_data = json.loads(await response.text())
         if (
                 'battleInfo' in json_data and
-                'logBattle' not in json_data
+                'logDrop' not in json_data
         ):
             target = EnemyTarget()
             target.add_info(
@@ -120,8 +127,42 @@ class ResponseChecker:
             ):
                 await client.catch(client.settings.catchTools)
             else:
-                # алгоритм нахождения наиболее эффективной атаки, дальше отправка запроса.
-                print('skip')
-                # await client.attack()
-        elif 'logBattle' in json_data:
+                enemy_types = None
+                for pokemon in client.data.pokedex:
+                    if client.enemy.basenum2 in pokemon[0] or client.enemy.name in pokemon[1]: # Удостоверились что покемон есть в покедексе, для получения его типов
+                        enemy_types = pokemon[2:] # Добавили тип\ы вражеского покемона в стек
+
+                atks_types = []
+                for myPokemon in client.team:
+                    if myPokemon.start == '1': # Нашли покемона который вышел в бой
+                        for attack in myPokemon.atks:
+                            if attack[0] == 1 or attack[0] == 2: # Нашли бьющие атаки
+                                atks_types.append(attack[5]) # добавили в стек типы атак
+
+                max_effectiveness = {}
+                if len(enemy_types) == 2:
+                    for a in atks_types:
+                        for i in enemy_types:
+                            e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
+                            if a in max_effectiveness:
+                                max_effectiveness[a] = (i, e * (max_effectiveness[a][1]))
+                            else:
+                                max_effectiveness[a] = (i, e)
+                else:
+                    for a in atks_types:
+                        for i in enemy_types:
+                            e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
+                            if a in max_effectiveness:
+                                if e > max_effectiveness[a][1]:
+                                    max_effectiveness[a] = (i, e)
+                            else:
+                                max_effectiveness[a] = (i, e)
+                max_type = max(max_effectiveness.items(), key=lambda x: x[1][1]) # отсортировали атаки по эффективности
+
+                for myPokemon in client.team:
+                    if myPokemon.start == '1': # Нашли покемона который вышел в бой
+                        for attack in myPokemon.atks:
+                            if attack[0] == 1 or attack[0] == 2 and attack[5] == max_type[0]: # Нашли нужную эффективную атаку
+                                await client.attack(attack[1])
+        elif 'logDrop' in json_data:
             print('Battle end')
