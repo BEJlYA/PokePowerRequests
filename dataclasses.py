@@ -35,6 +35,7 @@ class Settings:
                 for target in client.settings.targetPokemons:
                     if part['object'] == 'pokemon' and target[0] == part['num']:
                         target[2] = str(int(target[2]) - 1)
+        # Написать удаление предмета если его меньше 0 и вызов алерта цели достигнуты...
         self.check_fight()
 
     def check_fight(self):
@@ -49,7 +50,7 @@ class MyTarget:
         self.gender = None # Pokemon gender (venus/mars/genderless)
         self.hp = None # Count of HP
         self.id = id # Pokemon ID
-        self.lvl = None # Pokemon level
+        self.lvl = None # Pokémon level
         self.name = None # Pokemon name
         self.sparka = None # Mating availability
         self.sparkaNumber = None # Mating compatibility
@@ -113,11 +114,41 @@ class UsingPokeballs:
 
 class DataPokemon:
     def __init__(self):
-        with open('data/rare_pokemons.json', 'r') as file: # Rare pokemons
-            self.rarePokemons = json.load(file)
-        with open('data/priority_pokeballs.json', 'r') as file: # Priority pokeballs for catch
-            self.priorityPokeballs = json.load(file)
-        with open('data/pokedex.json', 'r') as file: # All Pokémon
+        with open('data/pokedex.json', 'r', encoding='UTF-8') as file: # All Pokémon
             self.pokedex = json.load(file)
-        with open('data/punch_effectiveness.json', 'r') as file: # Table of attack effectiveness
+        with open('data/punch_effectiveness.json', 'r', encoding='UTF-8') as file: # Table of attack effectiveness
             self.punchEffectiveness = json.load(file)
+        with open('data/priority_pokeballs.json', 'r', encoding='UTF-8') as file: # Priority pokeballs for catch
+            self.priorityPokeballs = json.load(file)
+        with open('data/rare_pokemons.json', 'r', encoding='UTF-8') as file: # Rare pokemons
+            self.rarePokemons = json.load(file)
+
+class MyPosition:
+    def __init__(self):
+        self.name = None
+        self.id = None
+        self.region = None
+        self.routes = None
+
+    def add_info(self, name, id, region, routes):
+        self.name = name
+        self.id = id
+        self.region = region
+        self.routes = routes
+
+class DataLocation:
+    def __init__(self):
+        self.allLocations = None
+
+class Location:
+    def __init__(self):
+        self.name = None
+        self.id = None
+        self.region = None
+        self.routes = []
+
+    def add_info(self, name, id, region, routes):
+        self.name = name
+        self.id = id
+        self.region = region
+        self.routes = routes

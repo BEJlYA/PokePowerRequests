@@ -1,5 +1,3 @@
-
 .idea
 .venv
-/data/refactor.py
-/data/types_pokedex1.txt
+/data_parser/

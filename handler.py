@@ -1,6 +1,7 @@
+import base64
 import json
 import time
-import base64
+
 from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
 
 
@@ -61,6 +62,9 @@ class ResponseChecker:
                 pokeballs.append(element)
         return pokeballs
 
+    @staticmethod
+    async def locations_route(response):
+        pass
 
     @staticmethod
     async def main_response(client, response):
@@ -74,8 +78,16 @@ class ResponseChecker:
 
         try:
             json_data = json.loads(json_str)
+            if json_data['response'].get('location'):
+                data_location = json_data['response'].get('location')
+                name, id = data_location.get('name'), data_location.get('id_loc')
+                region, roads = data_location.get('region'), data_location.get('roads')
+                client.position.add_info(name, id, region, roads)
         except json.JSONDecodeError:
             raise Exception('Ошибка при парсинге JSON.')
+        except KeyError:
+            pass
+
         if (
                 'battleInfo' in json_data and
                 'logDrop' not in json_data

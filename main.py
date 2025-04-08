@@ -1,6 +1,8 @@
 import asyncio
+
 from client import AiohttpClient
 from dataclasses import Settings
+
 
 async def main():
     settings = Settings(login='LOGIN', password='PASSWORD')

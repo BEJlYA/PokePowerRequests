@@ -1,9 +1,10 @@
 import asyncio
-import aiohttp
 import json
 
+import aiohttp
+
+from dataclasses import DataPokemon, MyPosition
 from handler import ResponseChecker, UniqueGenerator
-from dataclasses import DataPokemon
 
 
 class AiohttpClient:
@@ -18,6 +19,7 @@ class AiohttpClient:
         self.assault = 'true' # Assault flag for wild Pokémon
         self.settings = settings # Inherited setting of GUI
         self.generator = UniqueGenerator() # Custom generator
+        self.position = MyPosition() # Information about position
 
     async def __aenter__(self):
         self.session = aiohttp.ClientSession()
@@ -112,4 +114,15 @@ class AiohttpClient:
                         'targetAtk': attack_id
                     }
                 ) as response:
+            await ResponseChecker.main_response(self, response)
+
+    async def route(self, id_location):
+        async with await self.session.post(
+            url='https://pokepower.ru/do/route',
+            data={
+                'id': 'route',
+                'type': 'go',
+                'val': id_location
+            }
+        ) as response:
             await ResponseChecker.main_response(self, response)
