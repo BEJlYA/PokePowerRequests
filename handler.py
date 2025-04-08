@@ -1,4 +1,6 @@
 import json
+import time
+import base64
 from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
 
 
@@ -66,7 +68,14 @@ class ResponseChecker:
         if not text_response.strip():
             raise 'Ошибка: сервер разорвал соединение.' # Может написать кастомные экзепшены, для выводов алертов по типу обновы/разрыва/некорректного логина/пароля?
 
-        json_data = json.loads(await response.text())
+        start_index = text_response.find('{')
+        end_index = text_response.rfind('}')
+        json_str = text_response[start_index:end_index + 1]
+
+        try:
+            json_data = json.loads(json_str)
+        except json.JSONDecodeError:
+            raise Exception('Ошибка при парсинге JSON.')
         if (
                 'battleInfo' in json_data and
                 'logDrop' not in json_data
@@ -88,7 +97,7 @@ class ResponseChecker:
                     client.enemy.name in client.data.rarePokemons[0] and
                     client.enemy.catch == 1
             ):
-                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Rare catch
+                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Super rare Pokémon catch
                     for ball in client.pokeballs:
                         if key in ball.name:
                             await client.catch(ball.id)
@@ -166,3 +175,9 @@ class ResponseChecker:
         elif 'logDrop' in json_data:
             client.settings.check_drop(client, json_data['logDrop'])
 
+
+class UniqueGenerator:
+    @staticmethod
+    async def gen_t():
+        timestamp = str(int(time.time() * 1000))[-7:]
+        return str(base64.b64encode(timestamp.encode("UTF-8")))[2:-3][0:6]

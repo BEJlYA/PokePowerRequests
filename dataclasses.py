@@ -81,7 +81,7 @@ class EnemyTarget:
         self.basenum2 = None # Pokedex number
         self.name = None # Pokemon name
         self.hp = None # Amount HP
-        self.lvl = None # Pokemon level
+        self.lvl = None # Pokémon level
         self.sex2 = None # Pokemon gender (venus/mars/genderless)
         self.type_text_color = None # 0/1 - (Dont) shine pokemon
         self.catch = 1 # 1/0 - Can/Can't be caught
@@ -117,7 +117,7 @@ class DataPokemon:
             self.rarePokemons = json.load(file)
         with open('data/priority_pokeballs.json', 'r') as file: # Priority pokeballs for catch
             self.priorityPokeballs = json.load(file)
-        with open('data/pokedex.json', 'r') as file: # All Pokemons
+        with open('data/pokedex.json', 'r') as file: # All Pokémon
             self.pokedex = json.load(file)
         with open('data/punch_effectiveness.json', 'r') as file: # Table of attack effectiveness
             self.punchEffectiveness = json.load(file)

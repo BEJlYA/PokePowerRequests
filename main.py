@@ -7,9 +7,10 @@ async def main():
     try:
         async with AiohttpClient(settings) as aclient:
             await aclient.auth(settings)
+            await aclient.websocket_sid()
             await aclient.pokemons()
-            await aclient.items()
             await aclient.init()
+            await aclient.items()
 
             await asyncio.create_task(await aclient.update())
     except asyncio.CancelledError:

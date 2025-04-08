@@ -1,19 +1,23 @@
 import asyncio
 import aiohttp
+import json
 
-from handler import ResponseChecker
+from handler import ResponseChecker, UniqueGenerator
 from dataclasses import DataPokemon
 
 
 class AiohttpClient:
     def __init__(self, settings):
         self.session = None # Session
+        self.token = None # Hash token by authorize
+        self.sid = None # Resulting SID phrase
         self.team = None # Our team of Pokémon
         self.pokeballs = None # Our items for using in battle
         self.enemy = None # Enemy Pokémon in battle
         self.data = DataPokemon() # Data
         self.assault = 'true' # Assault flag for wild Pokémon
         self.settings = settings # Inherited setting of GUI
+        self.generator = UniqueGenerator() # Custom generator
 
     async def __aenter__(self):
         self.session = aiohttp.ClientSession()
@@ -31,7 +35,14 @@ class AiohttpClient:
             'password': settings.password
         }
     ) as response:
+            self.token = self.session.cookie_jar.filter_cookies(response.url).get("hash").value
             await ResponseChecker.status_authentication(response)
+
+    async def websocket_sid(self):
+        async with self.session.get(
+            url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.generator.gen_t()}'
+        ) as response:
+            self.sid = json.loads(str(await response.text())[1:]).get('sid')
 
     async def init(self):
         async with await self.session.post(
