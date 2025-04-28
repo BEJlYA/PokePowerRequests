@@ -69,6 +69,8 @@ class ResponseChecker:
     @staticmethod
     async def main_response(client, response):
         text_response = await response.text()
+
+        # Disconnect finder
         if not text_response.strip():
             raise 'Ошибка: сервер разорвал соединение.' # Может написать кастомные экзепшены, для выводов алертов по типу обновы/разрыва/некорректного логина/пароля?
 
@@ -76,6 +78,7 @@ class ResponseChecker:
         end_index = text_response.rfind('}')
         json_str = text_response[start_index:end_index + 1]
 
+        # Position finder
         try:
             json_data = json.loads(json_str)
             if json_data['response'].get('location'):
@@ -88,6 +91,7 @@ class ResponseChecker:
         except KeyError:
             pass
 
+        # Battle finder
         if (
                 'battleInfo' in json_data and
                 'logDrop' not in json_data

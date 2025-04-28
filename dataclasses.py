@@ -136,19 +136,23 @@ class MyPosition:
         self.region = region
         self.routes = routes
 
-class DataLocation:
-    def __init__(self):
-        self.allLocations = None
-
-class Location:
-    def __init__(self):
-        self.name = None
-        self.id = None
-        self.region = None
-        self.routes = []
-
-    def add_info(self, name, id, region, routes):
-        self.name = name
-        self.id = id
-        self.region = region
-        self.routes = routes
+# class DataLocation:
+#     def __init__(self):
+#         self.allLocations = None
+#
+# class Location:
+#     def __init__(self):
+#         self.name = None
+#         self.id = None
+#         self.region = None
+#         self.routes = []
+#         self.habitat = []
+#         self.items = []
+#
+#     def add_info(self, name, id, region, routes, habitat, items):
+#         self.name = name
+#         self.id = id
+#         self.region = region
+#         self.routes = routes
+#         self.habitat = habitat
+#         self.items = items
