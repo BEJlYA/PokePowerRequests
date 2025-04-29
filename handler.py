@@ -1,6 +1,7 @@
 import base64
 import json
 import time
+from functools import wraps
 
 from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
 
@@ -13,12 +14,36 @@ class ResponseChecker:
             print(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
 
     @staticmethod
-    async def team_grabber(response):
+    def reformat_response(func):
+        @wraps(func)
+        async def wrapper(response, *args, **kwargs):
+            try:
+                text_response = await response.text()
+
+                # Disconnect finder
+                if not text_response.strip():
+                    raise 'Ошибка: сервер разорвал соединение.'  # Может написать кастомные экзепшены, для выводов алертов по типу обновы/разрыва/некорректного логина/пароля?
+
+                start_index = text_response.find('{')
+                end_index = text_response.rfind('}')
+                json_str = text_response[start_index:end_index + 1]
+                json_data = json.loads(json_str)
+
+                return await func(json_data, *args, **kwargs)
+            except Exception as e:
+                print(e)
+                raise
+
+        return wrapper
+
+    @staticmethod
+    @reformat_response
+    async def team_grabber(json_data):
         team = []
-        json_data = json.loads(await response.text())
 
         for select in json_data['response']['pokemon_list']:
             element = MyTarget(json_data['response']['pokemon_list'][select]['pok']['id'])
+
             for select_atk in json_data['response']['pokemon_list'][select]['pok']:
                 if 'atk_' in select_atk:
                     element.add_atk(
@@ -43,13 +68,14 @@ class ResponseChecker:
                 start=json_data['response']['pokemon_list'][select]['pok']['start'],
                 type_text_color=json_data['response']['pokemon_list'][select]['pok']['type_text_color'],
             )
+
             team.append(element)
         return team
 
     @staticmethod
-    async def pokeballs_grabber(response):
+    @reformat_response
+    async def pokeballs_grabber(json_data):
         pokeballs = []
-        json_data = json.loads(await response.text())
 
         for select in json_data['ballList']:
             if select['type'] == 1:
@@ -63,34 +89,28 @@ class ResponseChecker:
         return pokeballs
 
     @staticmethod
-    async def locations_route(response):
-        pass
-
-    @staticmethod
-    async def main_response(client, response):
-        text_response = await response.text()
-
-        # Disconnect finder
-        if not text_response.strip():
-            raise 'Ошибка: сервер разорвал соединение.' # Может написать кастомные экзепшены, для выводов алертов по типу обновы/разрыва/некорректного логина/пароля?
-
-        start_index = text_response.find('{')
-        end_index = text_response.rfind('}')
-        json_str = text_response[start_index:end_index + 1]
-
-        # Position finder
+    @reformat_response
+    async def geo_position(json_data, client):
+        # Search geo-position
         try:
-            json_data = json.loads(json_str)
             if json_data['response'].get('location'):
                 data_location = json_data['response'].get('location')
                 name, id = data_location.get('name'), data_location.get('id_loc')
                 region, roads = data_location.get('region'), data_location.get('roads')
+
                 client.position.add_info(name, id, region, roads)
         except json.JSONDecodeError:
             raise Exception('Ошибка при парсинге JSON.')
         except KeyError:
             pass
 
+    @staticmethod
+    async def locations_route(response):
+        pass
+
+    @staticmethod
+    @reformat_response
+    async def main_handler(json_data, client):
         # Battle finder
         if (
                 'battleInfo' in json_data and
