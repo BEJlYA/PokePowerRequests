@@ -43,9 +43,9 @@ class AiohttpClient:
             except aiohttp.ClientResponseError as e:
                 print(f"Сервер вернул ошибку: {e.status} {e.message}")
             except Exception as e:
-                print(f"Непредвиденная ошибка в запросе: {e}")
+                print(f"Непредвиденная ошибка: {e}")
 
-            return asyncio.sleep(0)
+            return None
         return wrapper
 
     @safe_request
@@ -58,11 +58,11 @@ class AiohttpClient:
         },
         timeout=10
     ) as response:
-            self.token = self.session.cookie_jar.filter_cookies(response.url).get("hash").value
             await ResponseChecker.status_authentication(response)
 
     @safe_request
     async def websocket_sid(self):
+        self.token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
         async with self.session.get(
             url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.generator.gen_t()}',
             timeout=10
@@ -136,7 +136,7 @@ class AiohttpClient:
                 ) as response:
             for element in self.pokeballs:
                 if pokeball == element.id:
-                    element.reduce_count()
+                    element.reduce_count_pokeball()
             await ResponseChecker.main_handler(response, self)
 
     @safe_request

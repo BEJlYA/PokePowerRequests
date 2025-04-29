@@ -11,7 +11,7 @@ class ResponseChecker:
     async def status_authentication(response):
         json_data = json.loads(await response.text())
         if json_data['error'] == 1:
-            print(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
+            raise Exception(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
 
     @staticmethod
     def reformat_response(func):
@@ -19,11 +19,6 @@ class ResponseChecker:
         async def wrapper(response, *args, **kwargs):
             try:
                 text_response = await response.text()
-
-                # Disconnect finder
-                if not text_response.strip():
-                    raise 'Ошибка: сервер разорвал соединение.'  # Может написать кастомные экзепшены, для выводов алертов по типу обновы/разрыва/некорректного логина/пароля?
-
                 start_index = text_response.find('{')
                 end_index = text_response.rfind('}')
                 json_str = text_response[start_index:end_index + 1]
@@ -105,17 +100,10 @@ class ResponseChecker:
             pass
 
     @staticmethod
-    async def locations_route(response):
-        pass
-
-    @staticmethod
     @reformat_response
     async def main_handler(json_data, client):
         # Battle finder
-        if (
-                'battleInfo' in json_data and
-                'logDrop' not in json_data
-        ):
+        if json_data.get('battleInfo') and not json_data.get('logDrop'):
             target = EnemyTarget()
             target.add_info(
                 basenum2=json_data['battleInfo']['enemyTarget']['basenum2'],
@@ -208,11 +196,20 @@ class ResponseChecker:
                             ):
                                 print('attack send!')
                                 await client.attack(attack[1])
-                                myPokemon.reduce_count(attack[1])
+                                myPokemon.reduce_count_attack(attack[1])
+                                break
 
         elif 'logDrop' in json_data:
+            client.enemy = None
+
+            await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
             client.settings.check_drop(client, json_data['logDrop'])
 
+
+    @staticmethod
+    async def pokemon_health(battle_info, client):
+        if int(battle_info['myTarget']['hp']) <= int(battle_info['myTarget']['hp_max']) * 0.3:
+            print('low pokemon hp!')
 
 class UniqueGenerator:
     @staticmethod

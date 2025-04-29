@@ -60,7 +60,7 @@ class MyTarget:
     def add_atk(self, data):
         self.atks.append(data)
 
-    def reduce_count(self, attack_id):
+    def reduce_count_attack(self, attack_id):
         for attack in self.atks:
             if attack_id in attack[1]:
                 attack[3] = str(int(attack[3]) - 1)
@@ -108,7 +108,7 @@ class UsingPokeballs:
         self.id = id
         self.count = count
 
-    def reduce_count(self):
+    def reduce_count_pokeball(self):
         self.count = self.count - 1
 
 
