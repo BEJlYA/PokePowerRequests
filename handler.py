@@ -147,14 +147,15 @@ class ResponseChecker:
             else:
                 enemy_types = None
                 for pokemon in client.data.pokedex:
-                    if client.enemy.basenum2 in pokemon[0] or client.enemy.name in pokemon[1]:
-                        enemy_types = pokemon[2:]
+                    if client.enemy.basenum2 == pokemon['basenum'] or client.enemy.name == pokemon['name']:
+                        enemy_types = pokemon['types']
+                        break
 
                 atks_types = []
                 for myPokemon in client.team:
                     if myPokemon.start == '1':
                         for attack in myPokemon.atks:
-                            if attack[0] == 1 or attack[0] == 2 and int(attack[3]) > 0:
+                            if (attack[0] == 1 or attack[0] == 2) and int(attack[3]) > 0:
                                 atks_types.append(attack[5])
 
                 max_effectiveness = {}
@@ -185,6 +186,7 @@ class ResponseChecker:
                                     int(attack[3]) > 0 and
                                     attack[5] == max_type[0]
                             ):
+                                print('attack send!')
                                 await client.attack(attack[1])
                                 myPokemon.reduce_count(attack[1])
 
