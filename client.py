@@ -9,7 +9,7 @@ from handler import ResponseChecker, UniqueGenerator
 
 
 class AiohttpClient:
-    def __init__(self, settings):
+    def __init__(self, settings: object):
         self.session = None # Session
         self.token = None # Hash token by authorize
         self.sid = None # Resulting SID phrase
@@ -49,7 +49,7 @@ class AiohttpClient:
         return wrapper
 
     @safe_request
-    async def auth(self, settings):
+    async def auth(self, settings: object) -> None:
         async with self.session.post(
         url='https://pokepower.ru/do/sign',
         data={
@@ -61,7 +61,7 @@ class AiohttpClient:
             await ResponseChecker.status_authentication(response)
 
     @safe_request
-    async def websocket_sid(self):
+    async def websocket_sid(self) -> None:
         self.token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
         async with self.session.get(
             url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.generator.gen_t()}',
@@ -70,7 +70,7 @@ class AiohttpClient:
             self.sid = json.loads(str(await response.text())[1:]).get('sid')
 
     @safe_request
-    async def init(self):
+    async def init(self) -> None:
         async with await self.session.post(
             url='https://pokepower.ru/do/init',
             data={
@@ -82,7 +82,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def pokemons(self):
+    async def pokemons(self) -> None:
         async with await self.session.post(
             url='https://pokepower.ru/do/pokemons',
             data={
@@ -95,7 +95,7 @@ class AiohttpClient:
             self.team = await ResponseChecker.team_grabber(response)
 
     @safe_request
-    async def update(self):
+    async def update(self) -> None:
         while True:
             await asyncio.sleep(3)
             async with await self.session.post(
@@ -110,7 +110,7 @@ class AiohttpClient:
                 await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def items(self):
+    async def items(self) -> None:
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',
                     data={
@@ -124,7 +124,7 @@ class AiohttpClient:
             self.settings.getting_pokeball_id(self.pokeballs)
 
     @safe_request
-    async def catch(self, pokeball):
+    async def catch(self, pokeball: int) -> None:
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',
                     data={
@@ -140,7 +140,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def attack(self, attack_id):
+    async def attack(self, attack_id: int) -> None:
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',
                     data={
@@ -153,7 +153,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def route(self, id_location):
+    async def route(self, id_location: int) -> None:
         async with await self.session.post(
             url='https://pokepower.ru/do/route',
             data={

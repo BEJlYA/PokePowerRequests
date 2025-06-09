@@ -8,15 +8,9 @@ from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
 
 class ResponseChecker:
     @staticmethod
-    async def status_authentication(response):
-        json_data = json.loads(await response.text())
-        if json_data['error'] == 1:
-            raise Exception(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
-
-    @staticmethod
     def reformat_response(func):
         @wraps(func)
-        async def wrapper(response, *args, **kwargs):
+        async def wrapper(response: str, *args, **kwargs):
             try:
                 text_response = await response.text()
                 start_index = text_response.find('{')
@@ -33,7 +27,13 @@ class ResponseChecker:
 
     @staticmethod
     @reformat_response
-    async def team_grabber(json_data):
+    async def status_authentication(json_data: dict) -> None:
+        if json_data['error'] == 1:
+            raise Exception(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
+
+    @staticmethod
+    @reformat_response
+    async def team_grabber(json_data: dict) -> list:
         team = []
 
         for select in json_data['response']['pokemon_list']:
@@ -69,7 +69,7 @@ class ResponseChecker:
 
     @staticmethod
     @reformat_response
-    async def pokeballs_grabber(json_data):
+    async def pokeballs_grabber(json_data: dict) -> list:
         pokeballs = []
 
         for select in json_data['ballList']:
@@ -85,7 +85,7 @@ class ResponseChecker:
 
     @staticmethod
     @reformat_response
-    async def geo_position(json_data, client):
+    async def geo_position(json_data: dict, client: object) -> None:
         # Search geo-position
         try:
             if json_data['response'].get('location'):
@@ -101,7 +101,7 @@ class ResponseChecker:
 
     @staticmethod
     @reformat_response
-    async def main_handler(json_data, client):
+    async def main_handler(json_data: dict, client: object) -> None:
         # Battle finder
         if json_data.get('battleInfo') and not json_data.get('logDrop'):
             target = EnemyTarget()
@@ -120,7 +120,7 @@ class ResponseChecker:
                     client.enemy.basenum2 in client.data.rarePokemons[0] or
                     client.enemy.name in client.data.rarePokemons[0] and
                     client.enemy.catch == 1
-            ):
+            ): # Catch rare pokémon
                 for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Super rare Pokémon catch
                     for ball in client.pokeballs:
                         if key in ball.name:
@@ -130,7 +130,7 @@ class ResponseChecker:
                     client.enemy.type_text_color == 1 and
                     client.settings.catchShine == 1 and
                     client.enemy.catch == 1
-            ):
+            ): # Catch shine pokémon
                 for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Shine catch
                     for ball in client.pokeballs:
                         if key in ball.id:
@@ -150,9 +150,9 @@ class ResponseChecker:
                             client.settings.catchGender is None
                     ) and
                     client.enemy.catch == 1
-            ):
+            ): # Catch certain pokémon
                 await client.catch(client.settings.catchTools)
-            else:
+            else: # Else kill pokémon
                 enemy_types = None
                 for pokemon in client.data.pokedex:
                     if client.enemy.basenum2 == pokemon['basenum'] or client.enemy.name == pokemon['name']:
@@ -160,44 +160,41 @@ class ResponseChecker:
                         break
 
                 atks_types = []
-                for myPokemon in client.team:
-                    if myPokemon.start == '1':
-                        for attack in myPokemon.atks:
-                            if (attack[0] == 1 or attack[0] == 2) and int(attack[3]) > 0:
-                                atks_types.append(attack[5])
+
+                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
+
+                if active_pokemon:
+                    for attack in active_pokemon.atks:
+                        if attack[0] in (1, 2) and int(attack[3]) > 0:
+                            atks_types.append(attack[5])
 
                 max_effectiveness = {}
-                if len(enemy_types) == 2:
-                    for a in atks_types:
-                        for i in enemy_types:
-                            e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
-                            if a in max_effectiveness:
+
+                for a in atks_types:
+                    for i in enemy_types:
+                        e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
+
+                        if a in max_effectiveness:
+                            if len(enemy_types) == 2:
                                 max_effectiveness[a] = (i, e * (max_effectiveness[a][1]))
                             else:
                                 max_effectiveness[a] = (i, e)
-                else:
-                    for a in atks_types:
-                        for i in enemy_types:
-                            e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
-                            if a in max_effectiveness:
-                                if e > max_effectiveness[a][1]:
-                                    max_effectiveness[a] = (i, e)
-                            else:
-                                max_effectiveness[a] = (i, e)
+                        else:
+                            max_effectiveness[a] = (i, e)
+
                 max_type = max(max_effectiveness.items(), key=lambda x: x[1][1])
 
-                for myPokemon in client.team:
-                    if myPokemon.start == '1':
-                        for attack in myPokemon.atks:
-                            if (
-                                    attack[0] == 1 or attack[0] == 2 and
-                                    int(attack[3]) > 0 and
-                                    attack[5] == max_type[0]
-                            ):
-                                print('attack send!')
-                                await client.attack(attack[1])
-                                myPokemon.reduce_count_attack(attack[1])
-                                break
+                if active_pokemon:
+                    for attack in active_pokemon.atks:
+                        if (
+                                attack[0] in (1, 2) and
+                                int(attack[3]) > 0 and
+                                attack[5] == max_type[0]
+                        ):
+                            print("attack send!")
+                            await client.attack(attack[1])
+                            active_pokemon.reduce_count_attack(attack[1])
+                            break
 
         elif 'logDrop' in json_data:
             client.enemy = None
@@ -207,9 +204,14 @@ class ResponseChecker:
 
 
     @staticmethod
-    async def pokemon_health(battle_info, client):
-        if int(battle_info['myTarget']['hp']) <= int(battle_info['myTarget']['hp_max']) * 0.3:
-            print('low pokemon hp!')
+    async def pokemon_health(battle_info: dict, client: object) -> None:
+        if (
+            int(battle_info['myTarget']['hp']) <= int(battle_info['myTarget']['hp_max']) * 0.3 or
+            len(client.team) >= 6 or
+            True
+        ):
+            pass
+
 
 class UniqueGenerator:
     @staticmethod

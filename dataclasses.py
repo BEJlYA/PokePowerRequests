@@ -9,7 +9,7 @@ class Settings:
         self.targetItems = [] # Items for drop [...['name item', 'count']...]
         self.targetPokemons = [] # List catchable Pokémon [...['nuber', 'name', 'count']...]
         self.catchGender = None # Gender catching Pokémon (venus/mars/genderless/None)
-        self.catchTools = None # ID pokebal for catch Pokémon
+        self.catchTools = None # Name pokebal for catch Pokémon
         self.catchShine = 0 # 0/1 - catch flag shine Pokémon
 
     def add_info(self, fight, target_items, target_pokemons, catch_gender, catch_tools, catch_shine):
@@ -20,12 +20,12 @@ class Settings:
         self.catchTools = catch_tools
         self.catchShine = catch_shine
 
-    def getting_pokeball_id(self, pokeballs): # Сделать позже в GUI подсказку по названиям покеболов
+    def getting_pokeball_id(self, pokeballs: list) -> None: # Сделать позже в GUI подсказку по названиям покеболов
         for element in pokeballs:
             if element.name == self.catchTools:
                 self.catchTools = element.id
 
-    def check_drop(self, client, log):
+    def check_drop(self, client: object, log: dict) -> None:
         for part in log:
             if client.settings.targetItems:
                 for target in client.settings.targetItems:
@@ -38,14 +38,14 @@ class Settings:
         # Написать удаление предмета если его меньше 0 и вызов алерта цели достигнуты...
         self.check_fight()
 
-    def check_fight(self):
+    def check_fight(self) -> None:
         self.fight = self.fight - 1
         if self.fight <= 0:
             raise 'Исполнено желаемое количество боёв' # В будущем написать вызов алерта
 
 class MyTarget:
-    def __init__(self, id):
-        self.atks = [] # List of attack [...[category, id, name, pp_count, max_pp, type]...]
+    def __init__(self, id: int):
+        self.atks = [] # List of attack [...[category damage, id, name, pp_count, max_pp, type]...]
         self.basenum2 = None # Pokedex number
         self.gender = None # Pokemon gender (venus/mars/genderless)
         self.hp = None # Count of HP
@@ -57,15 +57,21 @@ class MyTarget:
         self.start = None # Priority flag
         self.type_text_color = None # 0/1 - (Dont) shine pokemon
 
-    def add_atk(self, data):
+    def add_atk(self, data: list) -> None:
         self.atks.append(data)
 
-    def reduce_count_attack(self, attack_id):
+    def reduce_count_attack(self, attack_id: int) -> None:
         for attack in self.atks:
             if attack_id in attack[1]:
                 attack[3] = str(int(attack[3]) - 1)
 
-    def add_info(self, basenum2, gender, hp, lvl, name, sparka, sparka_number, start, type_text_color):
+    def is_attack_empty(self) -> bool:
+        return all(attack[3] == 0 for attack in self.atks if attack[0] in (1, 2))
+
+    def add_info(
+            self, basenum2: int, gender: str, hp: int, lvl: int,
+            name: str, sparka: str, sparka_number: int, start: int, type_text_color: int
+    ) -> None:
         self.basenum2 = basenum2
         self.gender = gender
         self.hp = hp
@@ -87,7 +93,10 @@ class EnemyTarget:
         self.type_text_color = None # 0/1 - (Dont) shine pokemon
         self.catch = 1 # 1/0 - Can/Can't be caught
 
-    def add_info(self, basenum2, name, hp, lvl, sex2, type_text_color, catch):
+    def add_info(
+            self, basenum2: int, name: str, hp: int, lvl: int,
+            sex2: int, type_text_color: int, catch: int
+    ) -> None:
         self.basenum2 = basenum2
         self.name = name
         self.hp = hp
@@ -103,7 +112,7 @@ class UsingPokeballs:
         self.id = None # ID pokeball
         self.count = None # Count of pokeballs
 
-    def add_item(self, name, id, count):
+    def add_item(self, name: str, id: int, count: int) -> None:
         self.name = name
         self.id = id
         self.count = count
@@ -130,7 +139,7 @@ class MyPosition:
         self.region = None
         self.routes = None
 
-    def add_info(self, name, id, region, routes):
+    def add_info(self, name: str, id: int, region: int, routes: list) -> None:
         self.name = name
         self.id = id
         self.region = region
