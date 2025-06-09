@@ -74,11 +74,14 @@ class ResponseChecker:
 
         for select in json_data['ballList']:
             if select['type'] == 1:
+                raw_count=select.get('count', '').strip('x')
+                clear_count = int(raw_count) if raw_count.isdigit() else 1
+
                 element = UsingPokeballs()
                 element.add_item(
                     name=select['name'],
                     id=select['id'],
-                    count=int(select['count'].strip('x')) + 1,
+                    count=clear_count
                 )
                 pokeballs.append(element)
         return pokeballs
