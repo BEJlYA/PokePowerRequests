@@ -3,7 +3,7 @@ import json
 import time
 from functools import wraps
 
-from dataclasses import MyTarget, EnemyTarget, UsingPokeballs
+from dataclasses import MyTarget, EnemyTarget, UsingPokeballs, DataLocation
 
 
 class ResponseChecker:
@@ -140,21 +140,21 @@ class ResponseChecker:
                             await client.catch(ball.id)
                             return  # Написать обработку ситуации когда нашего покемона ранят или убивают и нужно идти лечиться или менять его на другого
             elif (
-                    client.settings.targetPokemons and
+                    client.tasks.targetPokemons and
                     any(
                         (
                                 client.enemy.basenum2 in target or
                                 client.enemy.name in target
                         )
-                        for target in client.settings.targetPokemons
+                        for target in client.tasks.targetPokemons
                         if isinstance(target, list) and len(target) >= 2
                     ) and (
-                            client.enemy.sex2 == client.settings.catchGender or
-                            client.settings.catchGender is None
+                            client.enemy.sex2 == client.tasks.catchGender or
+                            client.tasks.catchGender is None
                     ) and
                     client.enemy.catch == 1
             ): # Catch certain pokémon
-                await client.catch(client.settings.catchTools)
+                await client.catch(client.tasks.catchTools)
             else: # Else kill pokémon
                 enemy_types = None
                 for pokemon in client.data.pokedex:
@@ -194,7 +194,6 @@ class ResponseChecker:
                                 int(attack[3]) > 0 and
                                 attack[5] == max_type[0]
                         ):
-                            print("attack send!")
                             await client.attack(attack[1])
                             active_pokemon.reduce_count_attack(attack[1])
                             break
@@ -203,17 +202,38 @@ class ResponseChecker:
             client.enemy = None
 
             await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
-            client.settings.check_drop(client, json_data['logDrop'])
+            client.tasks.check_drop(client, json_data['logDrop'])
 
 
     @staticmethod
     async def pokemon_health(battle_info: dict, client: object) -> None:
         if (
             int(battle_info['myTarget']['hp']) <= int(battle_info['myTarget']['hp_max']) * 0.3 or
-            len(client.team) >= 6 or
-            True
+            len(client.team) >= 6
         ):
-            pass
+            path = DataLocation.find_shortest_named_path(client.position.name, "Покецентр", client.route_map)
+
+            for step in path:
+                result = await client.route(step)
+
+                if not result:
+                    break
+
+            await client.heal_npc()
+            if len(client.team) >= 6:
+                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
+                await client.send_more_pit(active_pokemon.id)
+
+            #
+            # написать код для вычисления маршрута возврата на определённую нужную локацию
+
+    @staticmethod
+    @reformat_response
+    async def checking_move(json_data, id_location) -> bool:
+        if json_data.get('response').get('id') == id_location:
+            return True
+        else:
+            return False
 
 
 class UniqueGenerator:

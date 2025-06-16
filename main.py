@@ -5,7 +5,7 @@ from dataclasses import Settings
 
 
 async def main():
-    settings = Settings(login='Lionard_PRO', password='vifray2002A39509a')
+    settings = Settings(login='LOGIN', password='PASSWORD')
     try:
         async with AiohttpClient(settings) as aclient:
             await aclient.auth(settings)

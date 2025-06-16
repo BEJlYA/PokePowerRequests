@@ -4,7 +4,7 @@ from functools import wraps
 
 import aiohttp
 
-from dataclasses import DataPokemon, MyPosition
+from dataclasses import DataPokemon, DataLocation, MyPosition, TaskManager
 from handler import ResponseChecker, UniqueGenerator
 
 
@@ -13,13 +13,15 @@ class AiohttpClient:
         self.session = None # Session
         self.token = None # Hash token by authorize
         self.sid = None # Resulting SID phrase
+        self.generator = UniqueGenerator() # Custom generator
+        self.tasks = TaskManager() # Tasks for execution
         self.team = None # Our team of Pokémon
         self.pokeballs = None # Our items for using in battle
         self.enemy = None # Enemy Pokémon in battle
-        self.data = DataPokemon() # Data
         self.assault = 'true' # Assault flag for wild Pokémon
         self.settings = settings # Inherited setting of GUI
-        self.generator = UniqueGenerator() # Custom generator
+        self.data = DataPokemon() # Data of Pokemon
+        self.route_map = DataLocation.load_all() # Data of Route map
         self.position = MyPosition() # Information about position
 
     async def __aenter__(self):
@@ -79,6 +81,7 @@ class AiohttpClient:
             timeout=10
         ) as response:
             await ResponseChecker.geo_position(response, self)
+            self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
@@ -121,7 +124,7 @@ class AiohttpClient:
                     timeout=10
                 ) as response:
             self.pokeballs = await ResponseChecker.pokeballs_grabber(response)
-            self.settings.getting_pokeball_id(self.pokeballs)
+            self.tasks.getting_pokeball_id(self.pokeballs)
 
     @safe_request
     async def catch(self, pokeball: int) -> None:
@@ -153,7 +156,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def route(self, id_location: int) -> None:
+    async def route(self, id_location: int) -> None or bool:
         async with await self.session.post(
             url='https://pokepower.ru/do/route',
             data={
@@ -163,5 +166,54 @@ class AiohttpClient:
             },
             timeout=10
         ) as response:
-            await ResponseChecker.geo_position(response, self)
+            correct_move = await ResponseChecker.checking_move(response, id_location)
+
+            if correct_move:
+                await ResponseChecker.geo_position(response, self)
+                return True
+            else:
+                path = DataLocation.find_shortest_named_path(self.position.name, "Покецентр", self.route_map)
+
+                for step in path:
+                    await self.route(step)
+                return False
+
+    @safe_request
+    async def heal_npc(self) -> None:
+        async with await self.session.post(
+                    url='https://pokepower.ru/do/npc',
+                    data={
+                        'id': 'npc',
+                        'type': 'addons',
+                        'val[]': 'heal'
+                    },
+                    timeout=10
+                ) as response:
+            await ResponseChecker.main_handler(response, self)
+
+    @safe_request
+    async def send_once_pit(self, id_pokemon: str) -> None:
+        async with await self.session.post(
+                    url='https://pokepower.ru/do/pokemons',
+                    data={
+                        'id': 'pokemons',
+                        'type': 'action',
+                        'val': f'{'gopit', id_pokemon}', # ID Pokemon, which should be sent
+                    },
+                    timeout=10
+                ) as response:
+            await ResponseChecker.main_handler(response, self)
+
+    @safe_request
+    async def send_more_pit(self, id_pokemon: str) -> None:
+        async with await self.session.post(
+                    url='https://pokepower.ru/do/pokemons',
+                    data={
+                        'id': 'pokemons',
+                        'type': 'action',
+                        'val[]': 'gopitAll',
+                        'val[1][]': f'{id_pokemon}', # ID Pokémon of which must be left
+                    },
+                    timeout=10
+                ) as response:
             await ResponseChecker.main_handler(response, self)

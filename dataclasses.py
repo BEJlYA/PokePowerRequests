@@ -1,41 +1,61 @@
 import json
+from collections import deque, defaultdict
 
 
 class Settings:
     def __init__(self, login, password):
         self.login = login # User login
         self.password = password # User password
+        self.catchShine = 0 # 0/1 - catch flag shine Pokémon
+
+
+class TaskManager:
+    def __init__(self):
         self.fight = 1500 # Fight flag
         self.targetItems = [] # Items for drop [...['name item', 'count']...]
         self.targetPokemons = [] # List catchable Pokémon [...['nuber', 'name', 'count']...]
         self.catchGender = None # Gender catching Pokémon (venus/mars/genderless/None)
-        self.catchTools = None # Name pokebal for catch Pokémon
-        self.catchShine = 0 # 0/1 - catch flag shine Pokémon
+        self.catchTools = None # Name pokeball for catch Pokémon
 
-    def add_info(self, fight, target_items, target_pokemons, catch_gender, catch_tools, catch_shine):
+    def add_info(self, fight, target_items, target_pokemons, catch_gender, catch_tools):
         self.fight = fight
         self.targetItems = target_items
         self.targetPokemons = target_pokemons
         self.catchGender = catch_gender
         self.catchTools = catch_tools
-        self.catchShine = catch_shine
+
+    def priority_task(self): # метод для определения следующей цели
+        if self.targetPokemons:
+            pass
+        else:
+            pass
 
     def getting_pokeball_id(self, pokeballs: list) -> None: # Сделать позже в GUI подсказку по названиям покеболов
         for element in pokeballs:
             if element.name == self.catchTools:
                 self.catchTools = element.id
 
-    def check_drop(self, client: object, log: dict) -> None:
+    def check_drop(self, client: object, log: list[dict]) -> None:
         for part in log:
-            if client.settings.targetItems:
-                for target in client.settings.targetItems:
-                    if part['object'] == 'item' and target[0] == part['name']:
-                        target[1] = str(int(target[1]) - int(part['count'].strip('x')))
-            elif client.settings.targetPokemons:
-                for target in client.settings.targetPokemons:
-                    if part['object'] == 'pokemon' and target[0] == part['num']:
-                        target[2] = str(int(target[2]) - 1)
-        # Написать удаление предмета если его меньше 0 и вызов алерта цели достигнуты...
+            obj_type = part.get('object')
+
+            if obj_type == 'item':
+                name = part.get('name')
+                count = int(part.get('count', 'x1').strip('x'))
+
+                for target in client.tasks.targetItems:
+                    if target[0] == name:
+                        target[1] = str(max(int(target[1]) - count, 0))
+            elif obj_type == 'pokemon':
+                num = part.get('num')
+
+                for target in client.tasks.targetPokemons:
+                    if target[0] == num:
+                        target[2] = str(max(int(target[2]) - 1, 0))
+
+        client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item[1]) > 0]
+        client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke[2]) > 0]
+
         self.check_fight()
 
     def check_fight(self) -> None:
@@ -43,8 +63,9 @@ class Settings:
         if self.fight <= 0:
             raise 'Исполнено желаемое количество боёв' # В будущем написать вызов алерта
 
+
 class MyTarget:
-    def __init__(self, id: int):
+    def __init__(self, id: str):
         self.atks = [] # List of attack [...[category damage, id, name, pp_count, max_pp, type]...]
         self.basenum2 = None # Pokedex number
         self.gender = None # Pokemon gender (venus/mars/genderless)
@@ -132,6 +153,93 @@ class DataPokemon:
         with open('data/rare_pokemons.json', 'r', encoding='UTF-8') as file: # Rare pokemons
             self.rarePokemons = json.load(file)
 
+
+class DataLocation:
+    def __init__(self, name: str, id: str, region:str, routes: list, habitat: list, items: list):
+        self.name = name
+        self.id = id
+        self.region = region
+        self.routes = routes
+        self.habitat = habitat
+        self.items = items
+
+    def resolve_routes(self, location_list: list) -> None:
+        id_to_location = {loc.id: loc for loc in location_list}
+        self.routes = [id_to_location[route['id']] for route in self.routes if route['id'] in id_to_location]
+
+    @classmethod
+    def load_all(cls):
+        with open('data/locations.json', 'r', encoding='utf-8') as f:
+            raw_data = json.load(f)
+
+        locations = [cls(
+            name=loc['name'],
+            id=loc['id'],
+            region=loc['region'],
+            routes=loc['routes'],
+            habitat=loc['habitat'],
+            items=loc['items']
+        ) for loc in raw_data]
+
+        for loc in locations:
+            loc.resolve_routes(locations)
+
+        return locations
+
+    @staticmethod
+    def delete_excess(region: str, locations: list) -> list:
+        for location in locations:
+            if location.region != region:
+                del locations[locations.index(location)]
+        return locations
+
+    @staticmethod
+    def find_shortest_path(start: object, end: object):
+        visited = set()
+        queue = deque([(start, [start])])
+
+        while queue:
+            current, path = queue.popleft()
+
+            if current.id == end.id:
+                return path
+
+            visited.add(current.id)
+
+            for neighbor in current.routes:
+                if neighbor.id not in visited:
+                    queue.append((neighbor, path + [neighbor]))
+
+        return None
+
+    @staticmethod
+    def find_shortest_named_path(name_from: str, name_to: str, locations: list) -> list or None:
+        from_name = name_from.lower()
+        to_name = name_to.lower()
+
+        locations_by_name = defaultdict(list)
+        for location in locations:
+            locations_by_name[location.name.lower()].append(location)
+
+        start_candidates = locations_by_name[from_name]
+        end_candidates = locations_by_name[to_name]
+
+        best_path = None
+        shortest = float('inf')
+
+        for start in start_candidates:
+            for end in end_candidates:
+                path = DataLocation.find_shortest_path(start, end)
+                if path and len(path) < shortest:
+                    best_path = path
+                    shortest = len(path)
+
+        if best_path:
+            return [loc.id for loc in best_path][1:]
+        else:
+            Exception('Путь не найден.')
+
+
 class MyPosition:
     def __init__(self):
         self.name = None
@@ -139,29 +247,8 @@ class MyPosition:
         self.region = None
         self.routes = None
 
-    def add_info(self, name: str, id: int, region: int, routes: list) -> None:
+    def add_info(self, name: str, id: str, region: str, routes: list) -> None:
         self.name = name
         self.id = id
         self.region = region
         self.routes = routes
-
-# class DataLocation:
-#     def __init__(self):
-#         self.allLocations = None
-#
-# class Location:
-#     def __init__(self):
-#         self.name = None
-#         self.id = None
-#         self.region = None
-#         self.routes = []
-#         self.habitat = []
-#         self.items = []
-#
-#     def add_info(self, name, id, region, routes, habitat, items):
-#         self.name = name
-#         self.id = id
-#         self.region = region
-#         self.routes = routes
-#         self.habitat = habitat
-#         self.items = items
