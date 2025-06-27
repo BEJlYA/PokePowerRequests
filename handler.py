@@ -1,6 +1,7 @@
 import base64
 import json
 import time
+from collections.abc import Callable, Awaitable
 from functools import wraps
 
 from dataclasses import MyTarget, EnemyTarget, UsingPokeballs, DataLocation
@@ -26,12 +27,26 @@ class ResponseChecker:
         return wrapper
 
     @staticmethod
+    def try_response(func: Callable[..., Awaitable]):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            try:
+                return await func(*args, **kwargs)
+            except json.JSONDecodeError:
+                raise Exception('Ошибка при парсинге JSON.')
+            except KeyError:
+                raise Exception('Ошибка: отсутствует ключ в JSON.')
+        return wrapper
+
+    @staticmethod
+    @try_response
     @reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
             raise Exception(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
 
     @staticmethod
+    @try_response
     @reformat_response
     async def team_grabber(json_data: dict) -> list:
         team = []
@@ -46,8 +61,8 @@ class ResponseChecker:
                             json_data['response']['pokemon_list'][select]['pok'][select_atk]['category'],
                             json_data['response']['pokemon_list'][select]['pok'][select_atk]['id'],
                             json_data['response']['pokemon_list'][select]['pok'][select_atk]['name'],
-                            json_data['response']['pokemon_list'][select]['pok'][select_atk]['pp'].split('/')[0],
-                            json_data['response']['pokemon_list'][select]['pok'][select_atk]['pp'].split('/')[1],
+                            int(json_data['response']['pokemon_list'][select]['pok'][select_atk]['pp'].split('/')[0]),
+                            int(json_data['response']['pokemon_list'][select]['pok'][select_atk]['pp'].split('/')[1]),
                             json_data['response']['pokemon_list'][select]['pok'][select_atk]['type']
                         ]
                     )
@@ -68,6 +83,7 @@ class ResponseChecker:
         return team
 
     @staticmethod
+    @try_response
     @reformat_response
     async def pokeballs_grabber(json_data: dict) -> list:
         pokeballs = []
@@ -87,22 +103,24 @@ class ResponseChecker:
         return pokeballs
 
     @staticmethod
+    @try_response
     @reformat_response
     async def geo_position(json_data: dict, client: object) -> None:
-        # Search geo-position
-        try:
-            if json_data['response'].get('location'):
-                data_location = json_data['response'].get('location')
-                name, id = data_location.get('name'), data_location.get('id_loc')
-                region, roads = data_location.get('region'), data_location.get('roads')
+        data_location = json_data['response']['location']
+        name, id = data_location['name'], data_location['id_loc']
+        region, roads = data_location['region'], data_location['roads']
 
-                client.position.add_info(name, id, region, roads)
-        except json.JSONDecodeError:
-            raise Exception('Ошибка при парсинге JSON.')
-        except KeyError:
-            pass
+        client.position.add_info(name, id, region, roads)
 
     @staticmethod
+    @try_response
+    @reformat_response
+    async def battle_settings(json_data: dict, client: object) -> None:
+        client.tasks.fight = int(json_data['response']['pok_limit'])
+
+
+    @staticmethod
+    @try_response
     @reformat_response
     async def main_handler(json_data: dict, client: object) -> None:
         # Battle finder
@@ -194,8 +212,8 @@ class ResponseChecker:
                                 int(attack[3]) > 0 and
                                 attack[5] == max_type[0]
                         ):
-                            await client.attack(attack[1])
                             active_pokemon.reduce_count_attack(attack[1])
+                            await client.attack(attack[1])
                             break
 
         elif 'logDrop' in json_data:
@@ -208,10 +226,13 @@ class ResponseChecker:
     @staticmethod
     async def pokemon_health(battle_info: dict, client: object) -> None:
         if (
-            int(battle_info['myTarget']['hp']) <= int(battle_info['myTarget']['hp_max']) * 0.3 or
-            len(client.team) >= 6
+                battle_info['myTarget']['hp'] <= battle_info['myTarget']['hp_max'] * 0.3 or
+                len(client.team) >= 6 or
+                next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None).last_atk() <= 1
         ):
+            client.assault = 'false'
             path = DataLocation.find_shortest_named_path(client.position.name, "Покецентр", client.route_map)
+            last_location = client.position.name
 
             for step in path:
                 result = await client.route(step)
@@ -220,17 +241,26 @@ class ResponseChecker:
                     break
 
             await client.heal_npc()
+            for pokemon in client.team: # дописать при ловле метод который будет добавлять в команду пойманных покемон или же в этом месте будет ошибка
+                pokemon.restore_pp()
             if len(client.team) >= 6:
-                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
+                active_pokemon = next((p for p in client.team if p.start == '0'), client.team[0] if client.team else None)
                 await client.send_more_pit(active_pokemon.id)
 
-            #
-            # написать код для вычисления маршрута возврата на определённую нужную локацию
+            path = DataLocation.find_shortest_named_path(client.position.name, last_location, client.route_map)
+            for step in path:
+                result = await client.route(step)
+
+                if not result:
+                    break
+
+            client.assault = 'true'
 
     @staticmethod
+    @try_response
     @reformat_response
     async def checking_move(json_data, id_location) -> bool:
-        if json_data.get('response').get('id') == id_location:
+        if json_data['response']['id'] == id_location:
             return True
         else:
             return False

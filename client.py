@@ -127,6 +127,19 @@ class AiohttpClient:
             self.tasks.getting_pokeball_id(self.pokeballs)
 
     @safe_request
+    async def get_edit(self) -> None:
+        async with await self.session.post(
+            url='https://pokepower.ru/do/edit',
+            data={
+                'id': 'edit',
+                'type': 'open',
+                'val': 2
+            },
+            timeout=10
+        ) as response:
+            await ResponseChecker.battle_settings(response, self)
+
+    @safe_request
     async def catch(self, pokeball: int) -> None:
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',

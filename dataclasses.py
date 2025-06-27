@@ -18,7 +18,6 @@ class TaskManager:
         self.catchTools = None # Name pokeball for catch Pokémon
 
     def add_info(self, fight, target_items, target_pokemons, catch_gender, catch_tools):
-        self.fight = fight
         self.targetItems = target_items
         self.targetPokemons = target_pokemons
         self.catchGender = catch_gender
@@ -78,17 +77,6 @@ class MyTarget:
         self.start = None # Priority flag
         self.type_text_color = None # 0/1 - (Dont) shine pokemon
 
-    def add_atk(self, data: list) -> None:
-        self.atks.append(data)
-
-    def reduce_count_attack(self, attack_id: int) -> None:
-        for attack in self.atks:
-            if attack_id in attack[1]:
-                attack[3] = str(int(attack[3]) - 1)
-
-    def is_attack_empty(self) -> bool:
-        return all(attack[3] == 0 for attack in self.atks if attack[0] in (1, 2))
-
     def add_info(
             self, basenum2: int, gender: str, hp: int, lvl: int,
             name: str, sparka: str, sparka_number: int, start: int, type_text_color: int
@@ -102,6 +90,27 @@ class MyTarget:
         self.sparkaNumber = sparka_number
         self.start = start
         self.type_text_color = type_text_color
+
+    def last_atk(self) -> int:
+        sum_of_pp = 0
+
+        for atk in self.atks:
+            if atk[0] in (1,2):
+                sum_of_pp += atk[3]
+        return sum_of_pp
+
+    def add_atk(self, data: list) -> None:
+        self.atks.append(data)
+
+    def reduce_count_attack(self, attack_id: int) -> None:
+        for attack in self.atks:
+            if attack_id in attack[1]:
+                attack[3] -= 1
+
+    def restore_pp(self) -> None:
+        for atk in self.atks:
+            if not atk[3] == atk[4]:
+                atk[3] += atk[4] - atk[3]
 
 
 class EnemyTarget:

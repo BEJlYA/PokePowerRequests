@@ -13,6 +13,7 @@ async def main():
             await aclient.pokemons()
             await aclient.init()
             await aclient.items()
+            await aclient.get_edit()
 
             await asyncio.create_task(await aclient.update())
     except asyncio.CancelledError:
