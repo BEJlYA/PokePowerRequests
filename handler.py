@@ -22,7 +22,7 @@ class ResponseChecker:
                 return await func(json_data, *args, **kwargs)
             except Exception as e:
                 print(e)
-                raise
+                raise Exception('Ошибка в приведении в читаемый вид ответа сервера')
 
         return wrapper
 
@@ -36,6 +36,7 @@ class ResponseChecker:
                 raise Exception('Ошибка при парсинге JSON.')
             except KeyError:
                 raise Exception('Ошибка: отсутствует ключ в JSON.')
+
         return wrapper
 
     @staticmethod
@@ -43,7 +44,7 @@ class ResponseChecker:
     @reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
-            raise Exception(json_data['text']) # Слинковать с гуи для вывода алерта о неудачной аунтефикации
+            raise Exception(json_data['text'])
 
     @staticmethod
     @try_response
@@ -146,7 +147,7 @@ class ResponseChecker:
                     for ball in client.pokeballs:
                         if key in ball.name:
                             await client.catch(ball.id)
-                            return # Написать обработку ситуации когда нашего покемона ранят или убивают и нужно идти лечиться или менять его на другого
+                            return
             elif (
                     client.enemy.type_text_color == 1 and
                     client.settings.catchShine == 1 and
@@ -156,21 +157,21 @@ class ResponseChecker:
                     for ball in client.pokeballs:
                         if key in ball.id:
                             await client.catch(ball.id)
-                            return  # Написать обработку ситуации когда нашего покемона ранят или убивают и нужно идти лечиться или менять его на другого
+                            return
             elif (
                     client.tasks.targetPokemons and
+                    client.enemy.catch == 1 and
                     any(
                         (
-                                client.enemy.basenum2 in target or
-                                client.enemy.name in target
+                                client.enemy.basenum2 == targetPokemon.get('num') or
+                                client.enemy.name == targetPokemon.get('name')
+                        ) and (
+                                client.enemy.sex2 == targetPokemon.get('gender') or
+                                targetPokemon.get('gender') is None
                         )
-                        for target in client.tasks.targetPokemons
-                        if isinstance(target, list) and len(target) >= 2
-                    ) and (
-                            client.enemy.sex2 == client.tasks.catchGender or
-                            client.tasks.catchGender is None
-                    ) and
-                    client.enemy.catch == 1
+                        for targetPokemon in client.tasks.targetPokemons
+                        if isinstance(targetPokemon, dict)
+                    )
             ): # Catch certain pokémon
                 await client.catch(client.tasks.catchTools)
             else: # Else kill pokémon
@@ -217,8 +218,6 @@ class ResponseChecker:
                             break
 
         elif 'logDrop' in json_data:
-            client.enemy = None
-
             await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
             client.tasks.check_drop(client, json_data['logDrop'])
 
@@ -226,7 +225,7 @@ class ResponseChecker:
     @staticmethod
     async def pokemon_health(battle_info: dict, client: object) -> None:
         if (
-                battle_info['myTarget']['hp'] <= battle_info['myTarget']['hp_max'] * 0.3 or
+                float(battle_info['myTarget']['hp']) <= float(battle_info['myTarget']['hp_max'] * 0.3) or
                 len(client.team) >= 6 or
                 next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None).last_atk() <= 1
         ):
@@ -241,7 +240,7 @@ class ResponseChecker:
                     break
 
             await client.heal_npc()
-            for pokemon in client.team: # дописать при ловле метод который будет добавлять в команду пойманных покемон или же в этом месте будет ошибка
+            for pokemon in client.team:
                 pokemon.restore_pp()
             if len(client.team) >= 6:
                 active_pokemon = next((p for p in client.team if p.start == '0'), client.team[0] if client.team else None)

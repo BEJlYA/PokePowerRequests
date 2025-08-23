@@ -11,25 +11,25 @@ class Settings:
 
 class TaskManager:
     def __init__(self):
-        self.fight = 1500 # Fight flag
-        self.targetItems = [] # Items for drop [...['name item', 'count']...]
-        self.targetPokemons = [] # List catchable Pokémon [...['nuber', 'name', 'count']...]
-        self.catchGender = None # Gender catching Pokémon (venus/mars/genderless/None)
-        self.catchTools = None # Name pokeball for catch Pokémon
+        self.fight = 0 # Current number of battles
+        self.targetItems = [] # Items for drop [...{'name', 'count'}...]
+        self.targetPokemons = [] # List catchable Pokémon [...{'num', 'name', 'gender' - (venus/mars/genderless/None), 'count'}...]
+        self.catchTools = None # Name pokeball for catch Pokémon ('Покебол')
 
-    def add_info(self, fight, target_items, target_pokemons, catch_gender, catch_tools):
-        self.targetItems = target_items
-        self.targetPokemons = target_pokemons
-        self.catchGender = catch_gender
+    def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
+        self.targetItems = target_items.sort(key=lambda item: int(item['count']))
+        self.targetPokemons = target_pokemons.sort(key=lambda poke: int(poke['count']))
         self.catchTools = catch_tools
 
     def priority_task(self): # метод для определения следующей цели
         if self.targetPokemons:
-            pass
+            return self.targetPokemons[0]
+        elif self.targetItems:
+            return self.targetPokemons[0]
         else:
-            pass
+            return None
 
-    def getting_pokeball_id(self, pokeballs: list) -> None: # Сделать позже в GUI подсказку по названиям покеболов
+    def getting_pokeball_id(self, pokeballs: list) -> None:
         for element in pokeballs:
             if element.name == self.catchTools:
                 self.catchTools = element.id
@@ -42,25 +42,36 @@ class TaskManager:
                 name = part.get('name')
                 count = int(part.get('count', 'x1').strip('x'))
 
-                for target in client.tasks.targetItems:
-                    if target[0] == name:
-                        target[1] = str(max(int(target[1]) - count, 0))
+                for item in client.tasks.targetItems:
+                    if item['name'] == name:
+                        item['count'] = max(int(item['count']) - count, 0)
+
             elif obj_type == 'pokemon':
-                num = part.get('num')
+                for poke in client.tasks.targetPokemons:
 
-                for target in client.tasks.targetPokemons:
-                    if target[0] == num:
-                        target[2] = str(max(int(target[2]) - 1, 0))
+                    if poke['num'] == part.get('num') or poke['name'] == part.get('name'):
 
-        client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item[1]) > 0]
-        client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke[2]) > 0]
+                        if poke.get('gender') is None:
+                            poke['count'] = max(int(poke['count']) - 1, 0)
+                            break
+                        elif poke.get('gender') == client.enemy.sex2:
+                            poke['count'] = max(int(poke['count']) - 1, 0)
+                            break
+
+        client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item['count']) > 0]
+        client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke['count']) > 0]
+
+        client.enemy = None
+
+        if not client.tasks.targetItems and not client.tasks.targetPokemons:
+            raise Exception('Выполнены все условия поставленных задач!')
 
         self.check_fight()
 
     def check_fight(self) -> None:
-        self.fight = self.fight - 1
-        if self.fight <= 0:
-            raise 'Исполнено желаемое количество боёв' # В будущем написать вызов алерта
+        self.fight = self.fight + 1
+        if self.fight >= 1500:
+            raise Exception('Исполнено максимально возможное количество боёв за сутки')
 
 
 class MyTarget:
