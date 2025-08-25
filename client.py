@@ -4,7 +4,7 @@ from functools import wraps
 
 import aiohttp
 
-from dataclasses import DataPokemon, DataLocation, MyPosition, TaskManager
+from dataclasses import DataPokemon, DataLocation, MyPosition, TaskManager, EnemyTarget
 from handler import ResponseChecker, UniqueGenerator
 
 
@@ -15,9 +15,9 @@ class AiohttpClient:
         self.sid = None # Resulting SID phrase
         self.generator = UniqueGenerator() # Custom generator
         self.tasks = TaskManager() # Tasks for execution
-        self.team = None # Our team of Pokémon
+        self.team = [] # Our team of Pokémon
         self.pokeballs = None # Our items for using in battle
-        self.enemy = None # Enemy Pokémon in battle
+        self.enemy = EnemyTarget() # Enemy Pokémon in battle
         self.assault = 'true' # Assault flag for wild Pokémon
         self.settings = settings # Inherited setting of GUI
         self.data = DataPokemon() # Data of Pokemon
@@ -82,7 +82,7 @@ class AiohttpClient:
         ) as response:
             await ResponseChecker.geo_position(response, self)
             self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
-            await ResponseChecker.main_handler(response, self)
+            return response
 
     @safe_request
     async def pokemons(self) -> None:
@@ -95,7 +95,7 @@ class AiohttpClient:
             },
             timeout=10
         ) as response:
-            self.team = await ResponseChecker.team_grabber(response)
+            await ResponseChecker.team_grabber(response, self)
 
     @safe_request
     async def update(self) -> None:

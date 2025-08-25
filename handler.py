@@ -4,7 +4,7 @@ import time
 from collections.abc import Callable, Awaitable
 from functools import wraps
 
-from dataclasses import MyTarget, EnemyTarget, UsingPokeballs, DataLocation
+from dataclasses import MyTarget, UsingPokeballs, DataLocation
 
 
 class ResponseChecker:
@@ -49,9 +49,7 @@ class ResponseChecker:
     @staticmethod
     @try_response
     @reformat_response
-    async def team_grabber(json_data: dict) -> list:
-        team = []
-
+    async def team_grabber(json_data: dict, client: object) -> None:
         for select in json_data['response']['pokemon_list']:
             element = MyTarget(json_data['response']['pokemon_list'][select]['pok']['id'])
 
@@ -80,8 +78,7 @@ class ResponseChecker:
                 type_text_color=json_data['response']['pokemon_list'][select]['pok']['type_text_color'],
             )
 
-            team.append(element)
-        return team
+            client.team.append(element)
 
     @staticmethod
     @try_response
@@ -117,7 +114,7 @@ class ResponseChecker:
     @try_response
     @reformat_response
     async def battle_settings(json_data: dict, client: object) -> None:
-        client.tasks.fight = int(json_data['response']['pok_limit'])
+        client.tasks.currentFights = int(json_data['response']['pok_limit'])
 
 
     @staticmethod
@@ -126,8 +123,8 @@ class ResponseChecker:
     async def main_handler(json_data: dict, client: object) -> None:
         # Battle finder
         if json_data.get('battleInfo') and not json_data.get('logDrop'):
-            target = EnemyTarget()
-            target.add_info(
+            client.enemy.add_info(
+                id=json_data['battleInfo']['id'],
                 basenum2=json_data['battleInfo']['enemyTarget']['basenum2'],
                 name=json_data['battleInfo']['enemyTarget']['name'],
                 hp=json_data['battleInfo']['enemyTarget']['hp'],
@@ -136,7 +133,6 @@ class ResponseChecker:
                 type_text_color=json_data['battleInfo']['enemyTarget']['type_text_color'],
                 catch=json_data['battleInfo']['enemy']['catch']
             )
-            client.enemy = target
 
             if (
                     client.enemy.basenum2 in client.data.rarePokemons[0] or
@@ -167,7 +163,7 @@ class ResponseChecker:
                                 client.enemy.name == targetPokemon.get('name')
                         ) and (
                                 client.enemy.sex2 == targetPokemon.get('gender') or
-                                targetPokemon.get('gender') is None
+                                targetPokemon.get('gender') == 'any'
                         )
                         for targetPokemon in client.tasks.targetPokemons
                         if isinstance(targetPokemon, dict)
@@ -243,7 +239,7 @@ class ResponseChecker:
             for pokemon in client.team:
                 pokemon.restore_pp()
             if len(client.team) >= 6:
-                active_pokemon = next((p for p in client.team if p.start == '0'), client.team[0] if client.team else None)
+                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
                 await client.send_more_pit(active_pokemon.id)
 
             path = DataLocation.find_shortest_named_path(client.position.name, last_location, client.route_map)

@@ -11,17 +11,20 @@ class Settings:
 
 class TaskManager:
     def __init__(self):
-        self.fight = 0 # Current number of battles
+        self.currentFights = 0 # Current number of battles
+        self.maxFights = 1500 # Maximum number of battles
         self.targetItems = [] # Items for drop [...{'name', 'count'}...]
-        self.targetPokemons = [] # List catchable Pokémon [...{'num', 'name', 'gender' - (venus/mars/genderless/None), 'count'}...]
+        self.targetPokemons = [] # List catchable Pokémon [...{'num', 'name', 'gender' - (venus/mars/genderless/any), 'count'}...]
         self.catchTools = None # Name pokeball for catch Pokémon ('Покебол')
+        self.had_tasks = False # False is disconnect of tasks
 
     def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
         self.targetItems = target_items.sort(key=lambda item: int(item['count']))
         self.targetPokemons = target_pokemons.sort(key=lambda poke: int(poke['count']))
         self.catchTools = catch_tools
+        self.had_tasks = bool(target_items or target_pokemons)
 
-    def priority_task(self): # метод для определения следующей цели
+    def priority_task(self):
         if self.targetPokemons:
             return self.targetPokemons[0]
         elif self.targetItems:
@@ -47,6 +50,20 @@ class TaskManager:
                         item['count'] = max(int(item['count']) - count, 0)
 
             elif obj_type == 'pokemon':
+                element = MyTarget(client.enemy.id)
+                element.add_info(
+                    basenum2=client.enemy.basenum2,
+                    gender=client.enemy.sex2,
+                    hp=client.enemy.hp,
+                    lvl=client.enemy.lvl,
+                    name=client.enemy.name,
+                    sparka='',
+                    sparka_number=0,
+                    start=0,
+                    type_text_color=client.enemy.type_text_color
+                )
+                client.team.append(element)
+
                 for poke in client.tasks.targetPokemons:
 
                     if poke['num'] == part.get('num') or poke['name'] == part.get('name'):
@@ -61,17 +78,14 @@ class TaskManager:
         client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item['count']) > 0]
         client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke['count']) > 0]
 
-        client.enemy = None
+        self.check_tasks()
 
-        if not client.tasks.targetItems and not client.tasks.targetPokemons:
-            raise Exception('Выполнены все условия поставленных задач!')
-
-        self.check_fight()
-
-    def check_fight(self) -> None:
-        self.fight = self.fight + 1
-        if self.fight >= 1500:
+    def check_tasks(self) -> None:
+        self.currentFights += 1
+        if self.currentFights >= self.maxFights:
             raise Exception('Исполнено максимально возможное количество боёв за сутки')
+        elif self.had_tasks and not self.targetItems and not self.targetPokemons:
+            raise Exception('Выполнены все условия поставленных задач!')
 
 
 class MyTarget:
@@ -126,6 +140,7 @@ class MyTarget:
 
 class EnemyTarget:
     def __init__(self):
+        self.id = None
         self.basenum2 = None # Pokedex number
         self.name = None # Pokemon name
         self.hp = None # Amount HP
@@ -135,9 +150,10 @@ class EnemyTarget:
         self.catch = 1 # 1/0 - Can/Can't be caught
 
     def add_info(
-            self, basenum2: int, name: str, hp: int, lvl: int,
+            self, id: int, basenum2: int, name: str, hp: int, lvl: int,
             sex2: int, type_text_color: int, catch: int
     ) -> None:
+        self.id = id
         self.basenum2 = basenum2
         self.name = name
         self.hp = hp
