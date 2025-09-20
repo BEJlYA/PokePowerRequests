@@ -1,53 +1,57 @@
 import json
-from collections import deque, defaultdict
+from collections import deque
+from typing import Union, List
 
 
 class Settings:
     def __init__(self, login, password):
         self.login = login # User login
         self.password = password # User password
-        self.catchShine = 0 # 0/1 - catch flag shine Pokémon
 
 
 class TaskManager:
     def __init__(self):
-        self.currentFights = 0 # Current number of battles
-        self.maxFights = 1500 # Maximum number of battles
-        self.targetItems = [] # Items for drop [...{'name', 'count'}...]
-        self.targetPokemons = [] # List catchable Pokémon [...{'num', 'name', 'gender' - (venus/mars/genderless/any), 'count'}...]
+        self.currentFights = 0 # Current number of battles, automatic definition
+        self.maxFights = 1500 # Maximum number of battles - 1500
+        self.catchShine = True # Flag for catching shine Pokémon, by default - TRUE
+        self.targetItems = [] # Items for drop [...{'name': '', 'count': ''}...]
+        self.targetPokemons = [] # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
         self.catchTools = None # Name pokeball for catch Pokémon ('Покебол')
-        self.had_tasks = False # False is disconnect of tasks
+        self.hadTasks = True # FALSE - disconnect of tasks
 
     def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
-        self.targetItems = target_items.sort(key=lambda item: int(item['count']))
-        self.targetPokemons = target_pokemons.sort(key=lambda poke: int(poke['count']))
+        self.targetItems = target_items.sort(key=lambda item: int(item.get('count')))
+        self.targetPokemons = target_pokemons.sort(key=lambda poke: int(poke.get('count')))
         self.catchTools = catch_tools
-        self.had_tasks = bool(target_items or target_pokemons)
+        self.hadTasks = bool(target_items or target_pokemons)
 
-    def priority_task(self):
-        if self.targetPokemons:
+    def priority_task(self) -> dict | None:
+        if not self.hadTasks:
+            return None
+        elif self.targetPokemons:
             return self.targetPokemons[0]
         elif self.targetItems:
-            return self.targetPokemons[0]
-        else:
-            return None
+            return self.targetItems[0]
+        return None
 
     def getting_pokeball_id(self, pokeballs: list) -> None:
         for element in pokeballs:
             if element.name == self.catchTools:
                 self.catchTools = element.id
 
-    def check_drop(self, client: object, log: list[dict]) -> None:
+    async def check_drop(self, client: object, log: list[dict]) -> None:
         for part in log:
             obj_type = part.get('object')
 
             if obj_type == 'item':
-                name = part.get('name')
-                count = int(part.get('count', 'x1').strip('x'))
+                name = part['name']
+
+                count_str = part.get('count', 'x1').strip('x')
+                count = int(count_str) if count_str else 1
 
                 for item in client.tasks.targetItems:
-                    if item['name'] == name:
-                        item['count'] = max(int(item['count']) - count, 0)
+                    if item.get('name') == name:
+                        item['count'] = max(int(item.get('count')) - count, 0)
 
             elif obj_type == 'pokemon':
                 element = MyTarget(client.enemy.id)
@@ -69,23 +73,61 @@ class TaskManager:
                     if poke['num'] == part.get('num') or poke['name'] == part.get('name'):
 
                         if poke.get('gender') is None:
-                            poke['count'] = max(int(poke['count']) - 1, 0)
+                            poke['count'] = max(int(poke.get('count')) - 1, 0)
                             break
                         elif poke.get('gender') == client.enemy.sex2:
-                            poke['count'] = max(int(poke['count']) - 1, 0)
+                            poke['count'] = max(int(poke.get('count')) - 1, 0)
                             break
 
-        client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item['count']) > 0]
-        client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke['count']) > 0]
+        client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item.get('count')) > 0]
+        client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke.get('count')) > 0]
 
-        self.check_tasks()
-
-    def check_tasks(self) -> None:
         self.currentFights += 1
+
+        await self.check_tasks(client)
+
+    async def check_tasks(self, client: object) -> Exception | None:
         if self.currentFights >= self.maxFights:
             raise Exception('Исполнено максимально возможное количество боёв за сутки')
-        elif self.had_tasks and not self.targetItems and not self.targetPokemons:
+
+        elif self.hadTasks and not self.targetItems and not self.targetPokemons:
             raise Exception('Выполнены все условия поставленных задач!')
+
+        elif self.hadTasks and self.targetItems or self.targetPokemons:
+            next_task = self.priority_task()
+
+            if next_task:
+
+                task_name = next_task.get('name') # or next_task.get('num')
+
+                if task_name:
+                    target_location_names = DataLocation.find_specific_loc(task_name, client.route_map)
+
+                    if target_location_names:
+                        path = DataLocation.find_shortest_named_path(
+                            id_from=client.position.id,
+                            name_to=target_location_names,
+                            locations=client.route_map
+                        )
+
+                        if path:
+                            final_location_id = path[-1] if path else None
+                            final_location_name = None
+
+                            for loc in client.route_map:
+                                if loc.id == final_location_id:
+                                    final_location_name = loc.name
+                                    break
+
+                            client.assault = 'false'
+
+                            for step in path:
+                                result = await client.route(step, final_location_name)
+
+                                if not result:
+                                    break
+
+                            client.assault = 'true'
 
 
 class MyTarget:
@@ -230,7 +272,24 @@ class DataLocation:
         return locations
 
     @staticmethod
-    def find_shortest_path(start: object, end: object):
+    def find_specific_loc(task_object: str, locations: list) -> list | None:
+        found_locations = []
+
+        if not task_object or not locations:
+            return None
+
+        for location in locations:
+            for pokemon in location.habitat:
+                if pokemon.get('name') == task_object:
+                    found_locations.append(location.name)
+            for item in location.items:
+                if item.get('name') == task_object:
+                    found_locations.append(location.name)
+
+        return found_locations
+
+    @staticmethod
+    def find_path_by_objects(start: object, end: object):
         visited = set()
         queue = deque([(start, [start])])
 
@@ -249,32 +308,50 @@ class DataLocation:
         return None
 
     @staticmethod
-    def find_shortest_named_path(name_from: str, name_to: str, locations: list) -> list or None:
-        from_name = name_from.lower()
-        to_name = name_to.lower()
+    @staticmethod
+    def find_shortest_named_path(id_from: str, name_to: Union[str, List[str]], locations: list) -> Union[
+        List[str], List[List[str]]]:
+        loc_by_id = {loc.id: loc for loc in locations}
 
-        locations_by_name = defaultdict(list)
-        for location in locations:
-            locations_by_name[location.name.lower()].append(location)
+        start_loc = loc_by_id.get(id_from)
+        if not start_loc:
+            raise Exception(f'Стартовая локация с ID "{id_from}" не найдена')
 
-        start_candidates = locations_by_name[from_name]
-        end_candidates = locations_by_name[to_name]
+        loc_dict = {loc.name.lower(): loc for loc in locations}
 
-        best_path = None
-        shortest = float('inf')
+        if isinstance(name_to, str):
+            end_loc = loc_dict.get(name_to.lower())
+            if not end_loc:
+                raise Exception(f'Конечная локация "{name_to}" не найдена')
 
-        for start in start_candidates:
-            for end in end_candidates:
-                path = DataLocation.find_shortest_path(start, end)
-                if path and len(path) < shortest:
-                    best_path = path
-                    shortest = len(path)
+            if start_loc.id == end_loc.id:
+                return []
 
-        if best_path:
-            return [loc.id for loc in best_path][1:]
+            path = DataLocation.find_path_by_objects(start_loc, end_loc)
+            if not path:
+                raise Exception(f'Путь из "{start_loc.name}" в "{name_to}" не найден')
+
+            return [loc.id for loc in path][1:]
+
+        elif isinstance(name_to, list):
+            paths = []
+            for target_name in name_to:
+                end_loc = loc_dict.get(target_name.lower())
+                if not end_loc:
+                    continue
+
+                if start_loc.id == end_loc.id:
+                    return []
+
+                path = DataLocation.find_path_by_objects(start_loc, end_loc)
+                if path:
+                    path_ids = [loc.id for loc in path][1:]
+                    paths.append((len(path_ids), path_ids))
+
+            return min(paths, key=lambda x: x[0])[1] if paths else []
+
         else:
-            Exception('Путь не найден.')
-
+            raise TypeError('name_to должен быть строкой или списком строк')
 
 class MyPosition:
     def __init__(self):

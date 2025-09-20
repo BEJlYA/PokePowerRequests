@@ -41,12 +41,15 @@ class AiohttpClient:
             except (aiohttp.ClientConnectorError,
                     aiohttp.ServerTimeoutError,
                     asyncio.TimeoutError):
-                print("Ошибка соединения: сервер недоступен или отсутствует интернет.")
+                print(f"Ошибка соединения в: {func.__name__}")
             except aiohttp.ClientResponseError as e:
-                print(f"Сервер вернул ошибку: {e.status} {e.message}")
+                print(f"Ошибка HTTP {e.status} в {func.__name__}: {e.message}")
+            except json.JSONDecodeError:
+                print(f"Ошибка JSON в {func.__name__}")
+            except KeyError as e:
+                print(f"Отсутствует ключ {e} в {func.__name__}")
             except Exception as e:
-                print(f"Непредвиденная ошибка: {e}")
-
+                print(f"Ошибка в {func.__name__}: {type(e).__name__}: {e}")
             return None
         return wrapper
 
@@ -156,7 +159,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def attack(self, attack_id: int) -> None:
+    async def attack(self, attack_id: str) -> None:
         async with await self.session.post(
                     url='https://pokepower.ru/do/makasimka',
                     data={
@@ -169,7 +172,7 @@ class AiohttpClient:
             await ResponseChecker.main_handler(response, self)
 
     @safe_request
-    async def route(self, id_location: int) -> None or bool:
+    async def route(self, id_location: str, fallback_target: str = 'Покецентр') -> None | bool:
         async with await self.session.post(
             url='https://pokepower.ru/do/route',
             data={
@@ -185,10 +188,22 @@ class AiohttpClient:
                 await ResponseChecker.geo_position(response, self)
                 return True
             else:
-                path = DataLocation.find_shortest_named_path(self.position.name, "Покецентр", self.route_map)
+                await ResponseChecker.geo_position(response, self)
+
+                path = DataLocation.find_shortest_named_path(
+                    self.position.id,
+                    fallback_target,
+                    self.route_map
+                )
+
+                if not path:
+                    return False
 
                 for step in path:
-                    await self.route(step)
+                    result = await self.route(step, fallback_target)
+                    if not result:
+                        return False
+
                 return False
 
     @safe_request
@@ -211,7 +226,7 @@ class AiohttpClient:
                     data={
                         'id': 'pokemons',
                         'type': 'action',
-                        'val': f'{'gopit', id_pokemon}', # ID Pokemon, which should be sent
+                        'val': f'{'gopit', id_pokemon}', # ID Pokémon, which should be sent
                     },
                     timeout=10
                 ) as response:

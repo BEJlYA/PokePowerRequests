@@ -1,7 +1,6 @@
 import base64
 import json
 import time
-from collections.abc import Callable, Awaitable
 from functools import wraps
 
 from dataclasses import MyTarget, UsingPokeballs, DataLocation
@@ -27,27 +26,12 @@ class ResponseChecker:
         return wrapper
 
     @staticmethod
-    def try_response(func: Callable[..., Awaitable]):
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            try:
-                return await func(*args, **kwargs)
-            except json.JSONDecodeError:
-                raise Exception('Ошибка при парсинге JSON.')
-            except KeyError:
-                raise Exception('Ошибка: отсутствует ключ в JSON.')
-
-        return wrapper
-
-    @staticmethod
-    @try_response
     @reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
             raise Exception(json_data['text'])
 
     @staticmethod
-    @try_response
     @reformat_response
     async def team_grabber(json_data: dict, client: object) -> None:
         for select in json_data['response']['pokemon_list']:
@@ -81,7 +65,6 @@ class ResponseChecker:
             client.team.append(element)
 
     @staticmethod
-    @try_response
     @reformat_response
     async def pokeballs_grabber(json_data: dict) -> list:
         pokeballs = []
@@ -101,7 +84,6 @@ class ResponseChecker:
         return pokeballs
 
     @staticmethod
-    @try_response
     @reformat_response
     async def geo_position(json_data: dict, client: object) -> None:
         data_location = json_data['response']['location']
@@ -110,15 +92,14 @@ class ResponseChecker:
 
         client.position.add_info(name, id, region, roads)
 
+
     @staticmethod
-    @try_response
     @reformat_response
     async def battle_settings(json_data: dict, client: object) -> None:
         client.tasks.currentFights = int(json_data['response']['pok_limit'])
 
 
     @staticmethod
-    @try_response
     @reformat_response
     async def main_handler(json_data: dict, client: object) -> None:
         # Battle finder
@@ -146,7 +127,7 @@ class ResponseChecker:
                             return
             elif (
                     client.enemy.type_text_color == 1 and
-                    client.settings.catchShine == 1 and
+                    client.tasks.catchShine and
                     client.enemy.catch == 1
             ): # Catch shine pokémon
                 for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Shine catch
@@ -173,7 +154,7 @@ class ResponseChecker:
             else: # Else kill pokémon
                 enemy_types = None
                 for pokemon in client.data.pokedex:
-                    if client.enemy.basenum2 == pokemon['basenum'] or client.enemy.name == pokemon['name']:
+                    if client.enemy.basenum2 == pokemon['basenum'] or client.enemy.name == pokemon.get('name'):
                         enemy_types = pokemon['types']
                         break
 
@@ -183,7 +164,7 @@ class ResponseChecker:
 
                 if active_pokemon:
                     for attack in active_pokemon.atks:
-                        if attack[0] in (1, 2) and int(attack[3]) > 0:
+                        if attack[0] in (1, 2) and attack[3] > 0:
                             atks_types.append(attack[5])
 
                 max_effectiveness = {}
@@ -206,7 +187,7 @@ class ResponseChecker:
                     for attack in active_pokemon.atks:
                         if (
                                 attack[0] in (1, 2) and
-                                int(attack[3]) > 0 and
+                                attack[3] > 0 and
                                 attack[5] == max_type[0]
                         ):
                             active_pokemon.reduce_count_attack(attack[1])
@@ -215,7 +196,8 @@ class ResponseChecker:
 
         elif 'logDrop' in json_data:
             await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
-            client.tasks.check_drop(client, json_data['logDrop'])
+            await client.tasks.check_drop(client, json_data['logDrop'])
+
 
 
     @staticmethod
@@ -226,7 +208,11 @@ class ResponseChecker:
                 next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None).last_atk() <= 1
         ):
             client.assault = 'false'
-            path = DataLocation.find_shortest_named_path(client.position.name, "Покецентр", client.route_map)
+            path = DataLocation.find_shortest_named_path(
+                client.position.id,
+                "Покецентр",
+                client.route_map
+            )
             last_location = client.position.name
 
             for step in path:
@@ -242,7 +228,11 @@ class ResponseChecker:
                 active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
                 await client.send_more_pit(active_pokemon.id)
 
-            path = DataLocation.find_shortest_named_path(client.position.name, last_location, client.route_map)
+            path = DataLocation.find_shortest_named_path(
+                client.position.id,
+                last_location,
+                client.route_map
+            )
             for step in path:
                 result = await client.route(step)
 
@@ -252,13 +242,9 @@ class ResponseChecker:
             client.assault = 'true'
 
     @staticmethod
-    @try_response
     @reformat_response
     async def checking_move(json_data, id_location) -> bool:
-        if json_data['response']['id'] == id_location:
-            return True
-        else:
-            return False
+        return json_data['response']['id'] == id_location
 
 
 class UniqueGenerator:
