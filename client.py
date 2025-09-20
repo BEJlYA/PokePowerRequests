@@ -226,7 +226,7 @@ class AiohttpClient:
                     data={
                         'id': 'pokemons',
                         'type': 'action',
-                        'val': f'{'gopit', id_pokemon}', # ID Pokémon, which should be sent
+                        'val': f'gopit, {id_pokemon}', # ID Pokémon, which should be sent
                     },
                     timeout=10
                 ) as response:
@@ -239,8 +239,7 @@ class AiohttpClient:
                     data={
                         'id': 'pokemons',
                         'type': 'action',
-                        'val[]': 'gopitAll',
-                        'val[1][]': f'{id_pokemon}', # ID Pokémon of which must be left
+                        'val': f'gopitAll, {id_pokemon}', # ID Pokémon of which must be left
                     },
                     timeout=10
                 ) as response:

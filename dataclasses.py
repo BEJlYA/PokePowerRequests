@@ -17,11 +17,11 @@ class TaskManager:
         self.targetItems = [] # Items for drop [...{'name': '', 'count': ''}...]
         self.targetPokemons = [] # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
         self.catchTools = None # Name pokeball for catch Pokémon ('Покебол')
-        self.hadTasks = True # FALSE - disconnect of tasks
+        self.hadTasks = False # FALSE - disconnect of tasks
 
     def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
-        self.targetItems = target_items.sort(key=lambda item: int(item.get('count')))
-        self.targetPokemons = target_pokemons.sort(key=lambda poke: int(poke.get('count')))
+        self.targetItems = sorted(target_items, key=lambda item: int(item.get('count', 0)))
+        self.targetPokemons = sorted(target_pokemons, key=lambda poke: int(poke.get('count', 0)))
         self.catchTools = catch_tools
         self.hadTasks = bool(target_items or target_pokemons)
 
@@ -230,7 +230,25 @@ class DataPokemon:
             self.priorityPokeballs = json.load(file)
         with open('data/rare_pokemons.json', 'r', encoding='UTF-8') as file: # Rare pokemons
             self.rarePokemons = json.load(file)
+            self._create_lookup_tables()
 
+    def _create_lookup_tables(self):
+        self.by_basenum = {}
+        self.by_name = {}
+
+        for pokemon in self.pokedex:
+            if 'basenum' in pokemon:
+                self.by_basenum[pokemon['basenum']] = pokemon
+
+            if 'name' in pokemon:
+                self.by_name[pokemon['name']] = pokemon
+
+    def find_pokemon_types(self, basenum=None, name=None):
+        if basenum and basenum in self.by_basenum:
+            return self.by_basenum[basenum].get('types', [])
+        elif name and name in self.by_name:
+            return self.by_name[name].get('types', [])
+        return []
 
 class DataLocation:
     def __init__(self, name: str, id: str, region:str, routes: list, habitat: list, items: list):
@@ -307,7 +325,6 @@ class DataLocation:
 
         return None
 
-    @staticmethod
     @staticmethod
     def find_shortest_named_path(id_from: str, name_to: Union[str, List[str]], locations: list) -> Union[
         List[str], List[List[str]]]:

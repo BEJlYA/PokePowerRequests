@@ -152,11 +152,10 @@ class ResponseChecker:
             ): # Catch certain pokémon
                 await client.catch(client.tasks.catchTools)
             else: # Else kill pokémon
-                enemy_types = None
-                for pokemon in client.data.pokedex:
-                    if client.enemy.basenum2 == pokemon['basenum'] or client.enemy.name == pokemon.get('name'):
-                        enemy_types = pokemon['types']
-                        break
+                enemy_types = client.data.find_pokemon_types(
+                    basenum=client.enemy.basenum2,
+                    name=client.enemy.name
+                )
 
                 atks_types = []
 
