@@ -1,38 +1,18 @@
-import base64
-import json
-import time
-from functools import wraps
-
-from dataclasses import MyTarget, UsingPokeballs, DataLocation
+from src.services.battle import MyTarget
+from src.services.navigations import DataLocation
+from src.services.tasks import UsingPokeballs
+from src.utils.decorators import BotDecorator
 
 
 class ResponseChecker:
     @staticmethod
-    def reformat_response(func):
-        @wraps(func)
-        async def wrapper(response: str, *args, **kwargs):
-            try:
-                text_response = await response.text()
-                start_index = text_response.find('{')
-                end_index = text_response.rfind('}')
-                json_str = text_response[start_index:end_index + 1]
-                json_data = json.loads(json_str)
-
-                return await func(json_data, *args, **kwargs)
-            except Exception as e:
-                print(e)
-                raise Exception('Ошибка в приведении в читаемый вид ответа сервера')
-
-        return wrapper
-
-    @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
             raise Exception(json_data['text'])
 
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def team_grabber(json_data: dict, client: object) -> None:
         for select in json_data['response']['pokemon_list']:
             element = MyTarget(json_data['response']['pokemon_list'][select]['pok']['id'])
@@ -65,13 +45,13 @@ class ResponseChecker:
             client.team.append(element)
 
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def pokeballs_grabber(json_data: dict) -> list:
         pokeballs = []
 
         for select in json_data['ballList']:
             if select['type'] == 1:
-                raw_count=select.get('count', '').strip('x')
+                raw_count = select.get('count', '').strip('x')
                 clear_count = int(raw_count) if raw_count.isdigit() else 1
 
                 element = UsingPokeballs()
@@ -84,7 +64,7 @@ class ResponseChecker:
         return pokeballs
 
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def geo_position(json_data: dict, client: object) -> None:
         data_location = json_data['response']['location']
         name, id = data_location['name'], data_location['id_loc']
@@ -92,15 +72,13 @@ class ResponseChecker:
 
         client.position.add_info(name, id, region, roads)
 
-
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def battle_settings(json_data: dict, client: object) -> None:
         client.tasks.currentFights = int(json_data['response']['pok_limit'])
 
-
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def main_handler(json_data: dict, client: object) -> None:
         # Battle finder
         if json_data.get('battleInfo') and not json_data.get('logDrop'):
@@ -115,12 +93,20 @@ class ResponseChecker:
                 catch=json_data['battleInfo']['enemy']['catch']
             )
 
+            client.logger.battle_start(
+                enemy_num=client.enemy.basenum2,
+                enemy_name=client.enemy.name,
+                enemy_level=client.enemy.lvl,
+                enemy_shine=client.enemy.type_text_color
+            )
+
             if (
                     client.enemy.basenum2 in client.data.rarePokemons[0] or
                     client.enemy.name in client.data.rarePokemons[0] and
                     client.enemy.catch == 1
-            ): # Catch rare pokémon
-                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Super rare Pokémon catch
+            ):  # Catch rare pokémon
+                for key in sorted(client.data.priorityPokeballs,
+                                  key=client.data.priorityPokeballs.get):  # Super rare Pokémon catch
                     for ball in client.pokeballs:
                         if key in ball.name:
                             await client.catch(ball.id)
@@ -129,8 +115,8 @@ class ResponseChecker:
                     client.enemy.type_text_color == 1 and
                     client.tasks.catchShine and
                     client.enemy.catch == 1
-            ): # Catch shine pokémon
-                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get): # Shine catch
+            ):  # Catch shine pokémon
+                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get):  # Shine catch
                     for ball in client.pokeballs:
                         if key in ball.id:
                             await client.catch(ball.id)
@@ -149,9 +135,9 @@ class ResponseChecker:
                         for targetPokemon in client.tasks.targetPokemons
                         if isinstance(targetPokemon, dict)
                     )
-            ): # Catch certain pokémon
+            ):  # Catch certain pokémon
                 await client.catch(client.tasks.catchTools)
-            else: # Else kill pokémon
+            else:  # Else kill pokémon
                 enemy_types = client.data.find_pokemon_types(
                     basenum=client.enemy.basenum2,
                     name=client.enemy.name
@@ -159,7 +145,8 @@ class ResponseChecker:
 
                 atks_types = []
 
-                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
+                active_pokemon = next((p for p in client.team if p.start == '1'),
+                                      client.team[0] if client.team else None)
 
                 if active_pokemon:
                     for attack in active_pokemon.atks:
@@ -167,7 +154,6 @@ class ResponseChecker:
                             atks_types.append(attack[5])
 
                 max_effectiveness = {}
-
                 for a in atks_types:
                     for i in enemy_types:
                         e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
@@ -180,31 +166,34 @@ class ResponseChecker:
                         else:
                             max_effectiveness[a] = (i, e)
 
-                max_type = max(max_effectiveness.items(), key=lambda x: x[1][1])
+                if max_effectiveness:
+                    max_type = max(max_effectiveness.items(), key=lambda x: x[1][1])
 
-                if active_pokemon:
-                    for attack in active_pokemon.atks:
-                        if (
-                                attack[0] in (1, 2) and
-                                attack[3] > 0 and
-                                attack[5] == max_type[0]
-                        ):
-                            active_pokemon.reduce_count_attack(attack[1])
-                            await client.attack(attack[1])
-                            break
+                    if active_pokemon:
+                        for attack in active_pokemon.atks:
+                            if (
+                                    attack[0] in (1, 2) and
+                                    attack[3] > 0 and
+                                    attack[5] == max_type[0]
+                            ):
+                                active_pokemon.reduce_count_attack(attack[1])
+                                await client.attack(attack)
+                                break
+                else:
+                    await client.coward()
+
 
         elif 'logDrop' in json_data:
-            await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
             await client.tasks.check_drop(client, json_data['logDrop'])
-
-
+            await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
 
     @staticmethod
     async def pokemon_health(battle_info: dict, client: object) -> None:
         if (
                 float(battle_info['myTarget']['hp']) <= float(battle_info['myTarget']['hp_max'] * 0.3) or
                 len(client.team) >= 6 or
-                next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None).last_atk() <= 1
+                next((p for p in client.team if p.start == '1'),
+                     client.team[0] if client.team else None).last_atk() <= 1
         ):
             client.assault = 'false'
             path = DataLocation.find_shortest_named_path(
@@ -224,7 +213,8 @@ class ResponseChecker:
             for pokemon in client.team:
                 pokemon.restore_pp()
             if len(client.team) >= 6:
-                active_pokemon = next((p for p in client.team if p.start == '1'), client.team[0] if client.team else None)
+                active_pokemon = next((p for p in client.team if p.start == '1'),
+                                      client.team[0] if client.team else None)
                 await client.send_more_pit(active_pokemon.id)
 
             path = DataLocation.find_shortest_named_path(
@@ -233,7 +223,7 @@ class ResponseChecker:
                 client.route_map
             )
             for step in path:
-                result = await client.route(step)
+                result = await client.route(step, last_location)
 
                 if not result:
                     break
@@ -241,13 +231,6 @@ class ResponseChecker:
             client.assault = 'true'
 
     @staticmethod
-    @reformat_response
+    @BotDecorator.reformat_response
     async def checking_move(json_data, id_location) -> bool:
         return json_data['response']['id'] == id_location
-
-
-class UniqueGenerator:
-    @staticmethod
-    async def gen_t():
-        timestamp = str(int(time.time() * 1000))[-7:]
-        return str(base64.b64encode(timestamp.encode("UTF-8")))[2:-3][0:6]

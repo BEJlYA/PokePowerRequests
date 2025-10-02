@@ -1,8 +1,8 @@
 import asyncio
 
-from client import AiohttpClient
-from dataclasses import Settings
-from handler import ResponseChecker
+from src.config.settings import Settings
+from src.core.client import AiohttpClient
+from src.core.models import ResponseChecker
 
 
 async def main():
@@ -27,6 +27,7 @@ async def main():
         pass
     finally:
         pass
+
 
 if __name__ in '__main__':
     asyncio.run(main())

@@ -1,4 +1,11 @@
+# Unnecessary files
 .idea
 .venv
+/logs/
+
+# Parser of pokemon world data
 /.data_parser/
-main_clone.py
+
+# Future update
+/src/bot_clone.py
+
