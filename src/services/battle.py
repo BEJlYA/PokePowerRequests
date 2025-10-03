@@ -71,3 +71,49 @@ class EnemyTarget:
         self.sex2 = sex2
         self.type_text_color = type_text_color
         self.catch = catch
+
+    @staticmethod
+    async def calculate_attack(client: object):
+        enemy_types = client.data.find_pokemon_types(
+            basenum=client.enemy.basenum2,
+            name=client.enemy.name
+        )
+
+        atks_types = []
+
+        active_pokemon = next((p for p in client.team if p.start == '1'),
+                              client.team[0] if client.team else None)
+
+        if active_pokemon:
+            for attack in active_pokemon.atks:
+                if attack[0] in (1, 2) and attack[3] > 0:
+                    atks_types.append(attack[5])
+
+        max_effectiveness = {}
+        for a in atks_types:
+            for i in enemy_types:
+                e = client.data.punchEffectiveness.get(a, {}).get(i, 1)
+
+                if a in max_effectiveness:
+                    if len(enemy_types) == 2:
+                        max_effectiveness[a] = (i, e * (max_effectiveness[a][1]))
+                    else:
+                        max_effectiveness[a] = (i, e)
+                else:
+                    max_effectiveness[a] = (i, e)
+
+        if max_effectiveness:
+            max_type = max(max_effectiveness.items(), key=lambda x: x[1][1])
+
+            if active_pokemon:
+                for attack in active_pokemon.atks:
+                    if (
+                            attack[0] in (1, 2) and
+                            attack[3] > 0 and
+                            attack[5] == max_type[0]
+                    ):
+                        active_pokemon.reduce_count_attack(attack[1])
+                        await client.attack(attack)
+                        break
+        else:
+            await client.coward()

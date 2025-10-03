@@ -3,6 +3,20 @@ from collections import deque
 from typing import Union, List
 
 
+class MyPosition:
+    def __init__(self):
+        self.name = None
+        self.id = None
+        self.region = None
+        self.routes = None
+
+    def add_info(self, name: str, id: str, region: str, routes: list) -> None:
+        self.name = name
+        self.id = id
+        self.region = region
+        self.routes = routes
+
+
 class DataLocation:
     def __init__(self, name: str, id: str, region: str, routes: list, habitat: list, items: list):
         self.name = name
@@ -113,17 +127,3 @@ class DataLocation:
 
         shortest_path = min(all_paths, key=lambda x: x[0])[1]
         return [loc.id for loc in shortest_path][1:]
-
-
-class MyPosition:
-    def __init__(self):
-        self.name = None
-        self.id = None
-        self.region = None
-        self.routes = None
-
-    def add_info(self, name: str, id: str, region: str, routes: list) -> None:
-        self.name = name
-        self.id = id
-        self.region = region
-        self.routes = routes

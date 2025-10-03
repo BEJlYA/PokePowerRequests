@@ -1,5 +1,5 @@
 from src.services.battle import MyTarget
-from src.services.navigations import DataLocation
+from src.services.navigator import DataLocation
 
 
 class TaskManager:
@@ -10,7 +10,7 @@ class TaskManager:
         self.targetItems = []  # Items for drop [...{'name': '', 'count': ''}...]
         self.targetPokemons = []  # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
         self.catchTools = None  # Name pokeball for catch Pokémon ('Покебол'), by default - NONE
-        self.hadTasks = True  # FALSE - disconnect of tasks
+        self.hadTasks = False  # FALSE - disconnect of tasks
 
     def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
         self.targetItems = sorted(target_items, key=lambda item: int(item.get('count', 0)))

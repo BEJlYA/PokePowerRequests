@@ -6,9 +6,10 @@ import aiohttp
 
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget
-from src.services.control import DataPokemon
+from src.services.loader import DataPokemon
 from src.services.movements import MovementsController
-from src.services.navigations import DataLocation, MyPosition
+from src.services.navigator import DataLocation, MyPosition
+from src.services.parser import ParseGameData
 from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
@@ -52,7 +53,7 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            await ResponseChecker.status_authentication(response)
+            await MovementsController.status_authentication(response)
 
     @BotDecorator.safe_request
     async def websocket_sid(self) -> None:
@@ -72,9 +73,9 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            await ResponseChecker.geo_position(response, self)
+            await ParseGameData.geo_position(response, self)
             self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
-            await MovementsController.confused_effect(response)
+            await MovementsController.confused_effect(response, self)
             return response
 
     @BotDecorator.safe_request
@@ -88,7 +89,7 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            await ResponseChecker.team_grabber(response, self)
+            await ParseGameData.team_grabber(response, self)
 
     @BotDecorator.safe_request
     async def update(self) -> None:
@@ -103,6 +104,9 @@ class AiohttpClient:
                     },
                     timeout=10
             ) as response:
+                self.logger.debug('Update request - send')
+
+                await MovementsController.technical_works(response, self)
                 await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
@@ -116,7 +120,7 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.pokeballs = await ResponseChecker.pokeballs_grabber(response)
+            self.pokeballs = await ParseGameData.pokeballs_grabber(response)
             self.tasks.getting_pokeball_id(self.pokeballs)
 
     @BotDecorator.safe_request
@@ -130,7 +134,7 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            await ResponseChecker.battle_settings(response, self)
+            await ParseGameData.battle_settings(response, self)
 
     @BotDecorator.safe_request
     async def catch(self, pokeball: int) -> None:
@@ -188,7 +192,7 @@ class AiohttpClient:
                     action_type=f"Coward",
                     description="Pokemon has low level HP"
                 )
-                await ResponseChecker.pokemon_health(response, self)
+                await MovementsController.pokemon_health(response, self)
             else:
                 raise Exception("Not possible to run away")
 
@@ -208,10 +212,10 @@ class AiohttpClient:
             correct_move = await MovementsController.migration_error(response, id_location)
 
             if correct_move:
-                await ResponseChecker.geo_position(response, self)
+                await ParseGameData.geo_position(response, self)
                 return True
             else:
-                await ResponseChecker.geo_position(response, self)
+                await ParseGameData.geo_position(response, self)
 
                 path = DataLocation.find_shortest_named_path(
                     self.position.id,
