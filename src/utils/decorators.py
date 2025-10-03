@@ -9,14 +9,20 @@ class BotDecorator:
     @staticmethod
     def reformat_response(func):
         @wraps(func)
-        async def wrapper(response: str, *args, **kwargs):
-            text_response = await response.text()
-            start_index = text_response.find('{')
-            end_index = text_response.rfind('}')
-            json_str = text_response[start_index:end_index + 1]
-            json_data = json.loads(json_str)
+        async def wrapper(response, *args, **kwargs):
+            if isinstance(response, dict):
+                return await func(response, *args, **kwargs)
 
-            return await func(json_data, *args, **kwargs)
+            elif hasattr(response, 'text'):
+                text_response = await response.text()
+                start_index = text_response.find('{')
+                end_index = text_response.rfind('}')
+                json_str = text_response[start_index:end_index + 1]
+                json_data = json.loads(json_str)
+                return await func(json_data, *args, **kwargs)
+
+            else:
+                raise ValueError(f"Unsupported input type: {type(response)}")
 
         return wrapper
 

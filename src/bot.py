@@ -7,26 +7,22 @@ from src.core.models import ResponseChecker
 
 async def main():
     settings = Settings(login='LOGIN', password='PASSWORD')
-    try:
-        async with AiohttpClient(settings) as aclient:
-            await aclient.auth(settings)
-            await aclient.websocket_sid()
 
-            response = await aclient.init()
+    async with AiohttpClient(settings) as aclient:
+        await aclient.auth(settings)
+        await aclient.websocket_sid()
 
-            await aclient.pokemons()
-            await aclient.items()
-            await aclient.get_edit()
+        response = await aclient.init()
 
-            await ResponseChecker.main_handler(response, aclient)
+        await aclient.pokemons()
+        await aclient.items()
+        await aclient.get_edit()
 
-            await asyncio.create_task(await aclient.update())
-    except asyncio.CancelledError:
-        pass
-    except KeyboardInterrupt:
-        pass
-    finally:
-        pass
+        await ResponseChecker.main_handler(response, aclient)
+
+        await aclient.tasks.check_tasks(aclient)
+
+        await asyncio.create_task(await aclient.update())
 
 
 if __name__ in '__main__':

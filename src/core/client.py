@@ -7,6 +7,7 @@ import aiohttp
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget
 from src.services.control import DataPokemon
+from src.services.movements import MovementsController
 from src.services.navigations import DataLocation, MyPosition
 from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
@@ -73,6 +74,7 @@ class AiohttpClient:
         ) as response:
             await ResponseChecker.geo_position(response, self)
             self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
+            await MovementsController.confused_effect(response)
             return response
 
     @BotDecorator.safe_request
@@ -172,7 +174,7 @@ class AiohttpClient:
                 await self.coward()
 
     @BotDecorator.safe_request
-    async def coward(self) -> None:
+    async def coward(self) -> None | Exception:
         async with await self.session.post(
                 url='https://pokepower.ru/do/makasimka',
                 data={
@@ -203,7 +205,7 @@ class AiohttpClient:
         ) as response:
             self.logger.debug(f"Move to - {id_location}")
 
-            correct_move = await ResponseChecker.checking_move(response, id_location)
+            correct_move = await MovementsController.migration_error(response, id_location)
 
             if correct_move:
                 await ResponseChecker.geo_position(response, self)
@@ -247,7 +249,7 @@ class AiohttpClient:
                 data={
                     'id': 'pokemons',
                     'type': 'action',
-                    'val': f'gopit, {id_pokemon}',  # ID Pokémon, which should be sent
+                    'val[]': ['gopit', id_pokemon],  # ID Pokémon, which should be sent
                 },
                 timeout=10
         ) as response:
@@ -260,7 +262,7 @@ class AiohttpClient:
                 data={
                     'id': 'pokemons',
                     'type': 'action',
-                    'val': f'gopitAll, {id_pokemon}',  # ID Pokémon of which must be left
+                    'val[]': ['gopitAll', id_pokemon],  # ID Pokémon of which must be left
                 },
                 timeout=10
         ) as response:

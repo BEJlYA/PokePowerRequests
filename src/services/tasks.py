@@ -9,8 +9,8 @@ class TaskManager:
         self.catchShine = True  # Flag for catching shine Pokémon, by default - TRUE
         self.targetItems = []  # Items for drop [...{'name': '', 'count': ''}...]
         self.targetPokemons = []  # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
-        self.catchTools = None  # Name pokeball for catch Pokémon ('Покебол')
-        self.hadTasks = False  # FALSE - disconnect of tasks
+        self.catchTools = None  # Name pokeball for catch Pokémon ('Покебол'), by default - NONE
+        self.hadTasks = True  # FALSE - disconnect of tasks
 
     def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
         self.targetItems = sorted(target_items, key=lambda item: int(item.get('count', 0)))

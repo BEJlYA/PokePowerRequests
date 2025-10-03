@@ -185,12 +185,14 @@ class ResponseChecker:
 
         elif 'logDrop' in json_data:
             await client.tasks.check_drop(client, json_data['logDrop'])
-            await ResponseChecker.pokemon_health(json_data['battleInfo'], client)
+            await ResponseChecker.pokemon_health(json_data, client)
 
     @staticmethod
-    async def pokemon_health(battle_info: dict, client: object) -> None:
+    @BotDecorator.reformat_response
+    async def pokemon_health(json_data: dict, client: object) -> None:
         if (
-                float(battle_info['myTarget']['hp']) <= float(battle_info['myTarget']['hp_max'] * 0.3) or
+                float(json_data['battleInfo']['myTarget']['hp']) <=
+                float(json_data['battleInfo']['myTarget']['hp_max'] * 0.3) or
                 len(client.team) >= 6 or
                 next((p for p in client.team if p.start == '1'),
                      client.team[0] if client.team else None).last_atk() <= 1
@@ -229,8 +231,3 @@ class ResponseChecker:
                     break
 
             client.assault = 'true'
-
-    @staticmethod
-    @BotDecorator.reformat_response
-    async def checking_move(json_data, id_location) -> bool:
-        return json_data['response']['id'] == id_location
