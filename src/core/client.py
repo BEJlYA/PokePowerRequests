@@ -21,7 +21,7 @@ class AiohttpClient:
         self.session = None  # Session
         self.token = None  # Hash token by authorize
         self.sid = None  # Resulting SID phrase
-        self.generator = DeceptionManager()  # Custom generator
+        self.deception = DeceptionManager()  # Custom generator
         self.tasks = TaskManager()  # Tasks for execution
         self.team = []  # Our team of Pokémon
         self.pokeballs = None  # Our items for using in battle
@@ -34,7 +34,9 @@ class AiohttpClient:
         self.logger = UniversalLogger(logging.INFO)  # Logger makes info about works
 
     async def __aenter__(self):
-        self.session = aiohttp.ClientSession()
+        self.session = aiohttp.ClientSession(
+            headers=self.deception.random_headers()
+        )
         self.logger.bot_start()
         return self
 
@@ -47,6 +49,7 @@ class AiohttpClient:
     async def auth(self, settings: object) -> None:
         async with self.session.post(
                 url='https://pokepower.ru/do/sign',
+                headers=self.deception.replace_headers(self.session.headers),
                 data={
                     'login': settings.login,
                     'password': settings.password
@@ -59,7 +62,8 @@ class AiohttpClient:
     async def websocket_sid(self) -> None:
         self.token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
         async with self.session.get(
-                url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.generator.gen_t()}',
+                url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.deception.gen_t()}',
+                headers=self.deception.replace_headers(self.session.headers),
                 timeout=10
         ) as response:
             self.sid = json.loads(str(await response.text())[1:]).get('sid')
