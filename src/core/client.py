@@ -155,7 +155,7 @@ class AiohttpClient:
                 if pokeball == element.id:
                     element.reduce_count_pokeball()
 
-                    client.logger.battle_action(
+                    self.logger.battle_action(
                         action_type=f"Catch",
                         description=f"{element.name}: {element.count}"
                     )

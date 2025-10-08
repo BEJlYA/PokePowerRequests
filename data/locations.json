@@ -282,7 +282,7 @@
         "chance": 4,
         "lvl1": "10",
         "lvl2": "15",
-        "time": "ever"
+        "time": ["evening", "night"]
       }
     ],
     "items": [
@@ -334,7 +334,7 @@
       {
         "id": "77",
         "name": "Острый клюв",
-        "time": "ever"
+        "time": ["evening", "night"]
       }
     ]
   },
@@ -381,7 +381,7 @@
       {
         "id": "113",
         "name": "Ченси",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "8",
         "lvl2": "16",
         "time": "ever"
@@ -520,7 +520,7 @@
       {
         "id": "63",
         "name": "Абра",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "8",
         "time": "ever"
@@ -702,7 +702,7 @@
       {
         "id": "211",
         "name": "Квилфиш",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "10",
         "time": "ever"
@@ -718,7 +718,7 @@
       {
         "id": "278",
         "name": "Вингул",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "10",
         "time": "ever"
@@ -1496,17 +1496,17 @@
       {
         "id": "57",
         "name": "Праймейп",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "15",
         "lvl2": "20",
-        "time": "ever"
+        "time": "night"
       }
     ],
     "items": [
       {
         "id": "10002",
         "name": "Скоба",
-        "time": "ever"
+        "time": "night"
       }
     ]
   },
@@ -1582,7 +1582,7 @@
       {
         "id": "37",
         "name": "Вульпикс",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "10",
         "lvl2": "15",
         "time": "ever"
@@ -1905,7 +1905,7 @@
       {
         "id": "462",
         "name": "Магнезон",
-        "chance": 3,
+        "chance": 2,
         "lvl1": "65",
         "lvl2": "80",
         "time": "ever"
@@ -1983,7 +1983,7 @@
       {
         "id": "843",
         "name": "Силикобра",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "19",
         "lvl2": "28",
         "time": "ever"
@@ -2194,7 +2194,7 @@
       {
         "id": "58",
         "name": "Гроули",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "10",
         "time": "ever"
@@ -2697,7 +2697,7 @@
       {
         "id": "415",
         "name": "Комби",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "10",
         "time": "ever"
@@ -3057,7 +3057,7 @@
       {
         "id": "298",
         "name": "Азурилл",
-        "chance": 2,
+        "chance": 3,
         "lvl1": "5",
         "lvl2": "15",
         "time": "ever"
