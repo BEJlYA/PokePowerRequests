@@ -37,6 +37,12 @@ class ParseGameData:
 
             client.team.append(element)
 
+            client.logger.debug(
+                f"Pokemon: #{element.basenum2} {element.name} "
+                f"| Lvl: {element.lvl} | HP: {element.hp} "
+                f"| Gender: {element.gender} | Active: {element.start == '1'}"
+            )
+
     @staticmethod
     @BotDecorator.reformat_response
     async def pokeballs_grabber(json_data: dict) -> list:
@@ -60,6 +66,7 @@ class ParseGameData:
     @BotDecorator.reformat_response
     async def battle_settings(json_data: dict, client: object) -> None:
         client.tasks.currentFights = int(json_data['response']['pok_limit'])
+        client.logger.debug(f'Current value of completed battles - {client.tasks.currentFights}')
 
     @staticmethod
     @BotDecorator.reformat_response
@@ -69,6 +76,12 @@ class ParseGameData:
         region, roads = data_location['region'], data_location['roads']
 
         client.position.add_info(name, id, region, roads)
+
+        client.logger.debug(f'Location data collected | '
+                            f'Location name: {name} | '
+                            f'ID: {id} | '
+                            f'Region: {region} | '
+                            f'Available routes: {roads}')
 
     @staticmethod
     async def update_enemy(json_data: dict, client: object) -> None:

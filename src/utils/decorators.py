@@ -31,33 +31,64 @@ class BotDecorator:
         @wraps(func)
         async def wrapper(*args, **kwargs):
             client = args[0] if args else None
+            max_retries = 5
 
-            try:
-                return await func(*args, **kwargs)
-            except (aiohttp.ClientConnectorError,
-                    aiohttp.ServerTimeoutError,
-                    asyncio.TimeoutError):
-                client.logger.error(
-                    message=f"Ошибка соединения в: {func.__name__}",
-                )
-            except aiohttp.ClientResponseError as e:
-                client.logger.error(
-                    message=f"Ошибка HTTP {e.status} в {func.__name__}",
-                    extra_data={e.message}
-                )
-            except json.JSONDecodeError:
-                client.logger.error(
-                    message=f"Ошибка JSON в {func.__name__}",
-                )
-            except KeyError as e:
-                client.logger.error(
-                    message=f"Отсутствует ключ {e} в {func.__name__}",
-                )
-            except Exception as e:
-                client.logger.error(
-                    message=f"Ошибка в {func.__name__}",
-                    extra_data=f"{type(e).__name__}: {e}"
-                )
-            return None
+            for attempt in range(max_retries):
+                try:
+                    return await func(*args, **kwargs)
+
+                except aiohttp.ServerDisconnectedError as e:
+                    if client:
+                        delay = min(30, 2 ** attempt)
+                        client.logger.warning(
+                            f"{e} in {func.__name__}, "
+                            f"attempt {attempt + 1}/{max_retries}, wait {delay}sec"
+                        )
+                        await asyncio.sleep(delay)
+
+                    if attempt == max_retries - 1:
+                        client.logger.error(f"Server unavailable after {max_retries} attempts at {func.__name__}")
+                        return None
+
+                except (aiohttp.ClientConnectorError,
+                        aiohttp.ServerTimeoutError,
+                        asyncio.TimeoutError):
+                    if client:
+                        client.logger.warning(message=f"Internet connection error at: {func.__name__}")
+                    while True:
+                        await asyncio.sleep(10)
+                        try:
+                            async with aiohttp.ClientSession() as session:
+                                async with session.get(
+                                        url="https://google.com",
+                                        timeout=5
+                                ) as response:
+                                    if response.status == 200:
+                                        client.logger.info(message="Internet has been restored, let's continue...")
+                                        break
+                        except:
+                            client.logger.warning(message="Internet is not available yet, we are waiting...")
+                            continue
+                    continue
+
+                except aiohttp.ClientResponseError as e:
+                    client.logger.error(
+                        message=f"Error HTTP {e.status} в {func.__name__}",
+                        extra_data={e.message}
+                    )
+                except json.JSONDecodeError:
+                    client.logger.error(
+                        message=f"Error JSON in {func.__name__}",
+                    )
+                except KeyError as e:
+                    client.logger.error(
+                        message=f"Key {e} is missing in {func.__name__}",
+                    )
+                except Exception as e:
+                    client.logger.error(
+                        message=f"Error in {func.__name__}",
+                        extra_data=f"{type(e).__name__}: {e}"
+                    )
+                return None
 
         return wrapper

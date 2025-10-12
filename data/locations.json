@@ -282,7 +282,10 @@
         "chance": 4,
         "lvl1": "10",
         "lvl2": "15",
-        "time": ["evening", "night"]
+        "time": [
+          "evening",
+          "night"
+        ]
       }
     ],
     "items": [
@@ -334,7 +337,10 @@
       {
         "id": "77",
         "name": "Острый клюв",
-        "time": ["evening", "night"]
+        "time": [
+          "evening",
+          "night"
+        ]
       }
     ]
   },

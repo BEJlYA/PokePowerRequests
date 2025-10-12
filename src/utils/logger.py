@@ -87,7 +87,7 @@ class UniversalLogger:
                 date_str = log_file.stem.replace('session_', '')
                 if date_str not in keep_sessions:
                     log_file.unlink()
-                    self.info(f"Удален лог старой сессии: {log_file.name}")
+                    self.info(f"Old session log deleted: {log_file.name}")
             except:
                 continue
 
@@ -131,9 +131,9 @@ class UniversalLogger:
             "BOT_STARTED", settings_info
         )
 
-    def bot_stop(self, reason="Normal shutdown"):
+    def bot_stop(self, reason=None):
         self.info(
-            f"BOT_STOPPED | Reason: {reason}"
+            "BOT_STOPPED", reason
         )
 
     def battle_start(self, enemy_num, enemy_name, enemy_level, enemy_shine=0):

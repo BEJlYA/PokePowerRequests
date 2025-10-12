@@ -1,5 +1,4 @@
 import asyncio
-import json
 import logging
 
 import aiohttp
@@ -19,8 +18,6 @@ from src.utils.logger import UniversalLogger
 class AiohttpClient:
     def __init__(self, settings: object):
         self.session = None  # Session
-        self.token = None  # Hash token by authorize
-        self.sid = None  # Resulting SID phrase
         self.deception = DeceptionManager()  # Custom generator
         self.tasks = TaskManager()  # Tasks for execution
         self.team = []  # Our team of Pokémon
@@ -56,17 +53,19 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
+            self.logger.info('Successful authorization...')
             await MovementsController.status_authentication(response)
 
     @BotDecorator.safe_request
     async def websocket_sid(self) -> None:
-        self.token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
+        token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
         async with self.session.get(
-                url=f'https://io.pokepower.ru/socket.io/?token={self.token}&EIO={4}&transport=polling&t={await self.deception.gen_t()}',
+                url=f'https://io.pokepower.ru/socket.io/?token={token}&EIO={4}&transport=polling&t={await self.deception.gen_t()}',
                 headers=self.deception.replace_headers(self.session.headers),
                 timeout=10
-        ) as response:
-            self.sid = json.loads(str(await response.text())[1:]).get('sid')
+        ):
+            self.logger.debug('Socket connection successfully established...')
+            return
 
     @BotDecorator.safe_request
     async def init(self) -> None:
@@ -80,6 +79,7 @@ class AiohttpClient:
             await ParseGameData.geo_position(response, self)
             self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
             await MovementsController.confused_effect(response, self)
+            self.logger.debug('Initialization completed, data collected...')
             return response
 
     @BotDecorator.safe_request
@@ -94,6 +94,37 @@ class AiohttpClient:
                 timeout=10
         ) as response:
             await ParseGameData.team_grabber(response, self)
+            self.logger.debug("Successfully collected information about the user's Pokemon team...")
+
+    @BotDecorator.safe_request
+    async def items(self) -> None:
+        async with await self.session.post(
+                url='https://pokepower.ru/do/makasimka',
+                data={
+                    'makasimka': 'true',
+                    'type': 'items',
+                    'cat': 'ball'
+                },
+                timeout=10
+        ) as response:
+            self.pokeballs = await ParseGameData.pokeballs_grabber(response)
+            self.logger.debug(f'Collected data on available pokeballs:\n'
+                              f'        {[[a.name, a.count] for a in self.pokeballs]}')
+            self.tasks.getting_pokeball_id(self.pokeballs)
+            self.logger.debug(f'Received ID of the Pokeball selected for catching - {self.tasks.catchTools}')
+
+    @BotDecorator.safe_request
+    async def get_edit(self) -> None:
+        async with await self.session.post(
+                url='https://pokepower.ru/do/edit',
+                data={
+                    'id': 'edit',
+                    'type': 'open',
+                    'val': 2
+                },
+                timeout=10
+        ) as response:
+            await ParseGameData.battle_settings(response, self)
 
     @BotDecorator.safe_request
     async def update(self) -> None:
@@ -108,37 +139,13 @@ class AiohttpClient:
                     },
                     timeout=10
             ) as response:
-                self.logger.debug('Update request - send')
+                if response.status == 200:
+                    self.logger.debug('Update request - sent')
 
-                await MovementsController.technical_works(response, self)
-                await ResponseChecker.main_handler(response, self)
-
-    @BotDecorator.safe_request
-    async def items(self) -> None:
-        async with await self.session.post(
-                url='https://pokepower.ru/do/makasimka',
-                data={
-                    'makasimka': 'true',
-                    'type': 'items',
-                    'cat': 'ball'
-                },
-                timeout=10
-        ) as response:
-            self.pokeballs = await ParseGameData.pokeballs_grabber(response)
-            self.tasks.getting_pokeball_id(self.pokeballs)
-
-    @BotDecorator.safe_request
-    async def get_edit(self) -> None:
-        async with await self.session.post(
-                url='https://pokepower.ru/do/edit',
-                data={
-                    'id': 'edit',
-                    'type': 'open',
-                    'val': 2
-                },
-                timeout=10
-        ) as response:
-            await ParseGameData.battle_settings(response, self)
+                    await MovementsController.technical_works(response, self)
+                    await ResponseChecker.main_handler(response, self)
+                else:
+                    self.logger.debug('Update request - not sent')
 
     @BotDecorator.safe_request
     async def catch(self, pokeball: int) -> None:
@@ -261,6 +268,7 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
+            self.logger.pokecenter(reason=f"Pokemon has sent to pit - {id_pokemon}")
             await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
@@ -274,5 +282,5 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.logger.pokecenter(reason="Little place for catching")
+            self.logger.pokecenter(reason="Little place for catching, sending pokemon to pit")
             await ResponseChecker.main_handler(response, self)

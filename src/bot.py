@@ -22,7 +22,7 @@ async def main():
 
         await aclient.tasks.check_tasks(aclient)
 
-        await asyncio.create_task(await aclient.update())
+        await aclient.update()
 
 
 if __name__ in '__main__':
