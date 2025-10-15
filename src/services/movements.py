@@ -1,8 +1,8 @@
 import asyncio
-import time
 
 from src.services.navigator import DataLocation
 from src.utils.decorators import BotDecorator
+from src.utils.time_manager import TimeManager
 
 
 class MovementsController:
@@ -15,10 +15,13 @@ class MovementsController:
     @staticmethod
     @BotDecorator.reformat_response
     async def technical_works(json_data: dict, client: object) -> None:
-        if json_data['response']['tech'] == 1:
-            client.logger.warning('Technical work detected')
+        if json_data.get('response', {}).get('tech') == '1':
+            client.logger.warning('Technical work detected...')
 
-            await asyncio.sleep(15 * 60)
+            time_sleep = TimeManager.get_sleep_seconds_until(3, 17)
+            await asyncio.sleep(time_sleep)
+
+            client.logger.warning('Technical work was finished...')
 
     @staticmethod
     @BotDecorator.reformat_response
@@ -28,18 +31,19 @@ class MovementsController:
                 isinstance(json_data['response'].get('effects'), dict) and
                 'confused' in json_data['response']['effects']
         ):
-            sleep_time_end = json_data['response']['effects']['confused']['time']
-            sleep_time_start = time.time()
+            time_sleep = TimeManager.calculate_time(
+                time_end=json_data['response']['effects']['confused']['time']
+            )
 
             client.logger.warning('Confused effect detected')
 
-            await asyncio.sleep(max(0, sleep_time_end - sleep_time_start))
+            await asyncio.sleep(time_sleep)
 
     @staticmethod
     @BotDecorator.reformat_response
     async def migration_error(json_data: dict, id_location: str) -> bool | None:
         if not json_data['response']['error'] == 0:  # Access is prohibited
-            raise Exception('Перемещение невозможно, не выполнено условие')
+            raise Exception(f'Перемещение невозможно, не выполнено условие, ID: {id_location}')
         else:
             return json_data['response']['id'] == id_location
 

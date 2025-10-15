@@ -97,7 +97,7 @@ class DataLocation:
         start_loc = next((loc for loc in locations if loc.id == id_from), None)
 
         if not start_loc:
-            raise Exception(f'Стартовая локация с ID "{id_from}" не найдена')
+            raise Exception(f'Стартовая локация с ID "{id_from}" не найдена, куда: {name_to}')
 
         if isinstance(name_to, str):
             target_names = [name_to.lower()]

@@ -189,6 +189,19 @@ class AiohttpClient:
                 await self.coward()
 
     @BotDecorator.safe_request
+    async def change(self, id_pokemon: str) -> None:
+        async with await self.session.post(
+                url='https://pokepower.ru/do/makasimka',
+                data={
+                    'makasimka': 'true',
+                    'type': 'battle',
+                    'targetPoke': id_pokemon
+                },
+                timeout=10
+        ) as response:
+            pass
+
+    @BotDecorator.safe_request
     async def coward(self) -> None | Exception:
         async with await self.session.post(
                 url='https://pokepower.ru/do/makasimka',
@@ -284,3 +297,15 @@ class AiohttpClient:
         ) as response:
             self.logger.pokecenter(reason="Little place for catching, sending pokemon to pit")
             await ResponseChecker.main_handler(response, self)
+
+    @BotDecorator.safe_request
+    async def npc(self, id_npc: str, answer: bool | str = 'false') -> None:
+        async with await self.session.post(
+                url='https://pokepower.ru/do/Npc/index',
+                data={
+                    'npc': id_npc,
+                    'step': answer,
+                },
+                timeout=10
+        ) as response:
+            pass

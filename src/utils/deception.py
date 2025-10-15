@@ -1,14 +1,15 @@
 import base64
 import platform
 import random
-import time
 from typing import Dict
+
+from src.utils.time_manager import TimeManager
 
 
 class DeceptionManager:
     @staticmethod
     async def gen_t():
-        timestamp = str(int(time.time() * 1000))[-7:]
+        timestamp = TimeManager.get_timestamp_socket()
         return str(base64.b64encode(timestamp.encode("UTF-8")))[2:-3][0:6]
 
     @staticmethod

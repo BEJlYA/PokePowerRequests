@@ -40,36 +40,43 @@ class BotDecorator:
                 except aiohttp.ServerDisconnectedError as e:
                     if client:
                         delay = min(30, 2 ** attempt)
-                        client.logger.warning(
-                            f"{e} in {func.__name__}, "
-                            f"attempt {attempt + 1}/{max_retries}, wait {delay}sec"
-                        )
+                        client.logger.warning(message=
+                                              f"{e} in {func.__name__}, "
+                                              f"attempt {attempt + 1}/{max_retries}, wait {delay}sec"
+                                              )
                         await asyncio.sleep(delay)
 
                     if attempt == max_retries - 1:
-                        client.logger.error(f"Server unavailable after {max_retries} attempts at {func.__name__}")
+                        client.logger.error(
+                            message=f"Server unavailable after {max_retries} attempts at {func.__name__}")
                         return None
 
-                except (aiohttp.ClientConnectorError,
+                except (aiohttp.ClientOSError,
+                        aiohttp.ClientConnectorError,
                         aiohttp.ServerTimeoutError,
-                        asyncio.TimeoutError):
-                    if client:
-                        client.logger.warning(message=f"Internet connection error at: {func.__name__}")
-                    while True:
-                        await asyncio.sleep(10)
-                        try:
-                            async with aiohttp.ClientSession() as session:
-                                async with session.get(
-                                        url="https://google.com",
-                                        timeout=5
-                                ) as response:
-                                    if response.status == 200:
-                                        client.logger.info(message="Internet has been restored, let's continue...")
-                                        break
-                        except:
-                            client.logger.warning(message="Internet is not available yet, we are waiting...")
-                            continue
-                    continue
+                        asyncio.TimeoutError) as e:
+                    if "103" in str(e) or "1236" in str(e):
+                        client.logger.warning(message='The system disconnected network...')
+                        await asyncio.sleep(30)
+                        continue
+                    else:
+                        client.logger.warning(message=f"Internet connection error...")
+                        while True:
+                            await asyncio.sleep(5)
+                            try:
+                                async with aiohttp.ClientSession() as session:
+                                    async with session.get(
+                                            url="https://google.com",
+                                            timeout=5
+                                    ) as response:
+                                        if response.status == 200:
+                                            client.logger.warning(
+                                                message="Internet has been restored, let's continue...")
+                                            break
+                            except:
+                                client.logger.warning(message="Internet is not available yet, we are waiting...")
+                                continue
+                        continue
 
                 except aiohttp.ClientResponseError as e:
                     client.logger.error(
