@@ -22,8 +22,10 @@ class ResponseChecker:
                     client.enemy.name in client.data.rarePokemons[0] and
                     client.enemy.catch == 1
             ):  # Catch rare pokémon
-                for key in sorted(client.data.priorityPokeballs,
-                                  key=client.data.priorityPokeballs.get):  # Super rare Pokémon catch
+                for key in sorted(
+                        client.data.priorityPokeballs,
+                        key=client.data.priorityPokeballs.get
+                ):
                     for ball in client.pokeballs:
                         if key in ball.name:
                             await client.catch(ball.id)
@@ -34,9 +36,12 @@ class ResponseChecker:
                     client.tasks.catchShine and
                     client.enemy.catch == 1
             ):  # Catch shine pokémon
-                for key in sorted(client.data.priorityPokeballs, key=client.data.priorityPokeballs.get):  # Shine catch
+                for key in sorted(
+                        client.data.priorityPokeballs,
+                        key=client.data.priorityPokeballs.get
+                ):
                     for ball in client.pokeballs:
-                        if key in ball.id:
+                        if key in ball.name:
                             await client.catch(ball.id)
                             return
 
