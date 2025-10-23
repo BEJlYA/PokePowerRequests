@@ -1,12 +1,13 @@
 from src.services.battle import MyTarget
 from src.services.navigator import DataLocation
+from utils.exeptions import BotShutdown
 
 
 class TaskManager:
     def __init__(self):
         self.currentFights = 0  # Current number of battles, automatic definition
         self.maxFights = 1500  # Maximum number of battles - 1500
-        self.catchShine = True  # Flag for catching shine Pokémon, by default - TRUE
+        self.catchShiny = True  # Flag for catching shiny Pokémon, by default - TRUE
         self.targetItems = []  # Items for drop [...{'name': '', 'count': ''}...]
         self.targetPokemons = []  # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
         self.catchTools = None  # Name pokeball for catch Pokémon ('Покебол'), by default - NONE
@@ -50,6 +51,11 @@ class TaskManager:
                 for item in client.tasks.targetItems:
                     if item.get('name') == name:
                         item['count'] = max(int(item.get('count')) - count, 0)
+                        client.logger.task_progress(
+                            task_type='ITEM',
+                            name_task=item.get('name'),
+                            remainder=item.get('count'),
+                        )
 
             elif obj_type == 'pokemon':
                 element = MyTarget(client.enemy.id)
@@ -81,6 +87,13 @@ class TaskManager:
                             poke['count'] = max(int(poke.get('count')) - 1, 0)
                             break
 
+                        client.logger.task_progress(
+                            task_type='POKEMON',
+                            name_task=f"{poke.get('num')} {poke.get('name')}",
+                            remainder=poke.get('count'),
+                            gender=poke.get('gender'),
+                        )
+
         client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item.get('count')) > 0]
         client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke.get('count')) > 0]
 
@@ -90,10 +103,10 @@ class TaskManager:
 
     async def check_tasks(self, client: object) -> Exception | None:
         if self.currentFights >= self.maxFights:
-            raise Exception('Исполнено максимально возможное количество боёв за сутки')
+            raise BotShutdown('Исполнено максимально возможное количество боёв за сутки')
 
         elif self.hadTasks and not self.targetItems and not self.targetPokemons:
-            raise Exception('Выполнены все условия поставленных задач!')
+            raise BotShutdown('Выполнены все условия поставленных задач!')
 
         elif self.hadTasks and self.targetItems or self.targetPokemons:
             next_task = self.priority_task()

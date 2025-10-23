@@ -3,6 +3,7 @@ import asyncio
 from src.services.navigator import DataLocation
 from src.utils.decorators import BotDecorator
 from src.utils.time_manager import TimeManager
+from utils.exeptions import BotShutdownError
 
 
 class MovementsController:
@@ -10,7 +11,7 @@ class MovementsController:
     @BotDecorator.reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
-            raise Exception(json_data['text'])
+            raise BotShutdownError(json_data['text'])
 
     @staticmethod
     @BotDecorator.reformat_response
@@ -43,7 +44,7 @@ class MovementsController:
     @BotDecorator.reformat_response
     async def migration_error(json_data: dict, id_location: str) -> bool | None:
         if not json_data['response']['error'] == 0:  # Access is prohibited
-            raise Exception(f'Перемещение невозможно, не выполнено условие, ID: {id_location}')
+            raise BotShutdownError(f'Перемещение невозможно, не выполнено условие, ID: {id_location}')
         else:
             return json_data['response']['id'] == id_location
 

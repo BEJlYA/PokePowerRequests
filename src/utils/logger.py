@@ -131,16 +131,19 @@ class UniversalLogger:
             "BOT_STARTED", settings_info
         )
 
-    def bot_stop(self, reason=None):
+    def bot_stop(self, reason=None, type_reason=None):
+        reason = f" | {reason}" if reason else ""
+        type_reason = f" | '{type_reason}'" if type_reason else ""
+
         self.info(
-            "BOT_STOPPED", reason
+            f"BOT_STOPPED{reason}{type_reason}"
         )
 
-    def battle_start(self, enemy_num, enemy_name, enemy_level, enemy_shine=0):
-        enemy_shine = f" | Shine: +" if enemy_shine == 1 else ""
+    def battle_start(self, enemy_num, enemy_name, enemy_level, enemy_shiny=0):
+        enemy_shiny = f" | Shiny: +" if enemy_shiny == 1 else ""
 
         self.info(
-            f"BATTLE_START | Enemy: #{enemy_num} '{enemy_name}' | Level: {enemy_level}{enemy_shine}"
+            f"BATTLE_START | Enemy: #{enemy_num} '{enemy_name}' | Level: {enemy_level}{enemy_shiny}"
         )
 
     def battle_action(self, action_type, description):
@@ -149,23 +152,23 @@ class UniversalLogger:
         )
 
     def inventory_change(self, name, count=None, change_type=True):
-        change_type = 'Add' if change_type else 'Remove'
+        change_type = 'ADD' if change_type else 'REMOVE'
         count = f" | Count: {count}" if count else ""
 
         self.info(
             f"INVENTORY | {change_type} | {name}{count}"
         )
 
-    def task_progress(self, task_type, current, total, details=None):
-        details_text = f" | Details: {details}" if details else ""
+    def task_progress(self, task_type, name_task, remainder, gender=None):
+        gender = f" | Gender: {gender}" if gender else ""
 
         self.info(
-            f"TASK_PROGRESS | {task_type} | {current}/{total}{details_text}"
+            f"TASK_PROGRESS | {task_type} | {name_task} | {remainder}{gender}"
         )
 
-    def pokecenter(self, reason=None):
+    def pokecenter(self, action, reason=None):
         self.info(
-            f"POKECENTER | Reason: {reason}"
+            f"POKECENTER | {action} | Reason: {reason}"
         )
 
     def get_session_info(self):

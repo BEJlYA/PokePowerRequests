@@ -1,8 +1,11 @@
 import asyncio
 import json
+import traceback
 from functools import wraps
 
 import aiohttp
+
+from utils.exeptions import BotShutdown, BotShutdownError
 
 
 class BotDecorator:
@@ -49,7 +52,7 @@ class BotDecorator:
                     if attempt == max_retries - 1:
                         client.logger.error(
                             message=f"Server unavailable after {max_retries} attempts at {func.__name__}")
-                        return None
+                        raise
 
                 except (aiohttp.ClientOSError,
                         aiohttp.ClientConnectorError,
@@ -58,6 +61,7 @@ class BotDecorator:
                     if "103" in str(e) or "1236" in str(e):
                         client.logger.warning(message='The system disconnected network...')
                         await asyncio.sleep(30)
+
                         continue
                     else:
                         client.logger.warning(message=f"Internet connection error...")
@@ -67,7 +71,7 @@ class BotDecorator:
                                 async with aiohttp.ClientSession() as session:
                                     async with session.get(
                                             url="https://google.com",
-                                            timeout=5
+                                            timeout=30
                                     ) as response:
                                         if response.status == 200:
                                             client.logger.warning(
@@ -76,26 +80,28 @@ class BotDecorator:
                             except:
                                 client.logger.warning(message="Internet is not available yet, we are waiting...")
                                 continue
+
                         continue
 
-                except aiohttp.ClientResponseError as e:
-                    client.logger.error(
-                        message=f"Error HTTP {e.status} в {func.__name__}",
-                        extra_data={e.message}
-                    )
-                except json.JSONDecodeError:
-                    client.logger.error(
-                        message=f"Error JSON in {func.__name__}",
-                    )
-                except KeyError as e:
-                    client.logger.error(
-                        message=f"Key {e} is missing in {func.__name__}",
-                    )
+                except (aiohttp.ClientResponseError,
+                        json.JSONDecodeError,
+                        KeyError,
+                        BotShutdownError) as e:
+                    frame = traceback.extract_tb(e.__traceback__)[-1]
+                    client.logger.error(f"{type(e).__name__} in {frame.name}:{frame.lineno} - {e}")
+                    raise
+
+                except BotShutdown:
+                    raise
+
                 except Exception as e:
+                    frame = traceback.extract_tb(e.__traceback__)[-1]
                     client.logger.error(
-                        message=f"Error in {func.__name__}",
+                        message=f"Error in {frame.name}: {frame.lineno}",
                         extra_data=f"{type(e).__name__}: {e}"
                     )
-                return None
+                    raise
+
+            return None
 
         return wrapper

@@ -10,18 +10,22 @@ class ResponseChecker:
         if json_data.get('battleInfo') and not json_data.get('logDrop'):
             await ParseGameData.update_enemy(json_data, client)
 
-            client.logger.battle_start(
-                enemy_num=client.enemy.basenum2,
-                enemy_name=client.enemy.name,
-                enemy_level=client.enemy.lvl,
-                enemy_shine=client.enemy.type_text_color
-            )
+            if not json_data.get('battleInfo').get('log'):
+                client.logger.battle_start(
+                    enemy_num=client.enemy.basenum2,
+                    enemy_name=client.enemy.name,
+                    enemy_level=client.enemy.lvl,
+                    enemy_shiny=client.enemy.type_text_color
+                )
 
             if (
                     client.enemy.basenum2 in client.data.rarePokemons[0] or
                     client.enemy.name in client.data.rarePokemons[0] and
                     client.enemy.catch == 1
             ):  # Catch rare pokémon
+                client.logger.info(
+                    message='Rare pokemon detected...'
+                )
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -33,9 +37,12 @@ class ResponseChecker:
 
             elif (
                     client.enemy.type_text_color == 1 and
-                    client.tasks.catchShine and
+                    client.tasks.catchShiny and
                     client.enemy.catch == 1
-            ):  # Catch shine pokémon
+            ):  # Catch shiny pokémon
+                client.logger.info(
+                    message='Shiny pokemon detected...'
+                )
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -60,6 +67,9 @@ class ResponseChecker:
                         if isinstance(targetPokemon, dict)
                     )
             ):  # Catch certain pokémon
+                client.logger.info(
+                    message='Pokemon from task detected...'
+                )
                 await client.catch(client.tasks.catchTools)
 
             else:  # Else kill pokémon

@@ -10,7 +10,7 @@ class MyTarget:
         self.sparka = None  # Mating availability
         self.sparkaNumber = None  # Mating compatibility
         self.start = None  # Priority flag
-        self.type_text_color = None  # 0/1 - (Dont) shine pokemon
+        self.type_text_color = None  # 0/1 - (Dont) shiny pokemon
 
     def add_info(
             self, basenum2: int, gender: str, hp: int, lvl: int,
@@ -56,7 +56,7 @@ class EnemyTarget:
         self.hp = None  # Amount HP
         self.lvl = None  # Pokémon level
         self.sex2 = None  # Pokemon gender (venus/mars/genderless)
-        self.type_text_color = None  # 0/1 - (Dont) shine pokemon
+        self.type_text_color = None  # 0/1 - (Dont) shiny pokemon
         self.catch = 1  # 1/0 - Can/Can't be caught
 
     def add_info(

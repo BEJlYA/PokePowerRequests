@@ -13,6 +13,7 @@ from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
 from src.utils.logger import UniversalLogger
+from utils.exeptions import BotShutdownError
 
 
 class AiohttpClient:
@@ -37,10 +38,13 @@ class AiohttpClient:
         self.logger.bot_start()
         return self
 
-    async def __aexit__(self, exc_type, exc, tb):
+    async def __aexit__(self, exc_type=None, exc_val=None, exc_tb=None) -> None:
         if self.session:
             await self.session.close()
-            self.logger.bot_stop()
+            self.logger.bot_stop(
+                reason=exc_type.__name__,
+                type_reason=exc_val
+            )
 
     @BotDecorator.safe_request
     async def auth(self, settings: object) -> None:
@@ -53,8 +57,8 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.logger.info('Successful authorization...')
             await MovementsController.status_authentication(response)
+            self.logger.debug('Successful authorization...')
 
     @BotDecorator.safe_request
     async def websocket_sid(self) -> None:
@@ -160,11 +164,17 @@ class AiohttpClient:
         ) as response:
             for element in self.pokeballs:
                 if pokeball == element.id:
+                    self.logger.battle_action(
+                        action_type=f"CATCH",
+                        description=f"{element.name}: {element.count}"
+                    )
+
                     element.reduce_count_pokeball()
 
-                    self.logger.battle_action(
-                        action_type=f"Catch",
-                        description=f"{element.name}: {element.count}"
+                    self.logger.inventory_change(
+                        name=element.name,
+                        count=element.count,
+                        change_type=False
                     )
             await ResponseChecker.main_handler(response, self)
 
@@ -181,7 +191,7 @@ class AiohttpClient:
         ) as response:
             if response.status == 200:
                 self.logger.battle_action(
-                    action_type=f"Attack",
+                    action_type=f"ATTACK",
                     description=f"{attack[2]}: {attack[3]}/{attack[4]}"
                 )
                 await ResponseChecker.main_handler(response, self)
@@ -199,7 +209,10 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            pass
+            self.logger.battle_action(
+                action_type=f"CHANGE",
+                description=f"Change current pokemon to: {id_pokemon}"
+            )
 
     @BotDecorator.safe_request
     async def coward(self) -> None | Exception:
@@ -213,12 +226,12 @@ class AiohttpClient:
         ) as response:
             if response.status == 200:
                 self.logger.battle_action(
-                    action_type=f"Coward",
+                    action_type=f"COWARD",
                     description="Pokemon has low level HP"
                 )
                 await MovementsController.pokemon_health(response, self)
             else:
-                raise Exception("Not possible to run away")
+                raise BotShutdownError("Not possible to run away")
 
     @BotDecorator.safe_request
     async def route(self, id_location: str, fallback_target: str = 'Покецентр') -> None | bool:
@@ -267,7 +280,10 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.logger.pokecenter(reason="Pokemon has a small amount of HP")
+            self.logger.pokecenter(
+                action='HEAL',
+                reason="Pokemon has a small amount of HP"
+            )
             await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
@@ -281,7 +297,16 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.logger.pokecenter(reason=f"Pokemon has sent to pit - {id_pokemon}")
+            self.logger.pokecenter(
+                action='SEND_PIT',
+                reason=f"Pokemon has sent to pit - {id_pokemon}"
+            )
+            for pokemon in client.team:
+                if pokemon.id == pokemon_id:
+                    self.logger.inventory_change(
+                        name=f"{pokemon.basenum2} {pokemon.name}",
+                        change_type=False
+                    )
             await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
@@ -295,7 +320,16 @@ class AiohttpClient:
                 },
                 timeout=10
         ) as response:
-            self.logger.pokecenter(reason="Little place for catching, sending pokemon to pit")
+            self.logger.pokecenter(
+                action='SEND_PIT',
+                reason="Little place for catching, sending pokemon to pit"
+            )
+            for pokemon in client.team:
+                if not pokemon.id == pokemon_id:
+                    self.logger.inventory_change(
+                        name=f"{pokemon.basenum2} {pokemon.name}",
+                        change_type=False
+                    )
             await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
