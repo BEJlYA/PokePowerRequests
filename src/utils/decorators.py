@@ -4,7 +4,6 @@ import traceback
 from functools import wraps
 
 import aiohttp
-
 from utils.exeptions import BotShutdown, BotShutdownError
 
 

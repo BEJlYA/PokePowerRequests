@@ -19,8 +19,8 @@ class ResponseChecker:
                 )
 
             if (
-                    client.enemy.basenum2 in client.data.rarePokemons[0] or
-                    client.enemy.name in client.data.rarePokemons[0] and
+                    (client.enemy.basenum2 in client.data.rarePokemons[0] or
+                     client.enemy.name in client.data.rarePokemons[1]) and
                     client.enemy.catch == 1
             ):  # Catch rare pokémon
                 client.logger.info(

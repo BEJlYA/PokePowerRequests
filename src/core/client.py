@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 import aiohttp
+from utils.exeptions import BotShutdownError
 
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget
@@ -13,7 +14,6 @@ from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
 from src.utils.logger import UniversalLogger
-from utils.exeptions import BotShutdownError
 
 
 class AiohttpClient:

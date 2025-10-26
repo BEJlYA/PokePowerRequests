@@ -1,9 +1,10 @@
 import asyncio
 
+from utils.exeptions import BotShutdownError
+
 from src.services.navigator import DataLocation
 from src.utils.decorators import BotDecorator
 from src.utils.time_manager import TimeManager
-from utils.exeptions import BotShutdownError
 
 
 class MovementsController:
