@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 import aiohttp
-from utils.exeptions import BotShutdownError
+from src.src.utils.exeptions import BotShutdownError
 
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget

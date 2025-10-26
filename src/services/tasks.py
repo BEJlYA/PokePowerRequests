@@ -1,7 +1,6 @@
-from utils.exeptions import BotShutdown
-
 from src.services.battle import MyTarget
 from src.services.navigator import DataLocation
+from src.utils.exeptions import BotShutdown
 
 
 class TaskManager:

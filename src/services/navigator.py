@@ -2,7 +2,7 @@ import json
 from collections import deque
 from typing import Union, List
 
-from utils.exeptions import BotShutdownError
+from src.utils.exeptions import BotShutdownError
 
 
 class MyPosition:
