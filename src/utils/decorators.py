@@ -75,7 +75,8 @@ class BotDecorator:
                                     ) as response:
                                         if response.status == 200:
                                             client.logger.warning(
-                                                message="Internet has been restored, let's continue...")
+                                                message="Internet has been restored, let's continue...",
+                                                exc=func.__name__)
                                             break
                             except:
                                 client.logger.warning(message="Internet is not available yet, we are waiting...")

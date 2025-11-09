@@ -80,12 +80,10 @@ class TaskManager:
 
                     if poke['num'] == part.get('num') or poke['name'] == part.get('name'):
 
-                        if poke.get('gender') is None:
+                        if poke.get('gender') == 'any':
                             poke['count'] = max(int(poke.get('count')) - 1, 0)
-                            break
                         elif poke.get('gender') == client.enemy.sex2:
                             poke['count'] = max(int(poke.get('count')) - 1, 0)
-                            break
 
                         client.logger.task_progress(
                             task_type='POKEMON',
@@ -93,6 +91,7 @@ class TaskManager:
                             remainder=poke.get('count'),
                             gender=poke.get('gender'),
                         )
+                        break
 
         client.tasks.targetItems = [item for item in client.tasks.targetItems if int(item.get('count')) > 0]
         client.tasks.targetPokemons = [poke for poke in client.tasks.targetPokemons if int(poke.get('count')) > 0]

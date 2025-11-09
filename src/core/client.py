@@ -2,7 +2,6 @@ import asyncio
 import logging
 
 import aiohttp
-from src.src.utils.exeptions import BotShutdownError
 
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget
@@ -13,6 +12,7 @@ from src.services.parser import ParseGameData
 from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
+from src.utils.exeptions import BotShutdownError
 from src.utils.logger import UniversalLogger
 
 

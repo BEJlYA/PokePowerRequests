@@ -23,9 +23,10 @@ class ResponseChecker:
                      client.enemy.name in client.data.rarePokemons[1]) and
                     client.enemy.catch == 1
             ):  # Catch rare pokémon
-                client.logger.info(
-                    message='Rare pokemon detected...'
-                )
+                if not json_data.get('battleInfo').get('log'):
+                    client.logger.info(
+                        message='Rare pokemon detected...'
+                    )
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -40,9 +41,10 @@ class ResponseChecker:
                     client.tasks.catchShiny and
                     client.enemy.catch == 1
             ):  # Catch shiny pokémon
-                client.logger.info(
-                    message='Shiny pokemon detected...'
-                )
+                if not json_data.get('battleInfo').get('log'):
+                    client.logger.info(
+                        message='Shiny pokemon detected...'
+                    )
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -67,9 +69,10 @@ class ResponseChecker:
                         if isinstance(targetPokemon, dict)
                     )
             ):  # Catch certain pokémon
-                client.logger.info(
-                    message='Pokemon from task detected...'
-                )
+                if not json_data.get('battleInfo').get('log'):
+                    client.logger.info(
+                        message='Pokemon from task detected...'
+                    )
                 await client.catch(client.tasks.catchTools)
 
             else:  # Else kill pokémon
