@@ -6,6 +6,6 @@
 # Parser of pokemon world data
 /.data_parser/
 
-# Future update
+# Developer files
 /src/bot_clone.py
 

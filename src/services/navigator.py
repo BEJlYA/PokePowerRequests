@@ -99,7 +99,7 @@ class DataLocation:
         start_loc = next((loc for loc in locations if loc.id == id_from), None)
 
         if not start_loc:
-            raise BotShutdownError(f'Стартовая локация с ID "{id_from}" не найдена, куда: {name_to}')
+            raise BotShutdownError(message=f'Стартовая локация с ID "{id_from}" не найдена, куда: {name_to}')
 
         if isinstance(name_to, str):
             target_names = [name_to.lower()]
@@ -113,7 +113,7 @@ class DataLocation:
                 target_locations.append(loc)
 
         if not target_locations:
-            raise BotShutdownError(f'Целевые локации "{name_to}" не найдены')
+            raise BotShutdownError(message=f'Целевые локации "{name_to}" не найдены')
 
         all_paths = []
         for target_loc in target_locations:
@@ -125,7 +125,7 @@ class DataLocation:
                 all_paths.append((len(path), path))
 
         if not all_paths:
-            raise BotShutdownError(f'Пути из "{start_loc.name}" в "{name_to}" не найдены')
+            raise BotShutdownError(message=f'Пути из "{start_loc.name}" в "{name_to}" не найдены')
 
         shortest_path = min(all_paths, key=lambda x: x[0])[1]
         return [loc.id for loc in shortest_path][1:]

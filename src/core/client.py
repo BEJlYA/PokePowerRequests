@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 import aiohttp
@@ -42,7 +41,7 @@ class AiohttpClient:
         if self.session:
             await self.session.close()
             self.logger.bot_stop(
-                reason=exc_type.__name__,
+                reason=exc_type,
                 type_reason=exc_val
             )
 
@@ -132,8 +131,6 @@ class AiohttpClient:
 
     @BotDecorator.safe_request
     async def update(self) -> None:
-        while True:
-            await asyncio.sleep(3)
             async with await self.session.post(
                     url='https://pokepower.ru/do/update',
                     data={
@@ -231,7 +228,7 @@ class AiohttpClient:
                 )
                 await MovementsController.pokemon_health(response, self)
             else:
-                raise BotShutdownError("Not possible to run away")
+                raise BotShutdownError(message="Not possible to run away")
 
     @BotDecorator.safe_request
     async def route(self, id_location: str, fallback_target: str = 'Покецентр') -> None | bool:

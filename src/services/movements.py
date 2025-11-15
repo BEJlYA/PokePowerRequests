@@ -11,18 +11,18 @@ class MovementsController:
     @BotDecorator.reformat_response
     async def status_authentication(json_data: dict) -> None:
         if json_data['error'] == 1:
-            raise BotShutdownError(json_data['text'])
+            raise BotShutdownError(message=json_data['text'])
 
     @staticmethod
     @BotDecorator.reformat_response
     async def technical_works(json_data: dict, client: object) -> None:
         if json_data.get('response', {}).get('tech') == '1':
-            client.logger.warning('Technical work detected...')
+            client.logger.warning(message='Technical work detected...')
 
             time_sleep = TimeManager.get_sleep_seconds_until(3, 17)
             await asyncio.sleep(time_sleep)
 
-            client.logger.warning('Technical work was finished...')
+            client.logger.warning(message='Technical work was finished...')
 
     @staticmethod
     @BotDecorator.reformat_response
@@ -36,7 +36,7 @@ class MovementsController:
                 time_end=json_data['response']['effects']['confused']['time']
             )
 
-            client.logger.warning('Confused effect detected')
+            client.logger.warning(message='Confused effect detected')
 
             await asyncio.sleep(time_sleep)
 

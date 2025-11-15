@@ -102,10 +102,10 @@ class TaskManager:
 
     async def check_tasks(self, client: object) -> Exception | None:
         if self.currentFights >= self.maxFights:
-            raise BotShutdown('Исполнено максимально возможное количество боёв за сутки')
+            raise BotShutdown(message='Исполнено максимально возможное количество боёв за сутки')
 
         elif self.hadTasks and not self.targetItems and not self.targetPokemons:
-            raise BotShutdown('Выполнены все условия поставленных задач!')
+            raise BotShutdown(message='Выполнены все условия поставленных задач!')
 
         elif self.hadTasks and self.targetItems or self.targetPokemons:
             next_task = self.priority_task()
