@@ -72,7 +72,7 @@ class ResponseChecker:
             else:  # Else kill pokémon
                 await client.enemy.calculate_attack(client)
 
-        elif json_data.get('response').get('f') == 1:
+        elif 'response' in json_data and json_data.get('response').get('f') == 1:
             client.logger.info(message='Missed battle discovered...')
             response = await aclient.init()
             await ResponseChecker.main_handler(response, aclient)
