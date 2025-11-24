@@ -54,8 +54,7 @@ class BotDecorator:
                     try:
                         async with aiohttp.ClientSession() as session:
                             async with session.get(
-                                    url="https://google.com",
-                                    timeout=30
+                                    url="https://google.com"
                             ) as response:
                                 if response.status == 200:
                                     client.logger.warning(message="Internet restored! Repeating request...")
@@ -86,7 +85,5 @@ class BotDecorator:
                     extra_data=f"{type(e).__name__}: {e}"
                 )
                 raise
-
-            return None
 
         return wrapper

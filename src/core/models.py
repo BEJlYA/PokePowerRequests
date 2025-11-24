@@ -24,9 +24,7 @@ class ResponseChecker:
                     client.enemy.catch == 1
             ):  # Catch rare pokémon
                 if not json_data.get('battleInfo').get('log'):
-                    client.logger.info(
-                        message='Rare pokemon detected...'
-                    )
+                    client.logger.info(message='Rare pokemon detected...')
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -42,9 +40,7 @@ class ResponseChecker:
                     client.enemy.catch == 1
             ):  # Catch shiny pokémon
                 if not json_data.get('battleInfo').get('log'):
-                    client.logger.info(
-                        message='Shiny pokemon detected...'
-                    )
+                    client.logger.info(message='Shiny pokemon detected...')
                 for key in sorted(
                         client.data.priorityPokeballs,
                         key=client.data.priorityPokeballs.get
@@ -70,13 +66,16 @@ class ResponseChecker:
                     )
             ):  # Catch certain pokémon
                 if not json_data.get('battleInfo').get('log'):
-                    client.logger.info(
-                        message='Pokemon from task detected...'
-                    )
+                    client.logger.info(message='Pokemon from task detected...')
                 await client.catch(client.tasks.catchTools)
 
             else:  # Else kill pokémon
                 await client.enemy.calculate_attack(client)
+
+        elif json_data.get('response').get('f') == 1:
+            client.logger.info(message='Missed battle discovered...')
+            response = await aclient.init()
+            await ResponseChecker.main_handler(response, aclient)
 
         elif 'logDrop' in json_data:
             await client.tasks.check_drop(client, json_data['logDrop'])

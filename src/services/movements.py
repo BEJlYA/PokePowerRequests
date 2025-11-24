@@ -19,7 +19,7 @@ class MovementsController:
         if json_data.get('response', {}).get('tech') == '1':
             client.logger.warning(message='Technical work detected...')
 
-            time_sleep = TimeManager.get_sleep_seconds_until(3, 17)
+            time_sleep = TimeManager.get_sleep_seconds_until(3, 25)
             await asyncio.sleep(time_sleep)
 
             client.logger.warning(message='Technical work was finished...')

@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 import aiohttp
@@ -53,8 +54,7 @@ class AiohttpClient:
                 data={
                     'login': settings.login,
                     'password': settings.password
-                },
-                timeout=10
+                }
         ) as response:
             await MovementsController.status_authentication(response)
             self.logger.debug('Successful authorization...')
@@ -64,8 +64,7 @@ class AiohttpClient:
         token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
         async with self.session.get(
                 url=f'https://io.pokepower.ru/socket.io/?token={token}&EIO={4}&transport=polling&t={await self.deception.gen_t()}',
-                headers=self.deception.replace_headers(self.session.headers),
-                timeout=10
+                headers=self.deception.replace_headers(self.session.headers)
         ):
             self.logger.debug('Socket connection successfully established...')
             return
@@ -76,8 +75,7 @@ class AiohttpClient:
                 url='https://pokepower.ru/do/init',
                 data={
                     'id': 'init',
-                },
-                timeout=10
+                }
         ) as response:
             await ParseGameData.geo_position(response, self)
             self.route_map = DataLocation.delete_excess(self.position.region, self.route_map)
@@ -93,8 +91,7 @@ class AiohttpClient:
                     'id': 'pokemons',
                     'type': 'open',
                     'val': '2'
-                },
-                timeout=10
+                }
         ) as response:
             await ParseGameData.team_grabber(response, self)
             self.logger.debug("Successfully collected information about the user's Pokemon team...")
@@ -107,8 +104,7 @@ class AiohttpClient:
                     'makasimka': 'true',
                     'type': 'items',
                     'cat': 'ball'
-                },
-                timeout=10
+                }
         ) as response:
             self.pokeballs = await ParseGameData.pokeballs_grabber(response)
             self.logger.debug(f'Collected data on available pokeballs:\n'
@@ -124,21 +120,20 @@ class AiohttpClient:
                     'id': 'edit',
                     'type': 'open',
                     'val': 2
-                },
-                timeout=10
+                }
         ) as response:
             await ParseGameData.battle_settings(response, self)
 
     @BotDecorator.safe_request
     async def update(self) -> None:
+        while True:
             async with await self.session.post(
                     url='https://pokepower.ru/do/update',
                     data={
                         'id': 'update',
                         'type': 'every',
                         'assault': self.assault
-                    },
-                    timeout=10
+                    }
             ) as response:
                 if response.status == 200:
                     self.logger.debug('Update request - sent')
@@ -147,6 +142,7 @@ class AiohttpClient:
                     await ResponseChecker.main_handler(response, self)
                 else:
                     self.logger.debug('Update request - not sent')
+            await asyncio.sleep(3)
 
     @BotDecorator.safe_request
     async def catch(self, pokeball: int) -> None:
@@ -156,8 +152,7 @@ class AiohttpClient:
                     'makasimka': 'true',
                     'type': 'battle',
                     'catch': f'{pokeball}'
-                },
-                timeout=10
+                }
         ) as response:
             for element in self.pokeballs:
                 if pokeball == element.id:
@@ -183,8 +178,7 @@ class AiohttpClient:
                     'makasimka': 'true',
                     'type': 'battle',
                     'targetAtk': attack[1]
-                },
-                timeout=10
+                }
         ) as response:
             if response.status == 200:
                 self.logger.battle_action(
@@ -203,8 +197,7 @@ class AiohttpClient:
                     'makasimka': 'true',
                     'type': 'battle',
                     'targetPoke': id_pokemon
-                },
-                timeout=10
+                }
         ) as response:
             self.logger.battle_action(
                 action_type=f"CHANGE",
@@ -238,8 +231,7 @@ class AiohttpClient:
                     'id': 'route',
                     'type': 'go',
                     'val': id_location
-                },
-                timeout=10
+                }
         ) as response:
             self.logger.debug(f"Move to - {id_location}")
 
@@ -274,8 +266,7 @@ class AiohttpClient:
                     'id': 'npc',
                     'type': 'addons',
                     'val[]': 'heal'
-                },
-                timeout=10
+                }
         ) as response:
             self.logger.pokecenter(
                 action='HEAL',
@@ -291,8 +282,7 @@ class AiohttpClient:
                     'id': 'pokemons',
                     'type': 'action',
                     'val[]': ['gopit', id_pokemon],  # ID Pokémon, which should be sent
-                },
-                timeout=10
+                }
         ) as response:
             self.logger.pokecenter(
                 action='SEND_PIT',
@@ -314,8 +304,7 @@ class AiohttpClient:
                     'id': 'pokemons',
                     'type': 'action',
                     'val[]': ['gopitAll', id_pokemon],  # ID Pokémon of which must be left
-                },
-                timeout=10
+                }
         ) as response:
             self.logger.pokecenter(
                 action='SEND_PIT',
@@ -336,7 +325,6 @@ class AiohttpClient:
                 data={
                     'npc': id_npc,
                     'step': answer,
-                },
-                timeout=10
+                }
         ) as response:
             pass
