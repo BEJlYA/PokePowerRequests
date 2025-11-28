@@ -281,7 +281,8 @@ class AiohttpClient:
                 data={
                     'id': 'pokemons',
                     'type': 'action',
-                    'val[]': ['gopit', id_pokemon],  # ID Pokémon, which should be sent
+                    'val[]': ['gopit'],
+                    'val[1][]': [id_pokemon],  # ID Pokémon, which should be sent
                 }
         ) as response:
             self.logger.pokecenter(
@@ -303,15 +304,16 @@ class AiohttpClient:
                 data={
                     'id': 'pokemons',
                     'type': 'action',
-                    'val[]': ['gopitAll', id_pokemon],  # ID Pokémon of which must be left
+                    'val[]': ['gopitAll'],
+                    'val[1][]': [id_pokemon]  # ID Pokémon of which must be left
                 }
         ) as response:
             self.logger.pokecenter(
                 action='SEND_PIT',
                 reason="Little place for catching, sending pokemon to pit"
             )
-            for pokemon in client.team:
-                if not pokemon.id == pokemon_id:
+            for pokemon in self.team:
+                if not pokemon.id == id_pokemon:
                     self.logger.inventory_change(
                         name=f"{pokemon.basenum2} {pokemon.name}",
                         change_type=False

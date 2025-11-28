@@ -79,6 +79,7 @@ class MovementsController:
                 active_pokemon = next((p for p in client.team if p.start == '1'),
                                       client.team[0] if client.team else None)
                 await client.send_more_pit(active_pokemon.id)
+                client.team = [active_pokemon]
 
             path = DataLocation.find_shortest_named_path(
                 client.position.id,

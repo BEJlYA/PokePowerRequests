@@ -42,6 +42,7 @@ class BotDecorator:
                     aiohttp.ClientOSError,
                     aiohttp.ClientConnectorError,
                     aiohttp.ServerTimeoutError,
+                    aiohttp.ClientConnectorDNSError,
                     asyncio.TimeoutError) as e:
                 client.logger.warning(message=
                                       f"Network error in {func.__name__}: {type(e).__name__}\n"
