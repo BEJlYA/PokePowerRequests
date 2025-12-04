@@ -16,10 +16,12 @@ class MovementsController:
     @staticmethod
     @BotDecorator.reformat_response
     async def technical_works(json_data: dict, client: object) -> None:
-        if json_data.get('response', {}).get('tech') == '1':
+        tm = TimeManager()
+        if json_data.get('response', {}).get('tech') == '1' \
+                and tm.is_time_in_range(3, 4):
             client.logger.warning(message='Technical work detected...')
 
-            time_sleep = TimeManager.get_sleep_seconds_until(3, 25)
+            time_sleep = tm.get_sleep_seconds_until(3, 25)
             await asyncio.sleep(time_sleep)
 
             client.logger.warning(message='Technical work was finished...')
@@ -49,14 +51,21 @@ class MovementsController:
             return json_data['response']['id'] == id_location
 
     @staticmethod
-    @BotDecorator.reformat_response
-    async def pokemon_health(json_data: dict, client: object) -> None:
+    async def pokemon_health(client: object) -> None:
+        injured = []
+        for pokemon in client.team:
+            injured.append(pokemon.need_heal())
+
+        queue = []
+        if len(client.team) >= 6:
+            for pokemon in client.team:
+                if pokemon.catchedNow:
+                    queue.append(pokemon)
+
         if (
-                float(json_data['battleInfo']['myTarget']['hp']) <=
-                float(json_data['battleInfo']['myTarget']['hp_max'] * 0.3) or
-                len(client.team) >= 6 or
-                next((p for p in client.team if p.start == '1'),
-                     client.team[0] if client.team else None).last_atk() <= 1
+                injured.count(False) < 1 or
+                len(client.team) >= 6 and len(queue) > 0 or
+                client.tasks.notChangeHero and injured.count(True) >= 1
         ):
             client.assault = 'false'
             path = DataLocation.find_shortest_named_path(
@@ -75,11 +84,16 @@ class MovementsController:
             await client.heal_npc()
             for pokemon in client.team:
                 pokemon.restore_pp()
-            if len(client.team) >= 6:
-                active_pokemon = next((p for p in client.team if p.start == '1'),
-                                      client.team[0] if client.team else None)
-                await client.send_more_pit(active_pokemon.id)
-                client.team = [active_pokemon]
+
+            await client.pokemons()
+            if len(queue) >= 5:
+                for pokemon in client.team:
+                    if pokemon not in queue:
+                        await client.send_more_pit(pokemon.id)
+                        client.team = [pokemon]
+            else:
+                for pokemon in queue:
+                    await client.send_once_pit(pokemon.id)
 
             path = DataLocation.find_shortest_named_path(
                 client.position.id,

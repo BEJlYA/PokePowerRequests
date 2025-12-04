@@ -12,12 +12,14 @@ class TaskManager:
         self.targetPokemons = []  # List catchable Pokémon [...{'num': '', 'name': '', 'gender': 'venus/mars/genderless/any', 'count': ''}...]
         self.catchTools = None  # Name pokeball for catch Pokémon ('Покебол'), by default - NONE
         self.hadTasks = False  # FALSE - disconnect of tasks
+        self.notChangeHero = True  # TRUE - don't change pokémon in battle
 
-    def add_info(self, target_items: list, target_pokemons: list, catch_tools: str) -> None:
+    def add_info(self, target_items: list, target_pokemons: list, catch_tools: str, notChangeHero: bool) -> None:
         self.targetItems = sorted(target_items, key=lambda item: int(item.get('count', 0)))
         self.targetPokemons = sorted(target_pokemons, key=lambda poke: int(poke.get('count', 0)))
         self.catchTools = catch_tools
         self.hadTasks = bool(target_items or target_pokemons)
+        self.notChangeHero = notChangeHero
 
     def priority_task(self) -> dict | None:
         if not self.hadTasks:
@@ -58,22 +60,27 @@ class TaskManager:
                         )
 
             elif obj_type == 'pokemon':
-                element = MyTarget(client.enemy.id)
-                element.add_info(
+                pokemon = MyTarget(client.enemy.id)
+                pokemon.add_info(
                     basenum2=client.enemy.basenum2,
                     gender=client.enemy.sex2,
                     hp=client.enemy.hp,
+                    maxHp=client.enemy.maxHp,
                     lvl=client.enemy.lvl,
                     name=client.enemy.name,
                     sparka='',
                     sparka_number=0,
+                    type_text_color=client.enemy.type_text_color,
+                    item_id='0',
                     start=0,
-                    type_text_color=client.enemy.type_text_color
+                    nowOnBattle=False,
+                    catched_Now=True
                 )
-                client.team.append(element)
+                client.team.append(pokemon)
 
-                client.logger.inventory_change(
-                    name='#' + client.enemy.basenum2 + '' + client.enemy.name,
+                client.logger.team_action(
+                    action_type="ADD",
+                    description=f"Pokemon caught: #{pokemon.basenum2} {pokemon.name}"
                 )
 
                 for poke in client.tasks.targetPokemons:

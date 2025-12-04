@@ -18,7 +18,20 @@ class ResponseChecker:
                     enemy_shiny=client.enemy.type_text_color
                 )
 
+            await ParseGameData.update_ally(json_data, client)
+
+            for injured in client.team:
+                if injured.nowOnBattle and injured.need_heal() and not client.tasks.notChangeHero:
+                    injured.start = 0
+                    for pokemon in client.team:
+                        if not pokemon.need_heal() and not pokemon.item_id == '10002':
+                            await client.change(pokemon=pokemon)
+                            await client.start(pokemon=pokemon)
+                            pokemon.start = 1
+                            return
+
             if (
+                    len(client.team) < 6 and
                     (client.enemy.basenum2 in client.data.rarePokemons[0] or
                      client.enemy.name in client.data.rarePokemons[1]) and
                     client.enemy.catch == 1
@@ -35,6 +48,7 @@ class ResponseChecker:
                             return
 
             elif (
+                    len(client.team) < 6 and
                     client.enemy.type_text_color == 1 and
                     client.tasks.catchShiny and
                     client.enemy.catch == 1
@@ -51,6 +65,7 @@ class ResponseChecker:
                             return
 
             elif (
+                    len(client.team) < 6 and
                     client.tasks.targetPokemons and
                     client.enemy.catch == 1 and
                     any(
@@ -72,11 +87,11 @@ class ResponseChecker:
             else:  # Else kill pokémon
                 await client.enemy.calculate_attack(client)
 
-        elif 'response' in json_data and json_data.get('response').get('f') == 1:
+        elif 'response' in json_data and json_data.get('response').get('f') == 1:  # Detect missed battle
             client.logger.info(message='Missed battle discovered...')
-            response = await aclient.init()
-            await ResponseChecker.main_handler(response, aclient)
+            response = await client.init()
+            await ResponseChecker.main_handler(response, client)
 
-        elif 'logDrop' in json_data:
+        elif 'logDrop' in json_data:  # Process results of battle
             await client.tasks.check_drop(client, json_data['logDrop'])
-            await MovementsController.pokemon_health(json_data, client)
+            await MovementsController.pokemon_health(client)

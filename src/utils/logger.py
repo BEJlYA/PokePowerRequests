@@ -131,12 +131,13 @@ class UniversalLogger:
             "BOT_STARTED", settings_info
         )
 
-    def bot_stop(self, reason=None, type_reason=None):
+    def bot_stop(self, reason=None, des_reason=None, traceback=None):
         reason = f" | {reason}" if reason else ""
-        type_reason = f" | '{type_reason}'" if type_reason else ""
+        des_reason = f" | {des_reason}" if des_reason else ""
+        traceback = f" | {traceback}" if traceback else " |"
 
         self.info(
-            f"BOT_STOPPED{reason}{type_reason}"
+            f"BOT_STOPPED{reason}{des_reason}{traceback}"
         )
 
     def battle_start(self, enemy_num, enemy_name, enemy_level, enemy_shiny=0):
@@ -149,6 +150,11 @@ class UniversalLogger:
     def battle_action(self, action_type, description):
         self.info(
             f"BATTLE_ACTION | {action_type} | Description: {description}"
+        )
+
+    def team_action(self, action_type, description):
+        self.info(
+            f"TEAM_ACTION | {action_type} | Description: {description}"
         )
 
     def inventory_change(self, name, count=None, change_type=True):

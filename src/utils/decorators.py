@@ -5,7 +5,7 @@ from functools import wraps
 
 import aiohttp
 
-from src.utils.exeptions import BotShutdown, BotShutdownError
+from src.utils.exeptions import BotShutdown, BotShutdownError, BotNotify
 
 
 class BotDecorator:
@@ -44,10 +44,7 @@ class BotDecorator:
                     aiohttp.ServerTimeoutError,
                     aiohttp.ClientConnectorDNSError,
                     asyncio.TimeoutError) as e:
-                client.logger.warning(message=
-                                      f"Network error in {func.__name__}: {type(e).__name__}\n"
-                                      f"Waiting for internet restoration..."
-                                      )
+                client.logger.warning(message=f"Waiting for internet restoration...")
 
                 while True:
                     await asyncio.sleep(5)
@@ -68,21 +65,29 @@ class BotDecorator:
 
                 return await func(*args, **kwargs)
 
-            except (aiohttp.ClientResponseError,
-                    json.JSONDecodeError,
-                    KeyError,
-                    BotShutdownError) as e:
+            except BotNotify as e:
+                client.logger.warning(
+                    message=f'{e.message}')
+                return await func(*args, **kwargs)
+
+            except BotShutdownError as e:
                 frame = traceback.extract_tb(e.__traceback__)[-1]
-                client.logger.error(f"{type(e).__name__} in {frame.name}:{frame.lineno} - {e}")
+                client.logger.error(
+                    message=f"Сlient crashed due to {frame.name}: {frame.lineno}",
+                    extra_data=f"{type(e).__name__}: {e}"
+                )
                 raise
 
             except BotShutdown:
                 raise
 
+            except asyncio.exceptions.CancelledError:
+                pass
+
             except Exception as e:
                 frame = traceback.extract_tb(e.__traceback__)[-1]
                 client.logger.error(
-                    message=f"Error in {frame.name}: {frame.lineno}",
+                    message=f"Critical error in {frame.name}: {frame.lineno}",
                     extra_data=f"{type(e).__name__}: {e}"
                 )
                 raise

@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import traceback
 
 import aiohttp
 
@@ -41,9 +42,17 @@ class AiohttpClient:
     async def __aexit__(self, exc_type=None, exc_val=None, exc_tb=None) -> None:
         if self.session:
             await self.session.close()
+
+            if exc_tb:
+                frame = traceback.extract_tb(exc_tb)[-1]
+                location = f"{frame.filename}:{frame.lineno}"
+            else:
+                location = None
+
             self.logger.bot_stop(
                 reason=exc_type,
-                type_reason=exc_val
+                des_reason=exc_val,
+                traceback=location
             )
 
     @BotDecorator.safe_request
@@ -162,12 +171,6 @@ class AiohttpClient:
                     )
 
                     element.reduce_count_pokeball()
-
-                    self.logger.inventory_change(
-                        name=element.name,
-                        count=element.count,
-                        change_type=False
-                    )
             await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
@@ -190,19 +193,20 @@ class AiohttpClient:
                 await self.coward()
 
     @BotDecorator.safe_request
-    async def change(self, id_pokemon: str) -> None:
+    async def change(self, pokemon: object) -> None:
         async with await self.session.post(
                 url='https://pokepower.ru/do/makasimka',
                 data={
                     'makasimka': 'true',
                     'type': 'battle',
-                    'targetPoke': id_pokemon
+                    'targetPoke': pokemon.id
                 }
         ) as response:
             self.logger.battle_action(
                 action_type=f"CHANGE",
-                description=f"Change current pokemon to: {id_pokemon}"
+                description=f"Change current pokemon to: #{pokemon.basenum2} {pokemon.name}"
             )
+            await ResponseChecker.main_handler(response, self)
 
     @BotDecorator.safe_request
     async def coward(self) -> None | Exception:
@@ -219,7 +223,7 @@ class AiohttpClient:
                     action_type=f"COWARD",
                     description="Pokemon has low level HP"
                 )
-                await MovementsController.pokemon_health(response, self)
+                await MovementsController.pokemon_health(self)
             else:
                 raise BotShutdownError(message="Not possible to run away")
 
@@ -270,9 +274,25 @@ class AiohttpClient:
         ) as response:
             self.logger.pokecenter(
                 action='HEAL',
-                reason="Pokemon has a small amount of HP"
+                reason="Pokemons has a small amount of HP"
             )
             await ResponseChecker.main_handler(response, self)
+
+    @BotDecorator.safe_request
+    async def start(self, pokemon: object) -> None:
+        async with await self.session.post(
+                url='https://pokepower.ru/do/pokemons',
+                data={
+                    'id': 'pokemons',
+                    'type': 'action',
+                    'val[]': ['start'],
+                    'val[1][]': [pokemon.id],  # ID Pokémon, which should be sent
+                }
+        ) as response:
+            self.logger.battle_action(
+                action_type=f"START",
+                description=f"Start pokémon are now: #{pokemon.basenum2} {pokemon.name}"
+            )
 
     @BotDecorator.safe_request
     async def send_once_pit(self, id_pokemon: str) -> None:
@@ -285,15 +305,11 @@ class AiohttpClient:
                     'val[1][]': [id_pokemon],  # ID Pokémon, which should be sent
                 }
         ) as response:
-            self.logger.pokecenter(
-                action='SEND_PIT',
-                reason=f"Pokemon has sent to pit - {id_pokemon}"
-            )
-            for pokemon in client.team:
-                if pokemon.id == pokemon_id:
-                    self.logger.inventory_change(
-                        name=f"{pokemon.basenum2} {pokemon.name}",
-                        change_type=False
+            for pokemon in self.team:
+                if pokemon.id == id_pokemon:
+                    self.logger.team_action(
+                        action_type="REMOVE",
+                        description=f'Pokemon has sent to pit: #{pokemon.basenum2} {pokemon.name}'
                     )
             await ResponseChecker.main_handler(response, self)
 
@@ -308,15 +324,11 @@ class AiohttpClient:
                     'val[1][]': [id_pokemon]  # ID Pokémon of which must be left
                 }
         ) as response:
-            self.logger.pokecenter(
-                action='SEND_PIT',
-                reason="Little place for catching, sending pokemon to pit"
-            )
             for pokemon in self.team:
                 if not pokemon.id == id_pokemon:
-                    self.logger.inventory_change(
-                        name=f"{pokemon.basenum2} {pokemon.name}",
-                        change_type=False
+                    self.logger.team_action(
+                        action_type="REMOVE",
+                        description='All pokemon has sent to pit'
                     )
             await ResponseChecker.main_handler(response, self)
 

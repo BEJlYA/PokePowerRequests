@@ -4,27 +4,52 @@ class MyTarget:
         self.basenum2 = None  # Pokedex number
         self.gender = None  # Pokemon gender (venus/mars/genderless)
         self.hp = None  # Count of HP
+        self.maxHp = None  # Maximum health
         self.id = id  # Pokemon ID
         self.lvl = None  # Pokémon level
         self.name = None  # Pokemon name
         self.sparka = None  # Mating availability
         self.sparkaNumber = None  # Mating compatibility
-        self.start = None  # Priority flag
         self.type_text_color = None  # 0/1 - (Dont) shiny pokemon
+        self.item_id = '0'
+        self.start = 0  # Priority flag
+        self.nowOnBattle = False  # Flag indicating which pokémon is currently in battle
+        self.catchedNow = False  # Flag for caught now pokémon, True - means caught now
 
     def add_info(
-            self, basenum2: int, gender: str, hp: int, lvl: int,
-            name: str, sparka: str, sparka_number: int, start: int, type_text_color: int
+            self, basenum2: int, gender: str, hp: int, maxHp: int, lvl: int,
+            name: str, sparka: str, sparka_number: int, type_text_color: int,
+            item_id: str, nowOnBattle: bool, start: int, catched_Now: bool
     ) -> None:
         self.basenum2 = basenum2
         self.gender = gender
         self.hp = hp
+        self.maxHp = maxHp
         self.lvl = lvl
         self.name = name
         self.sparka = sparka
         self.sparkaNumber = sparka_number
-        self.start = start
         self.type_text_color = type_text_color
+        self.item_id = item_id
+        self.start = start
+        self.nowOnBattle = nowOnBattle
+        self.catchedNow = catched_Now
+
+    def update_pokemon_data(self, hp: int, nowOnBattle: bool) -> None:
+        self.hp = hp
+        self.nowOnBattle = nowOnBattle
+
+    def update_pokemon_id(self, id: int) -> None:
+        self.id = id
+
+    def need_heal(self) -> bool | None:
+        if not self.catchedNow:
+            if int(self.hp) <= int(self.maxHp) * 0.3 or self.last_atk() <= 1:
+                return True
+            else:
+                return False
+        else:
+            return True
 
     def last_atk(self) -> int:
         sum_of_pp = 0
@@ -54,23 +79,28 @@ class EnemyTarget:
         self.basenum2 = None  # Pokedex number
         self.name = None  # Pokemon name
         self.hp = None  # Amount HP
+        self.maxHp = None  # Maximum health
         self.lvl = None  # Pokémon level
         self.sex2 = None  # Pokemon gender (venus/mars/genderless)
         self.type_text_color = None  # 0/1 - (Dont) shiny pokemon
         self.catch = 1  # 1/0 - Can/Can't be caught
 
     def add_info(
-            self, id: int, basenum2: int, name: str, hp: int, lvl: int,
-            sex2: int, type_text_color: int, catch: int
+            self, id: int, basenum2: int, name: str, hp: int, maxHp: int, lvl: int,
+            sex2: str, type_text_color: int, catch: int
     ) -> None:
         self.id = id
         self.basenum2 = basenum2
         self.name = name
         self.hp = hp
+        self.maxHp = maxHp
         self.lvl = lvl
         self.sex2 = sex2
         self.type_text_color = type_text_color
         self.catch = catch
+
+    def update_pokemon_data(self, hp: int) -> None:
+        self.hp = hp
 
     @staticmethod
     async def calculate_attack(client: object):
@@ -81,8 +111,7 @@ class EnemyTarget:
 
         atks_types = []
 
-        active_pokemon = next((p for p in client.team if p.start == '1'),
-                              client.team[0] if client.team else None)
+        active_pokemon = next(p for p in client.team if p.nowOnBattle)
 
         if active_pokemon:
             for attack in active_pokemon.atks:
