@@ -49,7 +49,7 @@ class MyTarget:
             else:
                 return False
         else:
-            return True
+            return False
 
     def last_atk(self) -> int:
         sum_of_pp = 0

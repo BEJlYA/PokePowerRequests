@@ -43,7 +43,8 @@ class BotDecorator:
                     aiohttp.ClientConnectorError,
                     aiohttp.ServerTimeoutError,
                     aiohttp.ClientConnectorDNSError,
-                    asyncio.TimeoutError) as e:
+                    asyncio.TimeoutError,
+                    aiohttp.client_exeptions.ClientOSError) as e:
                 client.logger.warning(message=f"Waiting for internet restoration...")
 
                 while True:
