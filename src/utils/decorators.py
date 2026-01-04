@@ -43,24 +43,42 @@ class BotDecorator:
                     aiohttp.ClientConnectorError,
                     aiohttp.ServerTimeoutError,
                     aiohttp.ClientConnectorDNSError,
-                    asyncio.TimeoutError,
-                    aiohttp.client_exeptions.ClientOSError) as e:
+                    asyncio.TimeoutError) as e:
                 client.logger.warning(message=f"Waiting for internet restoration...")
 
-                while True:
+                while True:  # Check internet
                     await asyncio.sleep(5)
 
                     try:
                         async with aiohttp.ClientSession() as session:
                             async with session.get(
-                                    url="https://google.com"
+                                    url="https://google.com/generate_204"
                             ) as response:
-                                if response.status == 200:
+                                if response.status == 204:
                                     client.logger.warning(message="Internet restored! Repeating request...")
 
                                     break
                     except:
                         client.logger.warning(message="Internet not available yet, waiting...")
+
+                        continue
+
+                while True:  # Check DNS and PokePower
+                    await asyncio.sleep(5)
+
+                    try:
+                        async with aiohttp.ClientSession(
+                            connector=aiohttp.TCPConnector(),
+                            timeout=aiohttp.ClientTimeout(total=5)
+                        ) as session:
+                            async with session.get(
+                                    url="https://pokepower.ru"
+                            ):
+                                client.logger.warning(message="DNS or server PokePower available! Repeating request...")
+
+                                break
+                    except:
+                        client.logger.warning(message="DNS or server PokePower not available yet, waiting...")
 
                         continue
 
