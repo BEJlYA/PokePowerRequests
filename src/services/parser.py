@@ -12,7 +12,8 @@ class ParseGameData:
                 pokemon = MyTarget(json_data['response']['pokemon_list'][select]['pok']['id'])
 
                 for select_atk in json_data['response']['pokemon_list'][select]['pok']:
-                    if 'atk_' in select_atk:
+                    if ('atk_' in select_atk and
+                            'empty' not in json_data['response']['pokemon_list'][select]['pok'][select_atk]['type']):
                         pokemon.add_atk(
                             data=[
                                 json_data['response']['pokemon_list'][select]['pok'][select_atk]['category'],
