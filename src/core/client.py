@@ -228,7 +228,12 @@ class AiohttpClient:
                 raise BotShutdownError(message="Not possible to run away")
 
     @BotDecorator.safe_request
-    async def route(self, id_location: str, fallback_target: str = 'Покецентр') -> None | bool:
+    async def route(
+            self,
+            id_location: str,
+            fallback_target: str = 'Покецентр',
+            allow_fallback: bool = True
+    ) -> None | bool:
         async with await self.session.post(
                 url='https://pokepower.ru/do/route',
                 data={
@@ -239,28 +244,29 @@ class AiohttpClient:
         ) as response:
             self.logger.debug(f"Move to - {id_location}")
 
-            correct_move = await MovementsController.migration_error(response, id_location)
+            correct_move = await MovementsController.migration_error(response, id_location, self)
+            await ParseGameData.geo_position(response, self)
 
             if correct_move:
-                await ParseGameData.geo_position(response, self)
                 return True
-            else:
-                await ParseGameData.geo_position(response, self)
 
-                path = DataLocation.find_shortest_named_path(
-                    self.position.id,
-                    fallback_target,
-                    self.route_map
-                )
-                if not path:
+            if not allow_fallback:
+                return False
+
+            path = DataLocation.find_shortest_named_path(
+                self.position.id,
+                fallback_target,
+                self.route_map
+            )
+            if not path:
+                return False
+
+            for step in path:
+                result = await self.route(step, fallback_target, allow_fallback=False)
+                if not result:
                     return False
 
-                for step in path:
-                    result = await self.route(step, fallback_target)
-                    if not result:
-                        return False
-
-                return False
+            return False
 
     @BotDecorator.safe_request
     async def heal_npc(self) -> None:

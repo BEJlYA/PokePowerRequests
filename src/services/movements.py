@@ -2,7 +2,6 @@ import asyncio
 
 from src.services.navigator import DataLocation
 from src.utils.decorators import BotDecorator
-from src.utils.exeptions import BotShutdownError
 from src.utils.time_manager import TimeManager
 
 
@@ -44,11 +43,15 @@ class MovementsController:
 
     @staticmethod
     @BotDecorator.reformat_response
-    async def migration_error(json_data: dict, id_location: str) -> bool | None:
-        if not json_data['response']['error'] == 0:  # Access is prohibited
-            raise BotShutdownError(f'Перемещение невозможно, не выполнено условие, ID: {id_location}')
-        else:
-            return json_data['response']['id'] == id_location
+    async def migration_error(json_data: dict, id_location: str, client: object = None) -> bool:
+        if json_data['response']['error'] != 0:  # Access is prohibited
+            if client:
+                client.logger.warning(
+                    f'Перемещение в локацию недоступно, не выполнено условие, ID: {id_location}'
+                )
+            return False
+
+        return str(json_data['response'].get('id')) == str(id_location)
 
     @staticmethod
     async def pokemon_health(client: object) -> None:
