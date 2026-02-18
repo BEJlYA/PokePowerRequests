@@ -46,7 +46,7 @@ class MovementsController:
     @BotDecorator.reformat_response
     async def migration_error(json_data: dict, id_location: str) -> bool | None:
         if not json_data['response']['error'] == 0:  # Access is prohibited
-            raise BotShutdownError(f'Перемещение невозможно, не выполнено условие, ID: {id_location}')
+            return False
         else:
             return json_data['response']['id'] == id_location
 
