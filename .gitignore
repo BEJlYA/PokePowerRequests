@@ -1,7 +1,6 @@
 # Unnecessary files
 .idea
 .venv
-/logs/
 
 # Parser of pokemon world data
 /.data_parser/
