@@ -5,7 +5,7 @@ from functools import wraps
 
 import aiohttp
 
-from src.utils.exeptions import BotShutdown, BotShutdownError, BotNotify
+from src.core.exeptions import BotShutdown, BotShutdownError, BotNotify
 
 
 class BotDecorator:

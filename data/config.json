@@ -1,0 +1,32 @@
+{
+    "version": "beta 0.9",
+    "activated": false,
+    "login": "",
+    "password": "",
+    "catchShiny": true,
+    "viewingLogs": true,
+    "help_url": "https://pokepower.ru",
+    "special_priority_pokeballs": {
+        "Взломанный Шайнибол": 1,
+        "Шайнибол": 2,
+        "Генобол": 3,
+        "Мастербол": 4,
+        "Ультрабол": 5,
+        "Дистанцбол": 6,
+        "Покебол": 7,
+        "Гритбол": 8
+    },
+    "priority_pokeballs": {
+        "Покебол": 1,
+        "Ультрабол": 2,
+        "Гритбол": 3,
+        "Генобол": 4,
+        "Дистанцбол": 5,
+        "Мастербол": 6,
+        "Шайнибол": 7,
+        "Взломанный Шайнибол": 8
+    },
+    "targetItems": [],
+    "targetPokemons": [],
+    "notChageHero": true
+}

@@ -6,13 +6,13 @@ from pathlib import Path
 
 
 class UniversalLogger:
-    def __init__(self, level=logging.INFO):
+    def __init__(self):
         self.log_dir = Path(__file__).parent.parent.parent / 'logs'
         self.max_file_size = 5 * 1024 * 1024
         self.log_dir.mkdir(exist_ok=True)
 
         self.logger = logging.getLogger('PokePowerRequests')
-        self.logger.setLevel(level)
+        self.logger.setLevel(logging.DEBUG)
 
         self.logger.handlers.clear()
 
@@ -21,6 +21,21 @@ class UniversalLogger:
             datefmt='%Y-%m-%d %H:%M:%S'
         )
 
+        # ============ ХЕНДЛЕР ДЛЯ ПОСЛЕДНЕЙ СЕССИИ ============
+        self.last_session_file = self.log_dir / "session_last.log"
+        with open(self.last_session_file, 'w', encoding='utf-8') as f:
+            f.write("")
+
+        last_handler = logging.FileHandler(
+            filename=self.last_session_file,
+            mode='a',
+            encoding='utf-8'
+        )
+        last_handler.setFormatter(self.formatter)
+        last_handler.setLevel(logging.INFO)
+        self.logger.addHandler(last_handler)
+
+        # ============ ХЭНДЛЕРЫ ЗА ПОСЛЕДНИЕ 3 СУТОК ============
         self.sessions_file = self.log_dir / "sessions.json"
         self.sessions = self.load_sessions()
 

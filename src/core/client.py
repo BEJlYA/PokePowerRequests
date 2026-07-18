@@ -1,9 +1,9 @@
 import asyncio
-import logging
 import traceback
 
 import aiohttp
 
+from src.core.exeptions import BotShutdownError
 from src.core.models import ResponseChecker
 from src.services.battle import EnemyTarget
 from src.services.loader import DataPokemon
@@ -13,7 +13,6 @@ from src.services.parser import ParseGameData
 from src.services.tasks import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
-from src.utils.exeptions import BotShutdownError
 from src.utils.logger import UniversalLogger
 
 
@@ -30,7 +29,7 @@ class AiohttpClient:
         self.data = DataPokemon()  # Data of Pokemon
         self.route_map = DataLocation.load_all()  # Data of Route map
         self.position = MyPosition()  # Information about position
-        self.logger = UniversalLogger(logging.INFO)  # Logger makes info about works
+        self.logger = UniversalLogger()  # Logger makes info about works
 
     async def __aenter__(self):
         self.session = aiohttp.ClientSession(
@@ -118,8 +117,6 @@ class AiohttpClient:
             self.pokeballs = await ParseGameData.pokeballs_grabber(response)
             self.logger.debug(f'Collected data on available pokeballs:\n'
                               f'        {[[a.name, a.count] for a in self.pokeballs]}')
-            self.tasks.getting_pokeball_id(self.pokeballs)
-            self.logger.debug(f'Received ID of the Pokeball selected for catching - {self.tasks.catchTools}')
 
     @BotDecorator.safe_request
     async def get_edit(self) -> None:

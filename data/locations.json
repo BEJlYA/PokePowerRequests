@@ -63,33 +63,33 @@
       {
         "id": "52",
         "name": "Мяут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "2",
         "lvl2": "4",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "46",
         "name": "Парас",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "2",
         "lvl2": "4",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "659",
         "name": "Баннелби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "2",
         "lvl2": "4",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "44",
         "name": "Денежный амулет",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -124,18 +124,18 @@
       {
         "id": "13",
         "name": "Видл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "10",
         "name": "Катерпи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -187,41 +187,41 @@
       {
         "id": "48",
         "name": "Венонат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "261",
         "name": "Пучиена",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "420",
         "name": "Черуби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "540",
         "name": "Сивадл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "339",
         "name": "Прочные нити",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -247,39 +247,39 @@
       {
         "id": "43",
         "name": "Оддиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "69",
         "name": "Беллспраут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "23",
         "name": "Эканс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "263",
         "name": "Зигзагун",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "198",
         "name": "Муркроу",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
         "timezone": [
@@ -292,47 +292,47 @@
       {
         "id": "28",
         "name": "Лиственный камень",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "67",
         "name": "Чудесное семя",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "260",
         "name": "Ягода Чери",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "261",
         "name": "Ягода Често",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "262",
         "name": "Ягода Печа",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "263",
         "name": "Ягода Роуст",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "264",
         "name": "Ягода Оран",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "265",
         "name": "Ягода Персим",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "266",
         "name": "Ягода Аспир",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "77",
@@ -387,26 +387,26 @@
       {
         "id": "113",
         "name": "Ченси",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "8",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "433",
         "name": "Чинлинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "83",
         "name": "Фарфечд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -429,33 +429,33 @@
       {
         "id": "39",
         "name": "Джиглипафф",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "35",
         "name": "Клефейри",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "41",
         "name": "Зубат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "100",
         "name": "Корона",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -510,46 +510,46 @@
       {
         "id": "21",
         "name": "Спироу",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "16",
         "name": "Пиджи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Абра",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "167",
         "name": "Спинарак",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "82",
         "name": "Гнутая ложка",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "977",
         "name": "Паутина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -575,18 +575,18 @@
       {
         "id": "29",
         "name": "Нидоран",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "14",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "32",
         "name": "Нидоран",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "14",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -609,30 +609,30 @@
       {
         "id": "77",
         "name": "Понита",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "300",
         "name": "Скитти",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "61",
         "name": "Уголь",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "78",
         "name": "Шелковый шарф",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -700,46 +700,46 @@
       {
         "id": "211",
         "name": "Квилфиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "211",
         "name": "Квилфиш",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "121",
         "name": "Старми",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "278",
         "name": "Вингул",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "108",
         "name": "Чешуйка Квилфиша",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "26",
         "name": "Водный камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -774,18 +774,18 @@
       {
         "id": "531",
         "name": "Адино",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "438",
         "name": "Бонслай",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -808,25 +808,25 @@
       {
         "id": "163",
         "name": "Хутхут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "315",
         "name": "Розалия",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "149",
         "name": "Металлическая роза",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -848,33 +848,33 @@
       {
         "id": "129",
         "name": "Мэджикарп",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "399",
         "name": "Бидуф",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "18",
         "name": "Драгоценные часы",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -900,33 +900,33 @@
       {
         "id": "90",
         "name": "Шелдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "98",
         "name": "Крабби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "118",
         "name": "Голдин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "389",
         "name": "Раковина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -981,25 +981,25 @@
       {
         "id": "187",
         "name": "Хоппип",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "191",
         "name": "Санкерн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "174",
         "name": "Солнечный цветок",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1038,38 +1038,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1091,38 +1091,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1148,38 +1148,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1205,38 +1205,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1266,38 +1266,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1319,38 +1319,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1376,38 +1376,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1433,38 +1433,38 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "104",
         "name": "Кубон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1486,37 +1486,33 @@
       {
         "id": "396",
         "name": "Старли",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "504",
         "name": "Патрат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "57",
         "name": "Праймейп",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       }
     ],
     "items": [
       {
         "id": "10002",
         "name": "Скоба",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       }
     ]
   },
@@ -1584,38 +1580,38 @@
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "37",
         "name": "Вульпикс",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1646,25 +1642,25 @@
       {
         "id": "167",
         "name": "Спинарак",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "165",
         "name": "Ледиба",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "977",
         "name": "Паутина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1686,51 +1682,51 @@
       {
         "id": "161",
         "name": "Сентрет",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "88",
         "name": "Граймер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "18",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "89",
         "name": "Мак",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "13",
         "lvl2": "19",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "102",
         "name": "Зеленый шарф",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "190",
         "name": "Целебная грязь",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "976",
         "name": "Клейкая масса",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1793,38 +1789,38 @@
       {
         "id": "401",
         "name": "Крикетот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "7",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "309",
         "name": "Электрайк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "52",
         "name": "Мяут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "134",
         "name": "Камень вечности",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "44",
         "name": "Денежный амулет",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1863,10 +1859,10 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -1889,10 +1885,10 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -1915,25 +1911,25 @@
       {
         "id": "462",
         "name": "Магнезон",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "65",
         "lvl2": "80",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "24",
         "name": "Арбок",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "391",
         "name": "Электродетали",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -1959,10 +1955,10 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -1985,26 +1981,26 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "843",
         "name": "Силикобра",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "19",
         "lvl2": "28",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "844",
         "name": "Сандаконда",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "34",
         "lvl2": "38",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2027,18 +2023,18 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "24",
         "name": "Арбок",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "80",
         "lvl2": "95",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2065,10 +2061,10 @@
       {
         "id": "24",
         "name": "Арбок",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "80",
         "lvl2": "95",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2095,10 +2091,10 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2117,25 +2113,25 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "95",
         "name": "Оникс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "379",
         "name": "Каменная руда",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2161,10 +2157,10 @@
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2204,33 +2200,33 @@
       {
         "id": "58",
         "name": "Гроули",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "209",
         "name": "Снаббул",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "676",
         "name": "Фурфру",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "928",
         "name": "Стопка досок",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2308,33 +2304,33 @@
       {
         "id": "218",
         "name": "Слагма",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "206",
         "name": "Данспарс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "207",
         "name": "Глайгер",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "186",
         "name": "Застывшая магма",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2397,33 +2393,33 @@
       {
         "id": "695",
         "name": "Гелиолиск",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "30",
         "lvl2": "40",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "85",
         "name": "Додрио",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "30",
         "lvl2": "40",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "666",
         "name": "Вивиллон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "187",
         "name": "Пыльца Вивиллона",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2445,30 +2441,30 @@
       {
         "id": "50",
         "name": "Диглетт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "51",
         "name": "Дагтрио",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "80",
         "name": "Мягкий песок",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "373",
         "name": "Пещерный кристалл",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2499,41 +2495,41 @@
       {
         "id": "707",
         "name": "Клефки",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "70",
         "name": "Випинбелл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "22",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "23",
         "name": "Эканс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "438",
         "name": "Бонслай",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "286",
         "name": "Метеоритный осколок",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2637,10 +2633,10 @@
       {
         "id": "20",
         "name": "Рэтикейт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -2663,25 +2659,25 @@
       {
         "id": "192",
         "name": "Санфлора",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "18",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "191",
         "name": "Санкерн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "174",
         "name": "Солнечный цветок",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -2699,34 +2695,34 @@
       {
         "id": "123",
         "name": "Сайтер",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "18",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "415",
         "name": "Комби",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "415",
         "name": "Комби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "3",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "416",
         "name": "Веспиквин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -3026,30 +3022,30 @@
       {
         "id": "81",
         "name": "Магнимайт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "100",
         "name": "Волторб",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "64",
         "name": "Магнит",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "27",
         "name": "Громовой камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3067,42 +3063,42 @@
       {
         "id": "298",
         "name": "Азурилл",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "5",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "129",
         "name": "Мэджикарп",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "6",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "183",
         "name": "Мэрил",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "184",
         "name": "Азумарил",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "30",
         "lvl2": "45",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "72",
         "name": "Тентакул",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -3205,33 +3201,33 @@
       {
         "id": "652",
         "name": "Чеснот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "40",
         "lvl2": "45",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "651",
         "name": "Квалладин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "30",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "650",
         "name": "Чеспин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "115",
         "name": "Ментальная трава",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3286,41 +3282,41 @@
       {
         "id": "532",
         "name": "Тимбур",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "10",
         "name": "Катерпи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "56",
         "name": "Манки",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "219",
         "name": "Магкарго",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "417",
         "name": "Огненная вайя",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3380,41 +3376,41 @@
       {
         "id": "13",
         "name": "Видл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "15",
         "name": "Бидрил",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "66",
         "name": "Мачоп",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "68",
         "name": "Мачамп",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "25",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "353",
         "name": "Пояс Мачампа",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3469,18 +3465,18 @@
       {
         "id": "161",
         "name": "Сентрет",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "587",
         "name": "Эмолга",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -3549,48 +3545,46 @@
       {
         "id": "352",
         "name": "Кеклеон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "23",
         "name": "Эканс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "41",
         "name": "Зубат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": [
-          "4"
-        ]
+        "timezone": "4"
       },
       {
         "id": "24",
         "name": "Арбок",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "22",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "103",
         "name": "Блестки",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "185",
         "name": "Яд Арбока",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3629,25 +3623,25 @@
       {
         "id": "20",
         "name": "Рэтикейт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "416",
         "name": "Подмостник",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3764,33 +3758,33 @@
       {
         "id": "529",
         "name": "Дрилбур",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "530",
         "name": "Эскадрил",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "75",
         "name": "Гравелер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "28",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "289",
         "name": "Когти Дрилбура",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3854,38 +3848,38 @@
       {
         "id": "43",
         "name": "Оддиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "417",
         "name": "Пачирису",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "28",
         "name": "Лиственный камень",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "347",
         "name": "Твердые искорки",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -3907,43 +3901,43 @@
       {
         "id": "51",
         "name": "Дагтрио",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "27",
         "lvl2": "32",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "303",
         "name": "Мавайл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "24",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "373",
         "name": "Пещерный кристалл",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "380",
         "name": "Волшебная палочка",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4021,38 +4015,38 @@
       {
         "id": "59",
         "name": "Арканайн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "45",
         "lvl2": "55",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "360",
         "name": "Вайнаут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "140",
         "name": "Красный драгоценный ошейник",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "25",
         "name": "Огненный камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4070,38 +4064,38 @@
       {
         "id": "59",
         "name": "Арканайн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "45",
         "lvl2": "55",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "422",
         "name": "Шеллос",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "99",
         "name": "Кинглер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "28",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "141",
         "name": "Синий драгоценный ошейник",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "142",
         "name": "Желтый драгоценный ошейник",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4119,43 +4113,43 @@
       {
         "id": "59",
         "name": "Арканайн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "45",
         "lvl2": "55",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "187",
         "name": "Хоппип",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "191",
         "name": "Санкерн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "143",
         "name": "Зеленый драгоценный ошейник",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "144",
         "name": "Фиолетовый драгоценный ошейник",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "174",
         "name": "Солнечный цветок",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4173,42 +4167,42 @@
       {
         "id": "98",
         "name": "Крабби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "129",
         "name": "Мэджикарп",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "170",
         "name": "Чинчоу",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "223",
         "name": "Реморэйд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "120",
         "name": "Старью",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -4257,33 +4251,33 @@
       {
         "id": "190",
         "name": "Айпом",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "204",
         "name": "Пинеко",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "315",
         "name": "Розалия",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "149",
         "name": "Металлическая роза",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4338,23 +4332,23 @@
       {
         "id": "307",
         "name": "Медитайт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "48",
         "name": "Венонат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "548",
         "name": "Петилил",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "8",
         "timezone": [
@@ -4365,30 +4359,30 @@
       {
         "id": "673",
         "name": "Гогоат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "549",
         "name": "Лилигант",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "418",
         "name": "Красная монстерра",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "507",
         "name": "Грацидея",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4414,45 +4408,41 @@
       {
         "id": "92",
         "name": "Гастли",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "18",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       },
       {
         "id": "234",
         "name": "Сентлер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "216",
         "name": "Теддиурса",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "217",
         "name": "Урсаринг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "30",
         "lvl2": "33",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "81",
         "name": "Листок с заклинанием",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       }
     ]
   },
@@ -4474,25 +4464,25 @@
       {
         "id": "60",
         "name": "Поливаг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "90",
         "name": "Шелдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "389",
         "name": "Раковина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4543,43 +4533,43 @@
       {
         "id": "69",
         "name": "Беллспраут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "424",
         "name": "Эмбипом",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "67",
         "name": "Чудесное семя",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "127",
         "name": "Набор вкусностей",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4691,26 +4681,26 @@
       {
         "id": "588",
         "name": "Каррабласт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "402",
         "name": "Крикетун",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "284",
         "name": "Маскурейн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -4746,34 +4736,34 @@
       {
         "id": "280",
         "name": "Ральтс",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "11",
         "lvl2": "18",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "282",
         "name": "Гардевуар",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "475",
         "name": "Галлейд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "309",
         "name": "Электрайк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -4946,33 +4936,33 @@
       {
         "id": "309",
         "name": "Электрайк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "16",
         "name": "Пиджи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "49",
         "name": "Веномот",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "79",
         "name": "Серебряная пыль",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -4994,41 +4984,41 @@
       {
         "id": "116",
         "name": "Хорси",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "98",
         "name": "Крабби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "769",
         "name": "Сэндигаст",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "90",
         "name": "Шелдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "389",
         "name": "Раковина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5105,37 +5095,33 @@
       {
         "id": "57",
         "name": "Праймейп",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": [
-          "4"
-        ]
+        "timezone": "4"
       },
       {
         "id": "56",
         "name": "Манки",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "209",
         "name": "Снаббул",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "10002",
         "name": "Скоба",
-        "timezone": [
-          "4"
-        ]
+        "timezone": "4"
       }
     ]
   },
@@ -5196,41 +5182,41 @@
       {
         "id": "690",
         "name": "Скрелп",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "366",
         "name": "Кламперл",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "368",
         "name": "Горбисс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "80",
         "lvl2": "90",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "691",
         "name": "Драгалг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "99",
         "name": "Глубоководная чешуя",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5273,25 +5259,25 @@
       {
         "id": "300",
         "name": "Скитти",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "519",
         "name": "Пидов",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "78",
         "name": "Шелковый шарф",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5330,33 +5316,33 @@
       {
         "id": "322",
         "name": "Нумель",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "324",
         "name": "Торкол",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "218",
         "name": "Слагма",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "186",
         "name": "Застывшая магма",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5378,38 +5364,38 @@
       {
         "id": "77",
         "name": "Понита",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "23",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "48",
         "name": "Венонат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "509",
         "name": "Пурлоин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "61",
         "name": "Уголь",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "105",
         "name": "Линзы",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5439,25 +5425,25 @@
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "587",
         "name": "Эмолга",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5483,59 +5469,59 @@
       {
         "id": "441",
         "name": "Чатот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "731",
         "name": "Пикипек",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "733",
         "name": "Тукеон",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "28",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "741",
         "name": "Орикорио",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "357",
         "name": "Тропиус",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "191",
         "name": "Пилюля скрытой способности",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "163",
         "name": "Бамбук",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "496",
         "name": "Листья Тропиуса",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5582,36 +5568,34 @@
       {
         "id": "276",
         "name": "Тэйллоу",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": [
-          "3"
-        ]
+        "timezone": "3"
       },
       {
         "id": "676",
         "name": "Фурфру",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "165",
         "name": "Ледиба",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "744",
         "name": "Рокрафф",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -5663,30 +5647,30 @@
       {
         "id": "283",
         "name": "Сурскит",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "52",
         "name": "Мяут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "68",
         "name": "Водный амулет",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "44",
         "name": "Денежный амулет",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5854,62 +5838,62 @@
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -5931,62 +5915,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6008,62 +5992,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6085,62 +6069,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6162,62 +6146,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6239,62 +6223,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6316,62 +6300,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6393,62 +6377,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6470,62 +6454,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6547,62 +6531,62 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "11",
         "lvl2": "16",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "317",
         "name": "Свалот",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "21",
         "lvl2": "26",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "453",
         "name": "Кроганк",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "109",
         "name": "Коффинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "9",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "270",
         "name": "Лотад",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "59",
         "name": "Черный пояс",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "76",
         "name": "Ядовитый шип",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6624,26 +6608,26 @@
       {
         "id": "279",
         "name": "Пелиппер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "28",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "98",
         "name": "Крабби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "370",
         "name": "Лавдиск",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -6674,41 +6658,41 @@
       {
         "id": "10",
         "name": "Катерпи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "509",
         "name": "Пурлоин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "13",
         "name": "Видл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "433",
         "name": "Чинлинг",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "105",
         "name": "Линзы",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6730,18 +6714,18 @@
       {
         "id": "84",
         "name": "Додо",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "734",
         "name": "Янгус",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -6811,51 +6795,51 @@
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "299",
         "name": "Носпас",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "95",
         "name": "Оникс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "526",
         "name": "Гигалит",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "16",
         "lvl2": "27",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "379",
         "name": "Каменная руда",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "370",
         "name": "Кристалл Гигалита",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6890,38 +6874,38 @@
       {
         "id": "761",
         "name": "Боунсвит",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Абра",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "360",
         "name": "Вайнаут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "82",
         "name": "Гнутая ложка",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "25",
         "name": "Огненный камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6939,25 +6923,25 @@
       {
         "id": "51",
         "name": "Дагтрио",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "208",
         "name": "Стиликс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "373",
         "name": "Пещерный кристалл",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -6979,25 +6963,25 @@
       {
         "id": "752",
         "name": "Аракванид",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "95",
         "lvl2": "100",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "768",
         "name": "Голисопод",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "194",
         "name": "Ключ для каюты",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7049,18 +7033,18 @@
       {
         "id": "420",
         "name": "Черуби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "438",
         "name": "Бонслай",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -7087,42 +7071,38 @@
       {
         "id": "24",
         "name": "Арбок",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "22",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "336",
         "name": "Севайпер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "22",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "92",
         "name": "Гастли",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       }
     ],
     "items": [
       {
         "id": "185",
         "name": "Яд Арбока",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "81",
         "name": "Листок с заклинанием",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       }
     ]
   },
@@ -7148,51 +7128,51 @@
       {
         "id": "749",
         "name": "Мадбрэй",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "618",
         "name": "Станфиск",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "553",
         "name": "Крукодайл",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "15",
         "lvl2": "40",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "77",
         "name": "Понита",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "116",
         "name": "Батарейка",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "60",
         "name": "Темные очки",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "61",
         "name": "Уголь",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7218,46 +7198,46 @@
       {
         "id": "450",
         "name": "Гипподон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "449",
         "name": "Гиппопотас",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "14",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "618",
         "name": "Станфиск",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "19",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "252",
         "name": "Стеклышко",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "116",
         "name": "Батарейка",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7275,33 +7255,33 @@
       {
         "id": "330",
         "name": "Флайгон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "751",
         "name": "Дупайдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "9",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "284",
         "name": "Маскурейн",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "22",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "2",
         "name": "Крепкий колокольчик",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7323,18 +7303,18 @@
       {
         "id": "452",
         "name": "Драпион",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "169",
         "name": "Кробат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -7383,26 +7363,26 @@
       {
         "id": "559",
         "name": "Скрагги",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "549",
         "name": "Лилигант",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "556",
         "name": "Марактус",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -7463,33 +7443,33 @@
       {
         "id": "399",
         "name": "Бидуф",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "12",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "751",
         "name": "Дупайдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "21",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "417",
         "name": "Пачирису",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "347",
         "name": "Твердые искорки",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7536,39 +7516,39 @@
       {
         "id": "755",
         "name": "Морилаль",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "43",
         "name": "Оддиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "234",
         "name": "Сентлер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "540",
         "name": "Сивадл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "764",
         "name": "Комфей",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "3",
         "lvl2": "20",
         "timezone": [
@@ -7581,12 +7561,12 @@
       {
         "id": "28",
         "name": "Лиственный камень",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "339",
         "name": "Прочные нити",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7612,41 +7592,41 @@
       {
         "id": "118",
         "name": "Голдин",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "90",
         "name": "Шелдер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "349",
         "name": "Фибас",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "456",
         "name": "Финеон",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "389",
         "name": "Раковина",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7672,43 +7652,43 @@
       {
         "id": "69",
         "name": "Беллспраут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "191",
         "name": "Санкерн",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "352",
         "name": "Кеклеон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "67",
         "name": "Чудесное семя",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "174",
         "name": "Солнечный цветок",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "103",
         "name": "Блестки",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7815,33 +7795,33 @@
       {
         "id": "726",
         "name": "Торракат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "17",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "19",
         "name": "Раттата",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "20",
         "name": "Рэтикейт",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "21",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "127",
         "name": "Набор вкусностей",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7859,26 +7839,26 @@
       {
         "id": "396",
         "name": "Старли",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "397",
         "name": "Старэвиа",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "398",
         "name": "Стараптор",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "34",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -7901,25 +7881,25 @@
       {
         "id": "11",
         "name": "Метапод",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "9",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "540",
         "name": "Сивадл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "8",
         "lvl2": "9",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "339",
         "name": "Прочные нити",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -7958,18 +7938,18 @@
       {
         "id": "504",
         "name": "Патрат",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "307",
         "name": "Медитайт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -8175,46 +8155,46 @@
       {
         "id": "331",
         "name": "Какнея",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "69",
         "name": "Беллспраут",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "265",
         "name": "Вурмпл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "4",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "351",
         "name": "Кастформ",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "331",
         "name": "Шипы Какнеи",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "67",
         "name": "Чудесное семя",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8269,59 +8249,57 @@
       {
         "id": "585",
         "name": "Дирлинг",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "43",
         "name": "Оддиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "162",
         "name": "Фуррет",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "572",
         "name": "Минчино",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "200",
         "name": "Мисдривус",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "8",
         "lvl2": "15",
-        "timezone": [
-          "1"
-        ]
+        "timezone": "1"
       },
       {
         "id": "114",
         "name": "Танжела",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "28",
         "name": "Лиственный камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8360,26 +8338,26 @@
       {
         "id": "396",
         "name": "Старли",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "56",
         "name": "Манки",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "190",
         "name": "Айпом",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "13",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -8398,18 +8376,18 @@
       {
         "id": "757",
         "name": "Саландит",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "758",
         "name": "Салаззл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -8465,33 +8443,33 @@
       {
         "id": "420",
         "name": "Черуби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "22",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "315",
         "name": "Розалия",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "18",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "261",
         "name": "Пучиена",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "14",
         "lvl2": "17",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "149",
         "name": "Металлическая роза",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8513,51 +8491,51 @@
       {
         "id": "215",
         "name": "Снизл",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "361",
         "name": "Снорант",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "220",
         "name": "Свайнуб",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "20",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "351",
         "name": "Кастформ",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "509",
         "name": "Пуговица",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "75",
         "name": "Сухой лед",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "106",
         "name": "Объедки",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8579,51 +8557,51 @@
       {
         "id": "95",
         "name": "Оникс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "304",
         "name": "Арон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "111",
         "name": "Райхорн",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "74",
         "name": "Джеодуд",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "379",
         "name": "Каменная руда",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "69",
         "name": "Броня",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "63",
         "name": "Твердый камень",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8662,49 +8640,49 @@
       {
         "id": "193",
         "name": "Янма",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "129",
         "name": "Мэджикарп",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "399",
         "name": "Бидуф",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "341",
         "name": "Корфиш",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "14",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "351",
         "name": "Кастформ",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "104",
         "name": "Лупа",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8755,42 +8733,42 @@
       {
         "id": "206",
         "name": "Данспарс",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "16",
         "name": "Пиджи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "21",
         "name": "Спироу",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "659",
         "name": "Баннелби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "12",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "351",
         "name": "Кастформ",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "5",
         "lvl2": "8",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -8846,33 +8824,33 @@
       {
         "id": "568",
         "name": "Траббиш",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "88",
         "name": "Граймер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "307",
         "name": "Медитайт",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "190",
         "name": "Целебная грязь",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -8898,41 +8876,41 @@
       {
         "id": "412",
         "name": "Бурми",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "424",
         "name": "Эмбипом",
-        "chance": 2,
+        "chance": "2",
         "lvl1": "10",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "531",
         "name": "Адино",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "519",
         "name": "Пидов",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "127",
         "name": "Набор вкусностей",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -9147,18 +9125,18 @@
       {
         "id": "10",
         "name": "Катерпи",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "13",
         "name": "Видл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "6",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -9177,41 +9155,41 @@
       {
         "id": "367",
         "name": "Хантейл",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "80",
         "lvl2": "90",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "366",
         "name": "Кламперл",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "339",
         "name": "Барбоч",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "456",
         "name": "Финеон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "98",
         "name": "Глубоководный зуб",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -9315,46 +9293,46 @@
       {
         "id": "194",
         "name": "Вупер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "86",
         "name": "Сил",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "98",
         "name": "Крабби",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "15",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "73",
         "name": "Тентакруэль",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "35",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "312",
         "name": "Крепкая каска",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "345",
         "name": "Чернила",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -9384,41 +9362,41 @@
       {
         "id": "202",
         "name": "Ваббафет",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "209",
         "name": "Снаббул",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "234",
         "name": "Сентлер",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "15",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "783",
         "name": "Хакамо-о",
-        "chance": 3,
+        "chance": "3",
         "lvl1": "25",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "62",
         "name": "Клык дракона",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },
@@ -9440,34 +9418,34 @@
       {
         "id": "587",
         "name": "Эмолга",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "546",
         "name": "Котони",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "777",
         "name": "Тогедемару",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "25",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "439",
         "name": "Майм Джуниор",
-        "chance": 1,
+        "chance": "1",
         "lvl1": "5",
         "lvl2": "10",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": []
@@ -9523,41 +9501,41 @@
       {
         "id": "134",
         "name": "Вапореон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "135",
         "name": "Джолтеон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "136",
         "name": "Флареон",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "20",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       },
       {
         "id": "709",
         "name": "Тревенант",
-        "chance": 4,
+        "chance": "4",
         "lvl1": "10",
         "lvl2": "30",
-        "timezone": 0
+        "timezone": "0"
       }
     ],
     "items": [
       {
         "id": "313",
         "name": "Корень Тревенанта",
-        "timezone": 0
+        "timezone": "0"
       }
     ]
   },

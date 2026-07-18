@@ -2,7 +2,7 @@ import json
 from collections import deque
 from typing import Union, List
 
-from src.utils.exeptions import BotShutdownError
+from src.core.exeptions import BotShutdownError
 
 
 class MyPosition:
@@ -67,7 +67,7 @@ class DataLocation:
 
         for location in locations:
             for pokemon in location.habitat:
-                if pokemon.get('name') == task_object:
+                if pokemon.get('name') == task_object or pokemon.get('id') == task_object:
                     found_locations.append(location.name)
             for item in location.items:
                 if item.get('name') == task_object:

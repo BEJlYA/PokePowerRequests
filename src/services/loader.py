@@ -1,5 +1,7 @@
 import json
 
+from src.config.manager import config
+
 
 class DataPokemon:
     def __init__(self):
@@ -7,11 +9,12 @@ class DataPokemon:
             self.pokedex = json.load(file)
         with open('data/punch_effectiveness.json', 'r', encoding='UTF-8') as file:  # Table of attack effectiveness
             self.punchEffectiveness = json.load(file)
-        with open('data/priority_pokeballs.json', 'r', encoding='UTF-8') as file:  # Priority pokeballs for catch
-            self.priorityPokeballs = json.load(file)
         with open('data/rare_pokemons.json', 'r', encoding='UTF-8') as file:  # Rare pokemons
             self.rarePokemons = json.load(file)
             self._create_lookup_tables()
+
+        self.priorityPokeballs = config.priority
+        self.specialPriorityPokeballs = config.special_priority
 
     def _create_lookup_tables(self):
         self.by_basenum = {}

@@ -21,7 +21,7 @@ class ResponseChecker:
             await ParseGameData.update_ally(json_data, client)
 
             for injured in client.team:
-                if injured.nowOnBattle and injured.need_heal() and not client.tasks.notChangeHero:
+                if injured.nowOnBattle and injured.need_heal() and client.tasks.notChangeHero:
                     injured.start = 0
                     for pokemon in client.team:
                         if not pokemon.need_heal() and not pokemon.item_id == '10002':
@@ -39,8 +39,8 @@ class ResponseChecker:
                 if not json_data.get('battleInfo').get('log'):
                     client.logger.info(message='Rare pokemon detected...')
                 for key in sorted(
-                        client.data.priorityPokeballs,
-                        key=client.data.priorityPokeballs.get
+                        client.data.specialPriorityPokeballs,
+                        key=client.data.specialPriorityPokeballs.get
                 ):
                     for ball in client.pokeballs:
                         if key in ball.name:
@@ -56,8 +56,8 @@ class ResponseChecker:
                 if not json_data.get('battleInfo').get('log'):
                     client.logger.info(message='Shiny pokemon detected...')
                 for key in sorted(
-                        client.data.priorityPokeballs,
-                        key=client.data.priorityPokeballs.get
+                        client.data.specialPriorityPokeballs,
+                        key=client.data.specialPriorityPokeballs.get
                 ):
                     for ball in client.pokeballs:
                         if key in ball.name:
@@ -82,7 +82,14 @@ class ResponseChecker:
             ):  # Catch certain pokémon
                 if not json_data.get('battleInfo').get('log'):
                     client.logger.info(message='Pokemon from task detected...')
-                await client.catch(client.tasks.catchTools)
+                for key in sorted(
+                        client.data.priorityPokeballs,
+                        key=client.data.priorityPokeballs.get
+                ):
+                    for ball in client.pokeballs:
+                        if key in ball.name:
+                            await client.catch(ball.id)
+                            return
 
             else:  # Else kill pokémon
                 await client.enemy.calculate_attack(client)

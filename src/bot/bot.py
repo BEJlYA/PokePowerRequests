@@ -1,12 +1,10 @@
-import asyncio
-
 from src.config.settings import Settings
 from src.core.client import AiohttpClient
 from src.core.models import ResponseChecker
 
 
-async def main():
-    settings = Settings(login='LOGIN', password='PASSWORD')
+async def main(login: str, password: str):
+    settings = Settings(login, password)
 
     async with AiohttpClient(settings) as aclient:
         await aclient.auth(settings)
@@ -23,7 +21,3 @@ async def main():
         await aclient.tasks.check_tasks(aclient)
 
         await aclient.update()
-
-
-if __name__ in '__main__':
-    asyncio.run(main())
