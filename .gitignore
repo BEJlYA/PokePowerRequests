@@ -6,6 +6,7 @@
 /build
 /.flet
 /.git
+PPRCheat.exe
 
 # Parser of pokemon world data
 /.data_parser/

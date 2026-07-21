@@ -1,0 +1,37 @@
+[project]
+name = "PPRCheat"
+version = "0.9.0"
+description = "README.md"
+authors = [{name = "BEJlYA", email = "illyabelskiy2002@gmail.com"}]
+dependencies = [
+    "flet>=0.86.1",
+    "aiohttp>=3.14.2",
+]
+
+[tool.flet]
+org = "com.belisor"
+product = "PPRCheat"
+company = "Belisor"
+copyright = "Copyright © 2026 by Belisor"
+build_number = 1
+compile.app = true
+compile.packages = true
+
+[tool.flet.app]
+path = "."
+exclude = [
+    ".idea",
+    ".venv",
+    "venv",
+    "logs",
+    "__pycache__",
+    "build",
+    ".flet",
+    ".git",
+    "*.pyc",
+    ".data_parser",
+    ".gitignore",
+    "inno_setup",
+    "pyproject.toml",
+    "build.ps1"
+]

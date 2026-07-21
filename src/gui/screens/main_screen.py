@@ -2,6 +2,7 @@ import flet as ft
 
 from src.config.manager import config
 from src.gui.screens.menu import bottom_nav
+from src.utils.path import resource_path
 
 
 def main_screen(page: ft.Page, switch_to, selected_index, screens):
@@ -227,7 +228,7 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
                 ft.Container(
                     expand=True,
                     image=ft.DecorationImage(
-                        src="assets/images/main_background.png",
+                        src=str(resource_path("assets/images/main_background.png")),
                         fit=ft.BoxFit.COVER
                     ),
                     bgcolor="#4C6186"

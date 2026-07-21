@@ -11,7 +11,7 @@ class UniversalLogger:
         self.max_file_size = 5 * 1024 * 1024
         self.log_dir.mkdir(exist_ok=True)
 
-        self.logger = logging.getLogger('PokePowerRequests')
+        self.logger = logging.getLogger('PPRCheat')
         self.logger.setLevel(logging.DEBUG)
 
         self.logger.handlers.clear()
