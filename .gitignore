@@ -1,7 +1,11 @@
 # Unnecessary files
-.idea
-.venv
+/.idea
+/.venv
 /logs/
+/__pycache__
+/build
+/.flet
+/.git
 
 # Parser of pokemon world data
 /.data_parser/

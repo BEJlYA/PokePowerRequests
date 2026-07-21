@@ -1,15 +1,16 @@
 import json
 
 from src.config.manager import config
+from src.utils.path import get_data_path
 
 
 class DataPokemon:
     def __init__(self):
-        with open('data/pokedex.json', 'r', encoding='UTF-8') as file:  # All Pokémon
+        with open(str(get_data_path("pokedex.json")), 'r', encoding='UTF-8') as file:  # All Pokémon
             self.pokedex = json.load(file)
-        with open('data/punch_effectiveness.json', 'r', encoding='UTF-8') as file:  # Table of attack effectiveness
+        with open(str(get_data_path("punch_effectiveness.json")), 'r', encoding='UTF-8') as file:  # Table of attack effectiveness
             self.punchEffectiveness = json.load(file)
-        with open('data/rare_pokemons.json', 'r', encoding='UTF-8') as file:  # Rare pokemons
+        with open(str(get_data_path("rare_pokemons.json")), 'r', encoding='UTF-8') as file:  # Rare pokemons
             self.rarePokemons = json.load(file)
             self._create_lookup_tables()
 

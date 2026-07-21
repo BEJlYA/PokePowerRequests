@@ -3,6 +3,7 @@ from collections import deque
 from typing import Union, List
 
 from src.core.exeptions import BotShutdownError
+from src.utils.path import get_data_path
 
 
 class MyPosition:
@@ -34,7 +35,7 @@ class DataLocation:
 
     @classmethod
     def load_all(cls):
-        with open('data/locations.json', 'r', encoding='utf-8') as f:
+        with open(str(get_data_path("locations.json")), 'r', encoding='utf-8') as f:
             raw_data = json.load(f)
 
         locations = [cls(

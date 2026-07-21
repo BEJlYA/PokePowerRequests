@@ -2,6 +2,7 @@ import flet as ft
 
 from src.config.manager import config
 from src.gui.screens.main_screen import main_screen
+from src.utils.path import resource_path
 
 
 def activation_screen(page: ft.Page, switch_to, selected_index, screens):
@@ -19,7 +20,7 @@ def activation_screen(page: ft.Page, switch_to, selected_index, screens):
             key_field.content.update()
 
     async def on_logo_click(e):
-        await page.launch_url("https://pokepower.ru")
+        await ft.UrlLauncher().launch_url("https://pokepower.ru")
 
     key_field = (ft.Container(
         content=ft.TextField(
@@ -47,7 +48,7 @@ def activation_screen(page: ft.Page, switch_to, selected_index, screens):
                 ft.Container( #Background
                     expand=True,
                     image=ft.DecorationImage(
-                        src="assets/images/activation_background.png",
+                        src=str(resource_path("assets/images/activation_background.png")),
                         fit=ft.BoxFit.COVER,
                         color_filter=ft.ColorFilter(
                             color="#4C6186",
@@ -66,7 +67,7 @@ def activation_screen(page: ft.Page, switch_to, selected_index, screens):
                         [
                             ft.Container(
                                 content=ft.Image( #Central logo
-                                    src="assets/images/logo.png",
+                                    src=str(resource_path("assets/images/logo.png")),
                                     width=161,
                                     height=161,
                                 ),

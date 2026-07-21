@@ -1,5 +1,3 @@
-import os
-
 import flet as ft
 
 from src.config.manager import config
@@ -8,11 +6,12 @@ from src.gui.screens.items_screen import items_screen
 from src.gui.screens.main_screen import main_screen
 from src.gui.screens.pokemon_screen import pokemon_screen
 from src.gui.screens.running_screen import running_screen
+from src.utils.path import resource_path
 
 
 async def main(page: ft.Page):
     # ============ НАСТРОЙКИ ОКНА ============
-    page.window.icon = os.path.join(os.path.dirname(__file__), "assets", "images", "favicon.ico")
+    page.window.icon = str(resource_path("assets/images/favicon.ico"))
     page.title = "PPRCheat"
     page.window.width = 900
     page.window.height = 600
@@ -26,7 +25,7 @@ async def main(page: ft.Page):
     page.margin = 0
 
     page.fonts = {
-        "Rubik": os.path.join(os.path.dirname(__file__), "assets", "fonts", "Rubik-Medium.ttf")
+        "Rubik": str(resource_path("assets/fonts/Rubik-Medium.ttf")),
     }
     page.theme = ft.Theme(font_family="Rubik")
 

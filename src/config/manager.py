@@ -1,8 +1,8 @@
-from __future__ import annotations
-
 import json
 from pathlib import Path
 from typing import Any
+
+from src.utils.path import get_config_path, get_last_log_path
 
 
 class ConfigManager:
@@ -10,8 +10,8 @@ class ConfigManager:
 
     def __init__(
         self,
-        config_path: str = "data/config.json",
-        log_path: str = "logs/session_last.log",
+        config_path: str = str(get_config_path()),
+        log_path: str = str(get_last_log_path()),
     ):
         self._config_path = Path(config_path)
         self._log_path = Path(log_path)
@@ -132,10 +132,10 @@ class ConfigManager:
         )
 
     @property
-    def priority(self) -> list:
+    def priority(self) -> dict:
         return self.get(
             "priority_pokeballs",
-            [],
+            {},
         )
 
     @priority.setter
@@ -146,10 +146,10 @@ class ConfigManager:
         )
 
     @property
-    def special_priority(self) -> list:
+    def special_priority(self) -> dict:
         return self.get(
             "special_priority_pokeballs",
-            [],
+            {},
         )
 
     @special_priority.setter

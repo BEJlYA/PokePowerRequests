@@ -4,8 +4,8 @@
     "login": "",
     "password": "",
     "catchShiny": true,
-    "viewingLogs": true,
-    "help_url": "https://pokepower.ru",
+    "viewingLogs": false,
+    "notChageHero": true,
     "special_priority_pokeballs": {
         "Взломанный Шайнибол": 1,
         "Шайнибол": 2,
@@ -27,6 +27,5 @@
         "Взломанный Шайнибол": 8
     },
     "targetItems": [],
-    "targetPokemons": [],
-    "notChageHero": true
+    "targetPokemons": []
 }

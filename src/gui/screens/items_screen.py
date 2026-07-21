@@ -107,7 +107,7 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
     saved_items = config.target_items
 
     async def on_help_click(e):
-        await page.launch_url(config.help_url)
+        await ft.UrlLauncher().launch_url(config.help_url)
 
 
     # ============ ЛЕВАЯ КОЛОНКА ============
