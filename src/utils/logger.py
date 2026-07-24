@@ -2,12 +2,13 @@ import json
 import logging
 import logging.handlers
 from datetime import datetime
-from pathlib import Path
+
+from src.utils.path import get_app_data_dir
 
 
 class UniversalLogger:
     def __init__(self):
-        self.log_dir = Path(__file__).parent.parent.parent / 'logs'
+        self.log_dir = get_app_data_dir() / 'logs'
         self.max_file_size = 5 * 1024 * 1024
         self.log_dir.mkdir(exist_ok=True)
 

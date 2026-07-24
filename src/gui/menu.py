@@ -2,8 +2,8 @@ import asyncio
 
 import flet as ft
 
-from src.app.validators import AppValidator
 from src.config.manager import config
+from src.utils.validators import AppValidator
 
 bot_task = None
 
@@ -54,7 +54,7 @@ def bottom_nav(page: ft.Page, switch_to, selected_index, screens):
 
 
 def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens):
-    from src.gui.screens.running_screen import running_screen
+    from src.gui.running_screen import running_screen
     from src.bot.bot import main as bot_main
     from src.core.exeptions import BotShutdown
     global bot_task

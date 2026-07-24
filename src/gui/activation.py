@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.config.manager import config
-from src.gui.screens.main_screen import main_screen
+from src.gui.main_screen import main_screen
 from src.utils.path import resource_path
 
 

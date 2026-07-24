@@ -1,0 +1,63 @@
+LICENSE AGREEMENT
+FOR THE "PPRCheat" SOFTWARE
+
+This license agreement (hereinafter referred to as the "Agreement") is a legal document between you (hereinafter referred to as the "User") and the software developer "PPRCheat" (hereinafter referred to as the "Developer").
+
+THE INSTALLATION OR USE OF THE SOFTWARE MEANS FULL AND UNCONDITIONAL ACCEPTANCE OF ALL THE TERMS OF THIS AGREEMENT.
+
+1. GENERAL PROVISIONS
+1.1. The "PPRCheat" software (hereinafter referred to as the "Program") is a tool for automating gaming processes and is intended solely for informational purposes.
+1.2. The program is not an official product and is not affiliated with game developers or gaming platforms.
+
+2. DISCLAIMER OF LIABILITY
+2.1. The User is aware of and accepts all risks associated with the use of the Program, including, but not limited to:
+   - Blocking, restricting, or deleting a gaming account;
+   - Loss of game progress, in-game currency, items, or other virtual valuables;
+   - Technical problems with the game client or server.
+
+2.2. The Developer DOES NOT GUARANTEE:
+- Uninterrupted and error-free operation of the Program;
+   - Program compatibility with any game client or game version;
+   - Achieving any specific results when using the Program;
+   - Complete security and confidentiality of the data transmitted through the Program.
+
+2.3. The Developer IS NOT RESPONSIBLE for any direct or indirect damages resulting from the use or inability to use the Program, including, but not limited to: loss of data, loss of profits, account blocking, penalties from the game administration.
+
+3. RIGHTS AND OBLIGATIONS OF THE USER
+3.1. The User undertakes to:
+- Use the Program only at his own risk;
+   - Do not use the Program for commercial purposes without the written permission of the Developer;
+   - Do not distribute, modify, or decompile the Program;
+   - Be fully responsible for all actions performed using the Program.
+
+3.2. The User confirms that:
+- He is familiar with the rules of the gaming platform and is aware that using the Program may violate these rules;
+   - The use of the Program is carried out voluntarily and with full awareness of the possible consequences.
+
+4. USAGE RESTRICTIONS
+4.1. The Program is intended exclusively for personal, non-commercial use.
+4.2. It is prohibited to:
+- Use the Program for purposes contrary to the law;
+   - Create derivative works based on the Program;
+   - Distribute the Program without the Developer's permission.
+
+5. INTELLECTUAL PROPERTY
+5.1. All rights to the Program, including the source code, design and any related materials, belong to the Developer.
+5.2. This Agreement does not grant the User any rights to the Developer's intellectual property, except for the right to use the Program in accordance with the terms of this Agreement.
+
+6. PERIOD OF VALIDITY AND TERMINATION
+6.1. This Agreement comes into force from the moment of installation or the first use of the Program and is valid until its termination.
+6.2. The Developer has the right to terminate this Agreement at any time without prior notice in case of violation by the User of its terms.
+
+7. UPDATES AND CHANGES
+7.1. The Developer reserves the right to make changes to the Program and this Agreement at any time without prior notice.
+7.2. Continued use of the Program after making changes means that the User accepts the new terms.
+
+8. FINAL PROVISIONS
+8.1. This Agreement is governed by and interpreted in accordance with the law.
+8.2. All disputes arising out of or in connection with this Agreement are subject to resolution in the appropriate court at the Developer's location.
+8.3. If any provision of this Agreement is declared invalid or unenforceable, the remaining provisions remain in full force.
+
+BY INSTALLING THE PROGRAM, YOU CONFIRM THAT YOU HAVE READ, UNDERSTOOD AND AGREE TO ALL THE TERMS OF THIS AGREEMENT.
+
+© 2026 PPRCheat. All rights reserved.

@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.config.manager import config
-from src.gui.screens.menu import bottom_nav
+from src.gui.menu import bottom_nav
 from src.utils.path import resource_path
 
 

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from src.utils.path import get_config_path, get_last_log_path
+from src.utils.path import get_app_data_dir
 
 
 class ConfigManager:
@@ -10,11 +10,11 @@ class ConfigManager:
 
     def __init__(
         self,
-        config_path: str = str(get_config_path()),
-        log_path: str = str(get_last_log_path()),
+        config_path: Path = get_app_data_dir() / "user_data" /"config.json",
+        log_path: Path = get_app_data_dir() / "logs" / "session_last.log",
     ):
-        self._config_path = Path(config_path)
-        self._log_path = Path(log_path)
+        self._config_path = config_path
+        self._log_path = log_path
         self._config = self._load()
 
     # ------------------------------------------------------------------

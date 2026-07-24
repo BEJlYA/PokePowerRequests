@@ -225,7 +225,10 @@ class AiohttpClient:
                 raise BotShutdownError(message="Not possible to run away")
 
     @BotDecorator.safe_request
-    async def route(self, id_location: str, fallback_target: str = 'Покецентр') -> None | bool:
+    async def route(self, id_location: str, fallback_target: str = 'Покецентр', attempts: int = 0) -> None | bool:
+        if attempts > 5:
+            self.logger.error(f"Too many attempts to move to {id_location}, giving up")
+            return False
         async with await self.session.post(
                 url='https://pokepower.ru/do/route',
                 data={
@@ -242,7 +245,7 @@ class AiohttpClient:
                 await ParseGameData.geo_position(response, self)
                 return True
             else:
-                await ParseGameData.geo_position(response, self)
+                self.logger.error(f"Failed to move to {id_location}, building fallback...")
 
                 path = DataLocation.find_shortest_named_path(
                     self.position.id,
@@ -253,7 +256,7 @@ class AiohttpClient:
                     return False
 
                 for step in path:
-                    result = await self.route(step, fallback_target)
+                    result = await self.route(step, fallback_target, attempts + 1)
                     if not result:
                         return False
 

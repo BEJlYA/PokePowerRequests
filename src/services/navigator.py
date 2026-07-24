@@ -110,7 +110,7 @@ class DataLocation:
         target_locations = []
         for loc in locations:
             loc_name_lower = loc.name.lower()
-            if any(target_name in loc_name_lower for target_name in target_names):
+            if any(target_name == loc_name_lower for target_name in target_names):
                 target_locations.append(loc)
 
         if not target_locations:
@@ -122,7 +122,7 @@ class DataLocation:
                 return []
 
             path = DataLocation.find_path_by_objects(start_loc, target_loc)
-            if path:
+            if path and isinstance(path, list):
                 all_paths.append((len(path), path))
 
         if not all_paths:

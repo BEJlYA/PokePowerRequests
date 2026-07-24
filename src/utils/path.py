@@ -1,3 +1,5 @@
+import os
+import sys
 from pathlib import Path
 
 def get_project_root() -> Path:
@@ -6,13 +8,10 @@ def get_project_root() -> Path:
 def resource_path(relative_path: str) -> Path:
     return get_project_root() / relative_path
 
-def get_config_path() -> Path:
-    return get_project_root() / "user_data" / "config.json"
-
 def get_data_path(relative_path: str) -> Path:
     return get_project_root() / "data" / relative_path
 
-def get_last_log_path() -> Path:
-    log_dir = get_project_root() / "logs"
-    log_dir.mkdir(parents=True, exist_ok=True)
-    return log_dir / "session_last.log"
+def get_app_data_dir() -> Path:
+    if sys.platform == "win32":
+        return Path(os.environ.get('PROGRAMDATA', '')) / "PPRCheat"
+    return Path.home() / ".local" / "share" / "PPRCheat"

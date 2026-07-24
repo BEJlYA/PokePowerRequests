@@ -1,11 +1,11 @@
 import flet as ft
 
 from src.config.manager import config
-from src.gui.screens.activation import activation_screen
-from src.gui.screens.items_screen import items_screen
-from src.gui.screens.main_screen import main_screen
-from src.gui.screens.pokemon_screen import pokemon_screen
-from src.gui.screens.running_screen import running_screen
+from src.gui.activation import activation_screen
+from src.gui.items_screen import items_screen
+from src.gui.main_screen import main_screen
+from src.gui.pokemon_screen import pokemon_screen
+from src.gui.running_screen import running_screen
 from src.utils.path import resource_path
 
 
