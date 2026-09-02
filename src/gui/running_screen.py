@@ -13,13 +13,13 @@ def running_screen(page: ft.Page, switch_to, selected_index, screens):
         auto_scroll=page.is_running,
     )
 
-    def update_logs():
+    async def update_logs():
         logs = config.load_logs()
         log_list.controls.clear()
         for log in logs:
             log_list.controls.append(ft.Text(log.strip(), color="#FFFFFF"))
         if page.is_running:
-            log_list.scroll_to(offset=-1, duration=300)
+            await log_list.scroll_to(offset=-1, duration=300)
         page.update()
 
     def start_log_updater():
@@ -27,8 +27,8 @@ def running_screen(page: ft.Page, switch_to, selected_index, screens):
         async def update_loop():
             while page.is_running:
                 await asyncio.sleep(1)
-                update_logs()
-            update_logs()
+                await update_logs()
+            await update_logs()
 
         asyncio.create_task(update_loop())
 

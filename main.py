@@ -39,6 +39,8 @@ async def main(page: ft.Page):
         3: running_screen,
     }
 
+    page.window.visible = True
+
     def switch_to(index):
         nonlocal selected_index
         selected_index = index
@@ -50,4 +52,4 @@ async def main(page: ft.Page):
         activation_screen(page, switch_to, selected_index, screens)
 
 
-ft.run(main)
+ft.run(main, view = ft.AppView.FLET_APP_HIDDEN)
