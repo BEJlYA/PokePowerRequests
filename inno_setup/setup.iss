@@ -2,6 +2,7 @@
 
 #define   Name       "PPRCheat"
 #define   Version    "0.9.2"
+#define   SetupVersion    "1.0.0"
 #define   Publisher  "Belisor"
 #define   URL        "https://t.me/BEJlYA"
 #define   ExeName    "PPRCheat.exe"
@@ -10,6 +11,7 @@
 AppId={{82E8192C-F02E-43D8-A478-B4A07EB7889C}
 AppName={#Name}
 AppVersion={#Version}
+VersionInfoVersion={#SetupVersion}
 AppVerName={#Name}
 AppPublisher={#Publisher}
 AppPublisherURL={#URL}
@@ -50,13 +52,16 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "startmenuicon"; Description: "{cm:CreateStartMenuEntry}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-
 ; Исполняемый файл
 Source: "F:\projects\PokePowerRequests\build\windows\PPRCheat.exe"; DestDir: "{app}"; Flags: ignoreversion restartreplace
 ; Прилагающиеся ресурсы
 Source: "F:\projects\PokePowerRequests\build\windows\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs restartreplace
 ; Шаблон конфига (в AppData)
 Source: "F:\projects\PokePowerRequests\user_data\config.json"; DestDir: "{commonappdata}\PPRCheat\user_data"; Flags: onlyifdoesntexist
+
+[UninstallDelete]
+; Удаляем пользовательские данные программы из ProgramData
+Type: filesandordirs; Name: "{commonappdata}\PPRCheat"
 
 [Icons]
 Name: "{group}\{#Name}"; Filename: "{app}\{#ExeName}"; IconFilename: "{app}\app\assets\images\favicon.ico"; Tasks: startmenuicon
