@@ -35,3 +35,18 @@ class TimeManager:
         """Checks if the current time is in a range"""
         current_hour = datetime.now().hour
         return start_hour <= current_hour < end_hour
+
+    @staticmethod
+    def is_timezone_active(timezone: int) -> bool:
+        if timezone == 0:
+            return True
+        ranges = {
+            1: (0, 6),
+            2: (6, 12),
+            3: (12, 18),
+            4: (18, 24),
+        }
+        rng = ranges.get(timezone)
+        if rng is None:
+            return True
+        return TimeManager.is_time_in_range(rng[0], rng[1])

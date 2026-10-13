@@ -1,3 +1,5 @@
+import asyncio
+
 import flet as ft
 
 from src.config.manager import config
@@ -14,23 +16,27 @@ def running_screen(page: ft.Page, switch_to, selected_index, screens):
     )
 
     async def update_logs():
-        logs = config.load_logs()
-        log_list.controls.clear()
-        for log in logs:
-            log_list.controls.append(ft.Text(log.strip(), color="#FFFFFF"))
-        if page.is_running:
-            await log_list.scroll_to(offset=-1, duration=300)
-        page.update()
+        try:
+            logs = config.load_logs()
+            log_list.controls.clear()
+            for log in logs:
+                log_list.controls.append(ft.Text(log.strip(), color="#FFFFFF"))
+            if page.is_running and log_list.page is not None:
+                await log_list.scroll_to(offset=-1, duration=300)
+            page.update()
+        except RuntimeError:
+            return
 
-    def start_log_updater():
-        import asyncio
-        async def update_loop():
+    async def update_loop():
+        try:
             while page.is_running:
                 await asyncio.sleep(1)
+                if log_list.page is None:
+                    return
                 await update_logs()
             await update_logs()
-
-        asyncio.create_task(update_loop())
+        except asyncio.CancelledError:
+            return
 
     page.add(
         ft.Stack(
@@ -70,5 +76,7 @@ def running_screen(page: ft.Page, switch_to, selected_index, screens):
             expand=True,
         )
     )
-    start_log_updater()
     page.update()
+
+    task = asyncio.create_task(update_loop())
+    page._log_task = task

@@ -2,34 +2,44 @@ import flet as ft
 
 from src.config.manager import config
 from src.gui.menu import bottom_nav
+from src.services.task_events import task_events
+from src.services.tasks import Task
 from src.utils.path import resource_path
 
 
+def _replace_tasks_of_kind(kind: str, new_tasks: list[dict]) -> None:
+    current = [t for t in config.target_tasks if t.get("kind") != kind]
+    config.target_tasks = current + new_tasks
+
 def save_items_data(fields_column):
-    items = []
-    seen = set()
+    items: list[dict] = []
+    seen: dict[str, dict] = {}
 
     for field in fields_column.controls:
-        name = field.content.controls[0].content.value
-        count = field.content.controls[1].content.value
+        name_raw = field.content.controls[0].content.value
+        count_raw = field.content.controls[1].content.value
 
-        if name and name.strip():
-            key = (name.strip())
-            if key not in seen:
-                seen.add(key)
-                items.append({
-                    "name": name.strip(),
-                    "count": int(count) if count else 0
-                })
-            else:
-                for p in items:
-                    if p["name"] == name.strip():
-                        p["count"] += int(count) if count else 0
-                        break
+        if not name_raw or not name_raw.strip():
+            continue
 
-    config.target_items = items
+        name = name_raw.strip()
+        count = int(count_raw) if count_raw else 0
 
-def create_item_field(page: ft.Page, fields_column, name=None, count=None):
+        if name in seen:
+            seen[name]["count"] += count
+        else:
+            task = Task(
+                kind="item",
+                name=name,
+                count=count,
+            )
+            entry = task.to_dict()
+            seen[name] = entry
+            items.append(entry)
+
+    _replace_tasks_of_kind("item", items)
+
+def create_item_field(page: ft.Page, fields_column, name=None, count=None, key=None):
     name_field = ft.Container(
         ft.TextField(
             label="Предмет",
@@ -90,22 +100,18 @@ def create_item_field(page: ft.Page, fields_column, name=None, count=None):
         )
     )
 
-    return ft.Container(
-        content=ft.Row(
-            [
-                name_field,
-                count_field,
-            ],
-            spacing=10,
-        ),
+    container = ft.Container(
+        content=ft.Row([name_field, count_field], spacing=10),
         margin=ft.Margin(bottom=10),
     )
+    container.data = key
+    return container
 
 
 def items_screen(page: ft.Page, switch_to, selected_index, screens):
     page.clean()
 
-    saved_items = config.target_items
+    saved_items = [t for t in config.target_tasks if t.get("kind") == "item"]
 
     async def on_help_click(e):
         await ft.UrlLauncher().launch_url(config.help_url)
@@ -117,15 +123,40 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
 
+    def refresh_fields():
+        saved = [t for t in config.target_tasks if t.get("kind") == "item"]
+
+        by_key = {}
+        for t in saved:
+            t_key = t.get("name") or ""
+            by_key[t_key] = t
+
+        for field in fields_column.controls:
+            field_key = getattr(field, "data", None)
+            if field_key is None:
+                continue
+            task = by_key.get(field_key)
+            if task is None:
+                continue
+
+            count_ctrl = field.content.controls[1].content
+            new_count = str(task.get("count", 0))
+            if count_ctrl.value != new_count:
+                count_ctrl.value = new_count
+
     if saved_items:
         for item in saved_items:
+            item_name = item.get("name") or ""
             field = create_item_field(
                 page,
                 fields_column,
-                name=item.get("name"),
-                count=item.get("count")
+                name=item_name,
+                count=item.get("count"),
+                key=item_name,
             )
             fields_column.controls.append(field)
+        if len(fields_column.controls) < 1:
+            fields_column.controls.append(create_item_field(page, fields_column))
     else:
         fields_column.controls.append(create_item_field(page, fields_column))
 
@@ -227,3 +258,14 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
         )
     )
     page.update()
+
+    async def on_tasks_changed():
+        try:
+            if fields_column.page is None:
+                return
+            refresh_fields()
+            page.update()
+        except RuntimeError:
+            return
+
+    task_events.subscribe("tasks_changed", on_tasks_changed)

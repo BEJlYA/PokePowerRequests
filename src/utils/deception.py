@@ -3,7 +3,7 @@ import platform
 import random
 from typing import Dict
 
-from src.utils.time_manager import TimeManager
+from src.services.time_manager import TimeManager
 
 
 class DeceptionManager:

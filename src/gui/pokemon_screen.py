@@ -2,38 +2,55 @@ import flet as ft
 
 from src.config.manager import config
 from src.gui.menu import bottom_nav
+from src.services.task_events import task_events
+from src.services.tasks import Task
 from src.utils.path import resource_path
 
 
+def _replace_tasks_of_kind(kind: str, new_tasks: list[dict]) -> None:
+    current = [t for t in config.target_tasks if t.get("kind") != kind]
+    config.target_tasks = current + new_tasks
+
 def save_pokemons_data(fields_column):
-    pokemons = []
-    seen = set()
+    pokemons: list[dict] = []
+    seen: dict[tuple, dict] = {}
 
     for field in fields_column.controls:
-        name = field.content.controls[0].content.value
-        num = name.strip() if name and name.isdigit() else 0
-        gender = field.content.controls[1].value
-        count = field.content.controls[2].content.value
+        name_raw = field.content.controls[0].content.value
+        gender = field.content.controls[1].value or "Л"
+        count_raw = field.content.controls[2].content.value
 
-        if name and name.strip():
-            key = (name.strip(), gender)
-            if key not in seen:
-                seen.add(key)
-                pokemons.append({
-                    "num": num,
-                    "name": name.strip(),
-                    "gender": gender,
-                    "count": int(count) if count else 0
-                })
-            else:
-                for p in pokemons:
-                    if p["name"] == name.strip() and p["gender"] == gender:
-                        p["count"] += int(count) if count else 0
-                        break
+        if not name_raw or not name_raw.strip():
+            continue
 
-    config.target_pokemons = pokemons
+        raw = name_raw.strip()
+        if raw.isdigit():
+            num, name = raw.zfill(3), ""
+        else:
+            num, name = "", raw
 
-def create_pokemon_field(page: ft.Page, fields_column, name=None, gender=None, count=None):
+        key = (num or name, gender)
+        count = int(count_raw) if count_raw else 0
+
+        if key in seen:
+            seen[key]["count"] += count
+        else:
+            task = Task(
+                kind="pokemon",
+                num=num,
+                name=name,
+                gender=gender,
+                count=count,
+            )
+            entry = task.to_dict()
+            seen[key] = entry
+            pokemons.append(entry)
+
+    _replace_tasks_of_kind("pokemon", pokemons)
+
+def create_pokemon_field(page: ft.Page, fields_column, name=None, num=None, gender=None, count=None, key=None):
+    display_value = num or name or ""
+
     name_field = ft.Container(
         ft.TextField(
             label="Покемон",
@@ -47,7 +64,7 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, gender=None, c
             cursor_color="#FFFFFF",
             selection_color=ft.Colors.BLACK_12,
             width=150,
-            value=name,
+            value=display_value,
             on_change=lambda e: save_pokemons_data(fields_column),
         ),
         shadow=ft.BoxShadow(
@@ -109,7 +126,7 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, gender=None, c
         )
     )
 
-    return ft.Container(
+    container = ft.Container(
         content=ft.Row(
             [
                 name_field,
@@ -120,12 +137,14 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, gender=None, c
         ),
         margin=ft.Margin(bottom=10),
     )
+    container.data = key
+    return container
 
 
 def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
     page.clean()
 
-    saved_pokemons = config.target_pokemons
+    saved_pokemons = [t for t in config.target_tasks if t.get("kind") == "pokemon"]
 
     # ============ ДАННЫЕ ============
     priority_dict = config.priority
@@ -203,16 +222,46 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
 
+    def refresh_fields():
+        saved = [t for t in config.target_tasks if t.get("kind") == "pokemon"]
+
+        by_key = {}
+        for t in saved:
+            t_key = ((t.get("num") or t.get("name")), t.get("gender", "Л"))
+            by_key[t_key] = t
+
+        for field in fields_column.controls:
+            field_key = getattr(field, "data", None)
+            if field_key is None:
+                continue
+            task = by_key.get(field_key)
+            if task is None:
+                continue
+
+            count_field = field.content.controls[2].content
+            new_count = str(task.get("count", 0))
+            if count_field.value != new_count:
+                count_field.value = new_count
+
     if saved_pokemons:
         for pokemon in saved_pokemons:
+            pokemon_num = pokemon.get("num") or ""
+            pokemon_name = pokemon.get("name") or ""
+            pokemon_gender = pokemon.get("gender") or "Л"
+
             field = create_pokemon_field(
                 page,
                 fields_column,
-                name=pokemon.get("name"),
-                gender=pokemon.get("gender"),
-                count=pokemon.get("count")
+                name=pokemon_name,
+                num=pokemon_num,
+                gender=pokemon_gender,
+                count=pokemon.get("count"),
+                key=(pokemon_num or pokemon_name, pokemon_gender),
             )
+
             fields_column.controls.append(field)
+        if len(fields_column.controls) < 1:
+            fields_column.controls.append(create_pokemon_field(page, fields_column))
     else:
         fields_column.controls.append(create_pokemon_field(page, fields_column))
 
@@ -341,3 +390,14 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
         )
     )
     page.update()
+
+    async def on_tasks_changed():
+        try:
+            if fields_column.page is None:
+                return
+            refresh_fields()
+            page.update()
+        except RuntimeError:
+            return
+
+    task_events.subscribe("tasks_changed", on_tasks_changed)

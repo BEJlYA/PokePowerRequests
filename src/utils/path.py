@@ -13,5 +13,10 @@ def get_data_path(relative_path: str) -> Path:
 
 def get_app_data_dir() -> Path:
     if sys.platform == "win32":
-        return Path(os.environ.get('PROGRAMDATA', '')) / "PPRCheat"
-    return Path.home() / ".local" / "share" / "PPRCheat"
+        base = os.environ.get("APPDATA") or str(Path.home() / "AppData" / "Roaming")
+        app_dir = Path(base) / "PPRCheat"
+    else:
+        app_dir = Path.home() / ".local" / "share" / "PPRCheat"
+
+    app_dir.mkdir(parents=True, exist_ok=True)
+    return app_dir

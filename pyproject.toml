@@ -1,6 +1,6 @@
 [project]
 name = "PPRCheat"
-version = "0.9.2"
+version = "0.9.4"
 description = "README.md"
 authors = [{name = "BEJlYA", email = "illyabelskiy2002@gmail.com"}]
 dependencies = [

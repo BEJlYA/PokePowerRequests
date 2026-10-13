@@ -8,7 +8,7 @@ async def main(login: str, password: str):
 
     async with AiohttpClient(settings) as aclient:
         await aclient.auth(settings)
-        await aclient.websocket_sid()
+        # await aclient.websocket_sid()
 
         response = await aclient.init()
 

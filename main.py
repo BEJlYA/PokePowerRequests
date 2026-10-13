@@ -6,6 +6,7 @@ from src.gui.items_screen import items_screen
 from src.gui.main_screen import main_screen
 from src.gui.pokemon_screen import pokemon_screen
 from src.gui.running_screen import running_screen
+from src.services.task_events import task_events
 from src.utils.path import resource_path
 
 
@@ -42,9 +43,24 @@ async def main(page: ft.Page):
     page.window.visible = True
 
     def switch_to(index):
-        nonlocal selected_index
-        selected_index = index
-        screens[index](page, switch_to, selected_index, screens)
+        for attr in ("_log_task", "_screen_task"):
+            task = getattr(page, attr, None)
+            if task and not task.done():
+                task.cancel()
+
+        task_events.clear_topic("tasks_changed")
+
+        page.clean()
+        screens[index](page, switch_to, index, screens)
+
+    def cleanup(e=None):
+        for attr in ("_log_task", "_screen_task"):
+            task = getattr(page, attr, None)
+            if task and not task.done():
+                task.cancel()
+        task_events.clear_topic("tasks_changed")
+
+    page.on_disconnect = cleanup
 
     if config.activated:
         main_screen(page, switch_to, selected_index, screens)

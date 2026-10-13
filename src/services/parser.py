@@ -1,5 +1,5 @@
 from src.services.battle import MyTarget
-from src.services.tasks import UsingPokeballs
+from src.services.task_manager import UsingPokeballs
 from src.utils.decorators import BotDecorator
 
 

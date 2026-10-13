@@ -1,7 +1,7 @@
 #include "CodeDependencies.iss"
 
 #define   Name       "PPRCheat"
-#define   Version    "0.9.2"
+#define   Version    "0.9.4"
 #define   SetupVersion    "1.0.0"
 #define   Publisher  "Belisor"
 #define   URL        "https://t.me/BEJlYA"
@@ -56,8 +56,6 @@ Name: "startmenuicon"; Description: "{cm:CreateStartMenuEntry}"; GroupDescriptio
 Source: "F:\projects\PokePowerRequests\build\windows\PPRCheat.exe"; DestDir: "{app}"; Flags: ignoreversion restartreplace
 ; Прилагающиеся ресурсы
 Source: "F:\projects\PokePowerRequests\build\windows\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs restartreplace
-; Шаблон конфига (в AppData)
-Source: "F:\projects\PokePowerRequests\user_data\config.json"; DestDir: "{commonappdata}\PPRCheat\user_data"; Flags: onlyifdoesntexist
 
 [UninstallDelete]
 ; Удаляем пользовательские данные программы из ProgramData

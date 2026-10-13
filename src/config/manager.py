@@ -2,12 +2,42 @@ import json
 from pathlib import Path
 from typing import Any
 
+from src.services.tasks import Task, GENDER_MAP
 from src.utils.path import get_app_data_dir
 
+DEFAULT_CONFIG = {
+    "version": "beta 0.9.4",
+    "activated": False,
+    "login": "",
+    "password": "",
+    "catchShiny": True,
+    "viewingLogs": False,
+    "notChageHero": True,
+    "special_priority_pokeballs": {
+        "Взломанный Шайнибол": 1,
+        "Шайнибол": 2,
+        "Генобол": 3,
+        "Мастербол": 4,
+        "Ультрабол": 5,
+        "Дистанцбол": 6,
+        "Покебол": 7,
+        "Гритбол": 8
+    },
+    "priority_pokeballs": {
+        "Покебол": 1,
+        "Ультрабол": 2,
+        "Гритбол": 3,
+        "Генобол": 4,
+        "Дистанцбол": 5,
+        "Мастербол": 6,
+        "Шайнибол": 7,
+        "Взломанный Шайнибол": 8
+    },
+    "targetTasks": []
+}
 
 class ConfigManager:
     """Менеджер конфигурации приложения."""
-
     def __init__(
         self,
         config_path: Path = get_app_data_dir() / "user_data" /"config.json",
@@ -22,31 +52,32 @@ class ConfigManager:
     # ------------------------------------------------------------------
 
     def _load(self) -> dict[str, Any]:
+        """Читает конфиг с диска. Если файла нет — создаёт дефолтный."""
         if not self._config_path.exists():
-            return {}
+            config = DEFAULT_CONFIG.copy()
+            self._write(config)
+            return config
 
-        with self._config_path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            return json.load(file)
+        try:
+            with self._config_path.open("r", encoding="utf-8") as file:
+                data = json.load(file)
+        except (json.JSONDecodeError, OSError):
+            config = DEFAULT_CONFIG.copy()
+            self._write(config)
+            return config
+
+        for key, value in DEFAULT_CONFIG.items():
+            data.setdefault(key, value)
+        return data
+
+    def _write(self, data: dict[str, Any]) -> None:
+        """Атомарно записывает конфиг на диск."""
+        self._config_path.parent.mkdir(parents=True, exist_ok=True)
+        with self._config_path.open("w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
 
     def save(self) -> None:
-        self._config_path.parent.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
-
-        with self._config_path.open(
-            "w",
-            encoding="utf-8",
-        ) as file:
-            json.dump(
-                self._config,
-                file,
-                indent=4,
-                ensure_ascii=False,
-            )
+        self._write(self._config)
 
     # ------------------------------------------------------------------
     # GENERIC API
@@ -81,7 +112,7 @@ class ConfigManager:
 
     @property
     def version(self) -> str:
-        return self.get("version", "beta 0.1")
+        return self.get("version", "beta 0.9.4")
 
     @property
     def login(self) -> str:
@@ -163,59 +194,40 @@ class ConfigManager:
         )
 
     @property
-    def target_pokemons(self) -> list:
-        return self.get(
-            "targetPokemons",
-            [],
-        )
+    def target_tasks(self) -> list[dict]:
+        return self.get("targetTasks", [])
 
-    @target_pokemons.setter
-    def target_pokemons(
-        self,
-        value: list,
-    ):
-        self.set(
-            "targetPokemons",
-            value,
-        )
+    @target_tasks.setter
+    def target_tasks(self, value: list[dict]) -> None:
+        self.set("targetTasks", value)
 
-    def decrease_pokemon_count(self, num: str = None, name: str = None, gender: str = None, amount: int = 1):
-        pokemons = self.target_pokemons
-        for pokemon in pokemons:
-            if (num and pokemon.get('num') == num) or (name and pokemon.get('name') == name):
-                if gender is None or pokemon.get('gender') == gender or pokemon.get('gender') == 'any':
-                    current = int(pokemon.get('count', 0))
-                    pokemon['count'] = max(current - amount, 0)
-                    break
-        self.target_pokemons = pokemons
-        return self.target_pokemons
+    async def decrease_task_count(self, task: Task, amount: int = 1) -> list[dict]:
+        for entry in self.target_tasks:
+            if entry.get("kind") != task.kind:
+                continue
 
-    @property
-    def target_items(self) -> list:
-        return self.get(
-            "targetItems",
-            [],
-        )
+            if task.kind == "pokemon":
+                entry_id = entry.get("num") or entry.get("name")
+                task_id = task.num or task.name
+                if entry_id != task_id:
+                    continue
 
-    @target_items.setter
-    def target_items(
-        self,
-        value: list,
-    ):
-        self.set(
-            "targetItems",
-            value,
-        )
+                entry_gender_ui = entry.get("gender", "Л")
+                if entry_gender_ui != "Л" and GENDER_MAP.get(entry_gender_ui) != task.gender:
+                    continue
+            else:
+                if entry.get("name") != task.name:
+                    continue
 
-    def decrease_item_count(self, name: str, amount: int = 1):
-        items = self.target_items
-        for item in items:
-            if item.get('name') == name:
-                current = int(item.get('count', 0))
-                item['count'] = max(current - amount, 0)
-                break
-        self.target_items = items
-        return self.target_items
+            entry["count"] = max(int(entry.get("count", 0)) - amount, 0)
+            break
+
+        self.target_tasks = [e for e in self.target_tasks if int(e.get("count", 0)) > 0]
+
+        from src.services.task_events import task_events
+        await task_events.emit("tasks_changed")
+
+        return self.target_tasks
 
     # ------------------------------------------------------------------
     # LOGS

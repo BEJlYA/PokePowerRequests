@@ -1,5 +1,6 @@
 from src.services.movements import MovementsController
 from src.services.parser import ParseGameData
+from src.services.tasks import tasks
 from src.utils.decorators import BotDecorator
 
 
@@ -65,19 +66,19 @@ class ResponseChecker:
                             return
 
             elif (
-                    len(client.team) < 6 and
-                    client.tasks.targetPokemons and
-                    client.enemy.catch == 1 and
-                    any(
-                        (
-                                client.enemy.basenum2 == targetPokemon.get('num') or
-                                client.enemy.name == targetPokemon.get('name')
-                        ) and (
-                                client.enemy.sex2 == targetPokemon.get('gender') or
-                                targetPokemon.get('gender') == 'any'
+                    len(client.team) < 6
+                    and client.enemy.catch == 1
+                    and any(
+                        task.kind == "pokemon"
+                        and (
+                                (task.num and task.num == str(client.enemy.basenum2))
+                                or (task.name and task.name == client.enemy.name)
                         )
-                        for targetPokemon in client.tasks.targetPokemons
-                        if isinstance(targetPokemon, dict)
+                        and (
+                                task.gender == "any"
+                                or task.gender == client.enemy.sex2
+                        )
+                        for task in tasks
                     )
             ):  # Catch certain pokémon
                 if not json_data.get('battleInfo').get('log'):
