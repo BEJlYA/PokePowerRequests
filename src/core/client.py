@@ -67,7 +67,6 @@ class AiohttpClient:
             await MovementsController.status_authentication(response)
             self.logger.debug('Successful authorization...')
 
-    '''
     @BotDecorator.safe_request
     async def websocket_sid(self) -> None:
         token = self.session.cookie_jar.filter_cookies('https://pokepower.ru').get("hash").value
@@ -77,7 +76,6 @@ class AiohttpClient:
         ):
             self.logger.debug('Socket connection successfully established...')
             return
-    '''
 
     @BotDecorator.safe_request
     async def init(self) -> None:
