@@ -10,7 +10,7 @@ class UniversalLogger:
     def __init__(self):
         self.log_dir = get_app_data_dir() / 'logs'
         self.max_file_size = 5 * 1024 * 1024
-        self.log_dir.mkdir(exist_ok=True)
+        self.log_dir.mkdir(parents=True, exist_ok=True)
 
         self.logger = logging.getLogger('PPRCheat')
         self.logger.setLevel(logging.DEBUG)
@@ -94,7 +94,7 @@ class UniversalLogger:
         self.logger.addHandler(console_handler)
 
     def cleanup_old_sessions(self):
-        all_session_files = list(self.log_dir.glob("session_*.log*"))
+        all_session_files = list(self.log_dir.glob("session_????????.log*"))
 
         keep_sessions = set(self.sessions[:3])
 

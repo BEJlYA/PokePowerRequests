@@ -2,12 +2,9 @@ import flet as ft
 
 from src.config.manager import config
 from src.gui.menu import bottom_nav
-from src.utils.path import resource_path
 
 
-def main_screen(page: ft.Page, switch_to, selected_index, screens):
-    page.clean()
-
+def main_screen(page: ft.Page, switch_to, selected_index, screens, main_container):
     highlight_login = page.session.store.get("highlight_login")
     highlight_password = page.session.store.get("highlight_password")
 
@@ -17,9 +14,11 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
             ft.TextField(
                 label=label,
                 label_style=ft.TextStyle(color="#FFFFFF"),
-                border_radius=15,
+                border=ft.OutlineInputBorder(
+                    border_radius=15,
+                    side=ft.BorderSide.none()
+                ),
                 bgcolor=bgcolor,
-                border_color="transparent",
                 color="#FFFFFF",
                 cursor_color="#FFFFFF",
                 selection_color=ft.Colors.BLACK_12,
@@ -133,7 +132,7 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
                                     icon_color="#FFFFFF",
                                     icon_size=20,
                                     on_click=lambda e, i=index: move_up(i),
-                                    disabled=(index == len(priority_items) - 0),
+                                    disabled=(index == 0),
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.ARROW_DOWNWARD,
@@ -154,7 +153,6 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
                 margin=1
             )
             list_container.controls.append(item_card)
-        page.update()
 
     # ============ ЛЕВАЯ КОЛОНКА ============
     left_column = ft.Column(
@@ -177,9 +175,9 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
                 on_change=lambda e: setattr(config, "not_change_hero", e.control.value),
             ),
         ],
-        margin=20,
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         spacing=37,
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        margin=20,
     )
 
     # ============ ПРАВАЯ КОЛОНКА ============
@@ -222,45 +220,47 @@ def main_screen(page: ft.Page, switch_to, selected_index, screens):
     # ============ СБОРКА ============
     update_list()
 
-    page.add(
-        ft.Stack(
-            [
-                ft.Container(
-                    expand=True,
-                    image=ft.DecorationImage(
-                        src=str(resource_path("assets/images/main_background.png")),
-                        fit=ft.BoxFit.COVER
-                    ),
-                    bgcolor="#4C6186"
+    main_container.content = ft.Stack(
+        [
+            ft.Container(
+                content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
+                alignment=ft.Alignment(-1, 1),
+                margin=10
+            ),
+            ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Column(
+                            [
+                                ft.ResponsiveRow(
+                                    [
+                                        ft.Container(
+                                            left_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.TOP_LEFT,
+                                        ),
+                                        ft.Container(
+                                            right_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.CENTER,
+                                        ),
+                                    ],
+                                    alignment=ft.MainAxisAlignment.CENTER,
+                                    vertical_alignment=ft.CrossAxisAlignment.START,
+                                    disabled=page.is_running,
+                                ),
+                            ],
+                            scroll=ft.ScrollMode.AUTO,
+                            expand=True,
+                        ),
+                        ft.Container(
+                            content=bottom_nav(page, switch_to, selected_index, screens, main_container),
+                            alignment=ft.Alignment.BOTTOM_CENTER
+                        ),
+                    ],
+                    spacing=0,
                 ),
-                ft.Container(
-                    content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
-                    alignment=ft.Alignment(-1, 1),
-                    margin=10
-                ),
-                ft.Container(
-                    content=ft.Column(
-                        [
-                            ft.Row(
-                                [
-                                    ft.Container(left_column, expand=True, alignment=ft.Alignment.TOP_LEFT),
-                                    ft.Container(right_column, expand=True, alignment=ft.Alignment.CENTER),
-                                ],
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                                disabled=page.is_running
-                            ),
-                            ft.Container(
-                                content=bottom_nav(page, switch_to, selected_index, screens),
-                                alignment=ft.Alignment.BOTTOM_CENTER,
-                                expand=True
-                            ),
-                        ],
-                    ),
-                ),
-            ],
-            expand=True,
-        )
+            ),
+        ],
+        expand=True,
     )
-
-    page.update()

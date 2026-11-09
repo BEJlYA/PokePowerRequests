@@ -12,7 +12,12 @@ def get_data_path(relative_path: str) -> Path:
     return get_project_root() / "data" / relative_path
 
 def get_app_data_dir() -> Path:
-    if sys.platform == "win32":
+    if sys.platform == "android":
+        base = os.environ.get("FLET_APP_STORAGE_DATA")
+        if not base:
+            base = "/data/data/com.belisor.pprcheat/files/data"
+        app_dir = Path(base) / "PPRCheat"
+    elif sys.platform == "win32":
         base = os.environ.get("APPDATA") or str(Path.home() / "AppData" / "Roaming")
         app_dir = Path(base) / "PPRCheat"
     else:

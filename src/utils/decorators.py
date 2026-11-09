@@ -101,7 +101,7 @@ class BotDecorator:
                 raise
 
             except asyncio.exceptions.CancelledError:
-                pass
+                raise
 
             except Exception as e:
                 frame = traceback.extract_tb(e.__traceback__)[-1]

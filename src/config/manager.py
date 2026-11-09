@@ -6,7 +6,7 @@ from src.services.tasks import Task, GENDER_MAP
 from src.utils.path import get_app_data_dir
 
 DEFAULT_CONFIG = {
-    "version": "beta 0.9.4",
+    "version": "beta 0.9.5",
     "activated": False,
     "login": "",
     "password": "",
@@ -66,6 +66,11 @@ class ConfigManager:
             self._write(config)
             return config
 
+        if data.get("version") != DEFAULT_CONFIG["version"]:
+            config = DEFAULT_CONFIG.copy()
+            self._write(config)
+            return config
+
         for key, value in DEFAULT_CONFIG.items():
             data.setdefault(key, value)
         return data
@@ -112,7 +117,7 @@ class ConfigManager:
 
     @property
     def version(self) -> str:
-        return self.get("version", "beta 0.9.4")
+        return self.get("version", "beta 0.9.5")
 
     @property
     def login(self) -> str:

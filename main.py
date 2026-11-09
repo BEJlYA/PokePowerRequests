@@ -1,4 +1,7 @@
+import asyncio
+
 import flet as ft
+import flet_notifications as ftn
 
 from src.config.manager import config
 from src.gui.activation import activation_screen
@@ -12,14 +15,22 @@ from src.utils.path import resource_path
 
 async def main(page: ft.Page):
     # ============ НАСТРОЙКИ ОКНА ============
-    page.window.icon = str(resource_path("assets/images/favicon.ico"))
     page.title = "PPRCheat"
-    page.window.width = 900
-    page.window.height = 600
-    page.window.resizable = False
-    page.window.maximizable = False
-    page.window.minimizable = True
-    await page.window.center()
+
+    page.is_desktop = page.platform not in (ft.PagePlatform.ANDROID, ft.PagePlatform.IOS)
+
+    if page.is_desktop:
+        page.window.width = 900
+        page.window.height = 600
+        page.window.resizable = False
+        page.window.maximizable = False
+        page.window.minimizable = True
+        page.window.icon = str(resource_path("assets/favicon.ico"))
+    page.adaptive = True
+
+    page.is_running = False
+    page.notifications = ftn.Notifications()
+
 
     page.theme_mode = ft.ThemeMode.SYSTEM
     page.padding = 0
@@ -28,11 +39,21 @@ async def main(page: ft.Page):
     page.fonts = {
         "Rubik": str(resource_path("assets/fonts/Rubik-Medium.ttf")),
     }
-    page.theme = ft.Theme(font_family="Rubik")
+    page.theme = ft.Theme(
+        font_family="Rubik"
+    )
+    page.bgcolor = ft.Colors.TRANSPARENT
+    page.decoration = ft.BoxDecoration(
+        bgcolor="#4C6186",
+        image=ft.DecorationImage(
+            src=str(
+                resource_path("assets/images/main_background.png")
+            ),
+            fit=ft.BoxFit.COVER
+        )
+    )
 
     selected_index = 0
-    page.is_running = False
-
     screens = {
         0: main_screen,
         1: pokemon_screen,
@@ -40,7 +61,7 @@ async def main(page: ft.Page):
         3: running_screen,
     }
 
-    page.window.visible = True
+    main_container = ft.Container(expand=True)
 
     def switch_to(index):
         for attr in ("_log_task", "_screen_task"):
@@ -50,8 +71,9 @@ async def main(page: ft.Page):
 
         task_events.clear_topic("tasks_changed")
 
-        page.clean()
-        screens[index](page, switch_to, index, screens)
+        main_container.content = None
+
+        screens[index](page, switch_to, index, screens, main_container)
 
     def cleanup(e=None):
         for attr in ("_log_task", "_screen_task"):
@@ -63,9 +85,25 @@ async def main(page: ft.Page):
     page.on_disconnect = cleanup
 
     if config.activated:
-        main_screen(page, switch_to, selected_index, screens)
+        main_screen(page, switch_to, selected_index, screens, main_container)
     else:
-        activation_screen(page, switch_to, selected_index, screens)
+        activation_screen(page, switch_to, selected_index, screens, main_container)
 
+    page.add(
+        ft.SafeArea(
+            content=main_container,
+            expand=True,
+            maintain_bottom_view_padding=True
+        )
+    )
+
+    if not page.is_desktop:
+        asyncio.create_task(
+            page.notifications.request_permissions()
+        )
+
+    if page.is_desktop:
+        await page.window.center()
+        page.window.visible = True
 
 ft.run(main, view = ft.AppView.FLET_APP_HIDDEN)

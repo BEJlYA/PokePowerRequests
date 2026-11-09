@@ -4,7 +4,6 @@ from src.config.manager import config
 from src.gui.menu import bottom_nav
 from src.services.task_events import task_events
 from src.services.tasks import Task
-from src.utils.path import resource_path
 
 
 def _replace_tasks_of_kind(kind: str, new_tasks: list[dict]) -> None:
@@ -57,9 +56,11 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, num=None, gend
             label_style=ft.TextStyle(color="#FFFFFF"),
             hint_text="009/Катерпи",
             hint_style=ft.TextStyle(color="#FFFFFF"),
-            border_radius=15,
+            border=ft.OutlineInputBorder(
+                border_radius=15,
+                side=ft.BorderSide.none()
+            ),
             bgcolor="#7092BE",
-            border_color="transparent",
             color="#FFFFFF",
             cursor_color="#FFFFFF",
             selection_color=ft.Colors.BLACK_12,
@@ -109,9 +110,11 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, num=None, gend
         content=ft.TextField(
             hint_text="Кол-во",
             hint_style=ft.TextStyle(color="#FFFFFF"),
-            border_radius=15,
+            border=ft.OutlineInputBorder(
+                border_radius=15,
+                side=ft.BorderSide.none()
+            ),
             bgcolor="#7092BE",
-            border_color="transparent",
             color="#FFFFFF",
             cursor_color="#FFFFFF",
             selection_color=ft.Colors.BLACK_12,
@@ -141,9 +144,7 @@ def create_pokemon_field(page: ft.Page, fields_column, name=None, num=None, gend
     return container
 
 
-def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
-    page.clean()
-
+def pokemon_screen(page: ft.Page, switch_to, selected_index, screens, main_container):
     saved_pokemons = [t for t in config.target_tasks if t.get("kind") == "pokemon"]
 
     # ============ ДАННЫЕ ============
@@ -193,14 +194,14 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
                                     icon_color="#FFFFFF",
                                     icon_size=20,
                                     on_click=lambda e, i=index: move_up(i),
-                                    disabled=True if page.is_running else (index == len(priority_items) - 0),
+                                    disabled=(index == 0),
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.ARROW_DOWNWARD,
                                     icon_color="#FFFFFF",
                                     icon_size=20,
                                     on_click=lambda e, i=index: move_down(i),
-                                    disabled=True if page.is_running else (index == len(priority_items) - 1),
+                                    disabled=(index == len(priority_items) - 1),
                                 ),
                             ],
                             spacing=0,
@@ -214,7 +215,6 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
                 margin=1
             )
             list_container.controls.append(item_card)
-        page.update()
 
     # ============ ЛЕВАЯ КОЛОНКА ============
     fields_column = ft.Column(
@@ -268,11 +268,9 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
     def add_field(e):
         fields_column.controls.append(create_pokemon_field(page, fields_column))
         save_pokemons_data(fields_column)
-        page.update()
 
         if len(fields_column.controls) == 7:
             plus_button.visible = False
-            page.update()
             return
 
     plus_button = ft.Container(
@@ -296,10 +294,9 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
             fields_column,
             plus_button
         ],
-        spacing=10,
+        spacing=37,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        margin=ft.Margin.only(left=20, top=20),
-        disabled=page.is_running
+        margin=ft.Margin.only(left=20, top=20)
     )
 
     # ============ ПРАВАЯ КОЛОНКА ============
@@ -342,61 +339,57 @@ def pokemon_screen(page: ft.Page, switch_to, selected_index, screens):
     # ============ СБОРКА ============
     update_list()
 
-    page.add(
-        ft.Stack(
-            [
-                ft.Container(
-                    expand=True,
-                    image=ft.DecorationImage(
-                        src=str(resource_path("assets/images/main_background.png")),
-                        fit=ft.BoxFit.COVER
-                    ),
-                    bgcolor="#4C6186"
+    main_container.content = ft.Stack(
+        [
+            ft.Container(
+                content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
+                alignment=ft.Alignment(-1, 1),
+                margin=10,
+            ),
+            ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Column(
+                            [
+                                ft.ResponsiveRow(
+                                    [
+                                        ft.Container(
+                                            left_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.TOP_LEFT,
+                                        ),
+                                        ft.Container(
+                                            right_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.CENTER,
+                                        ),
+                                    ],
+                                    alignment=ft.MainAxisAlignment.CENTER,
+                                    vertical_alignment=ft.CrossAxisAlignment.START,
+                                    disabled=page.is_running,
+                                ),
+                            ],
+                            scroll=ft.ScrollMode.AUTO,
+                            expand=True,
+                        ),
+                        ft.Container(
+                            content=bottom_nav(page, switch_to, selected_index, screens, main_container),
+                            alignment=ft.Alignment.BOTTOM_CENTER
+                        ),
+                    ],
+                    spacing=0,
                 ),
-                ft.Container(
-                    content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
-                    alignment=ft.Alignment(-1, 1),
-                    margin=10,
-                ),
-                ft.Container(
-                    content=ft.Column(
-                        [
-                            ft.Row(
-                                [
-                                    ft.Container(
-                                        left_column,
-                                        expand=True,
-                                        alignment=ft.Alignment.CENTER,
-                                    ),
-                                    ft.Container(
-                                        right_column,
-                                        expand=True,
-                                        alignment=ft.Alignment.CENTER,
-                                    ),
-                                ],
-                                expand=True,
-                            ),
-                            ft.Container(
-                                content=bottom_nav(page, switch_to, selected_index, screens),
-                                alignment=ft.Alignment.BOTTOM_CENTER,
-                            ),
-                        ],
-                        expand=True,
-                    ),
-                    expand=True,
-                ),
-            ],
-            expand=True,
-        )
+            ),
+
+        ],
+        expand=True,
     )
-    page.update()
 
     async def on_tasks_changed():
         try:
             if fields_column.page is None:
                 return
             refresh_fields()
-            page.update()
         except RuntimeError:
             return
 

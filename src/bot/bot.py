@@ -1,3 +1,5 @@
+import os
+
 from src.config.settings import Settings
 from src.core.client import AiohttpClient
 from src.core.models import ResponseChecker
@@ -7,7 +9,8 @@ async def main(login: str, password: str):
     settings = Settings(login, password)
 
     async with AiohttpClient(settings) as aclient:
-        await aclient.auth(settings)
+        if not os.path.exists(aclient.cookie_path):
+            await aclient.auth(settings)
 
         response = await aclient.init()
 

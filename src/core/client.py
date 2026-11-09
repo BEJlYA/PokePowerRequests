@@ -14,12 +14,13 @@ from src.services.task_manager import TaskManager
 from src.utils.deception import DeceptionManager
 from src.utils.decorators import BotDecorator
 from src.utils.logger import UniversalLogger
+from src.utils.path import get_app_data_dir
 
 
 class AiohttpClient:
     def __init__(self, settings: object):
         self.session = None  # Session
-        self.deception = DeceptionManager()  # Custom generator
+        self.deception = DeceptionManager(settings)  # Custom generator
         self.tasks = TaskManager()  # Tasks for execution
         self.team = []  # Our team of Pokémon
         self.pokeballs = None  # Our items for using in battle
@@ -31,9 +32,18 @@ class AiohttpClient:
         self.position = MyPosition()  # Information about position
         self.logger = UniversalLogger()  # Logger makes info about works
 
+        self.jar = aiohttp.CookieJar()
+        self.cookie_path = str(get_app_data_dir() / "user_data" /"cookies.json")
     async def __aenter__(self):
+        try:
+            self.jar.load(self.cookie_path)
+            self.logger.debug("Cookies loaded successfully.")
+        except Exception as e:
+            self.logger.debug(f"Failed to load cookies: {e}")
+
         self.session = aiohttp.ClientSession(
-            headers=self.deception.random_headers()
+            headers=self.deception.random_headers(),
+            cookie_jar=self.jar
         )
         self.logger.bot_start()
         return self
@@ -65,7 +75,13 @@ class AiohttpClient:
                 }
         ) as response:
             await MovementsController.status_authentication(response)
+            await self.cookies()
             self.logger.debug('Successful authorization...')
+
+    @BotDecorator.safe_request
+    async def cookies(self) -> None:
+        self.jar.save(self.cookie_path)
+        self.logger.debug("Cookies saved successfully.")
 
     @BotDecorator.safe_request
     async def websocket_sid(self) -> None:

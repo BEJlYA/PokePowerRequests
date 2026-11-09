@@ -1,7 +1,7 @@
 #include "CodeDependencies.iss"
 
 #define   Name       "PPRCheat"
-#define   Version    "0.9.4"
+#define   Version    "0.9.5"
 #define   SetupVersion    "1.0.0"
 #define   Publisher  "Belisor"
 #define   URL        "https://t.me/BEJlYA"
@@ -31,7 +31,7 @@ OutputDir=F:\projects\PokePowerRequests
 OutputBaseFileName=PPRCheat
 
 ; Файл иконки
-SetupIconFile=F:\projects\PokePowerRequests\assets\images\favicon.ico
+SetupIconFile=F:\projects\PokePowerRequests\assets\favicon.ico
 
 ; Параметры сжатия
 Compression=lzma
@@ -47,9 +47,9 @@ russian.CreateStartMenuEntry=Создать папку в меню "Пуск"
 
 [Tasks]
 ; Создание иконки на рабочем столе
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"
 ; Создание иконки в панели Пуск
-Name: "startmenuicon"; Description: "{cm:CreateStartMenuEntry}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "startmenuicon"; Description: "{cm:CreateStartMenuEntry}"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
 ; Исполняемый файл
@@ -62,8 +62,9 @@ Source: "F:\projects\PokePowerRequests\build\windows\*"; DestDir: "{app}"; Flags
 Type: filesandordirs; Name: "{commonappdata}\PPRCheat"
 
 [Icons]
-Name: "{group}\{#Name}"; Filename: "{app}\{#ExeName}"; IconFilename: "{app}\app\assets\images\favicon.ico"; Tasks: startmenuicon
-Name: "{commondesktop}\{#Name}"; Filename: "{app}\{#ExeName}"; Tasks: desktopicon; IconFilename: "{app}\app\assets\images\favicon.ico"
+Name: "{group}\{#Name}"; Filename: "{app}\{#ExeName}"; IconFilename: "{app}\app\assets\favicon.ico"; Tasks: startmenuicon
+Name: "{commondesktop}\{#Name}"; Filename: "{app}\{#ExeName}"; Tasks: desktopicon; IconFilename: "{app}\app\assets\favicon.ico"
+Name: "{group}\Удалить {#Name}"; Filename: "{uninstallexe}"; Tasks: startmenuicon; IconFilename: "{app}\app\assets\favicon_basket.ico"
 
 [Run]
 Filename: "{app}\{#ExeName}"; Description: "{cm:LaunchProgram,{#Name}}"; Flags: postinstall nowait skipifsilent

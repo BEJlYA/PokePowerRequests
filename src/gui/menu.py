@@ -1,13 +1,14 @@
 import asyncio
 
 import flet as ft
+import flet_notifications as ftn
 
 from src.config.manager import config
 from src.utils.validators import AppValidator
 
 bot_task = None
 
-def bottom_nav(page: ft.Page, switch_to, selected_index, screens):
+def bottom_nav(page: ft.Page, switch_to, selected_index, screens, main_container):
     icons = [
         ft.Icons.HOME_WORK_OUTLINED,
         ft.Icons.CATCHING_POKEMON,
@@ -21,9 +22,10 @@ def bottom_nav(page: ft.Page, switch_to, selected_index, screens):
 
         def get_on_click(idx):
             if idx == 3:
-                return lambda e: handle_play_pause(e, page, switch_to, selected_index, screens)
+                return lambda e: handle_play_pause(e, page, switch_to, selected_index, screens, main_container)
             else:
                 return lambda e, idx=idx: switch_to(idx)
+
 
         nav_item = ft.IconButton(
             icon=icon,
@@ -42,7 +44,7 @@ def bottom_nav(page: ft.Page, switch_to, selected_index, screens):
         ),
         bgcolor="#008000" if page.is_running else "#B64B4B",
         padding=ft.Padding.symmetric(vertical=6, horizontal=0),
-        border_radius=ft.BorderRadius.only(top_left=25, top_right=25),
+        border_radius=ft.BorderRadius.only(top_left=25, top_right=25) if page.is_desktop else None,
         width=400,
         height=56,
         shadow=ft.BoxShadow(
@@ -53,7 +55,7 @@ def bottom_nav(page: ft.Page, switch_to, selected_index, screens):
     )
 
 
-def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens):
+def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens, main_container):
     from src.gui.running_screen import running_screen
     from src.bot.bot import main as bot_main
     from src.core.exeptions import BotShutdown
@@ -61,14 +63,14 @@ def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens):
 
     show_logs = config.viewing_logs
 
-    def stop_bot():
+    async def stop_bot():
         page.is_running = False
         if bot_task and not bot_task.done():
+            if not page.is_desktop:
+                await page.notifications.stop_foreground_service()
             bot_task.cancel()
 
-        screens[selected_index](page, switch_to, selected_index, screens)
-
-        page.update()
+        screens[selected_index](page, switch_to, selected_index, screens, main_container)
 
     if not page.is_running:
         ok, msg, target_screen = AppValidator.check_required_data()
@@ -81,25 +83,50 @@ def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens):
 
         async def run_bot():
             try:
+                if not page.is_desktop:
+                    async def on_action(e: ftn.NotificationActionEvent):
+                        if e.action_id == "stop_bot":
+                            await page.notifications.stop_foreground_service()
+                            await stop_bot()
+
+                    page.notifications.on_action = on_action
+
+                    await page.notifications.start_foreground_service(
+                        1,
+                        body="Бот выполняет задачи...",
+                        service_types=[ftn.AndroidForegroundServiceType.DATA_SYNC],
+                        actions=[
+                            ftn.NotificationAction(
+                                id="stop_bot",
+                                title="Остановить",
+                            )
+                        ],
+                        options=ftn.NotificationOptions(
+                            android=ftn.AndroidOptions(
+                                icon="ic_notification",
+                                silent=True
+                            )
+                        )
+                    )
                 await bot_main(config.login, config.password)
             except BotShutdown as e:
-                stop_bot()
+                await stop_bot()
             except Exception as e:
-                stop_bot()
+                await stop_bot()
 
         bot_task = asyncio.create_task(run_bot())
 
         if show_logs:
             switch_to(3)
         else:
-            screens[selected_index](page, switch_to, selected_index, screens)
+            screens[selected_index](page, switch_to, selected_index, screens, main_container)
         return
 
     if selected_index == 3 and show_logs:
         page.is_running = False
         if bot_task and not bot_task.done():
             bot_task.cancel()
-        running_screen(page, switch_to, selected_index, screens)
+        running_screen(page, switch_to, selected_index, screens, main_container)
         return
     elif selected_index == 3 and not show_logs:
         page.is_running = False
@@ -113,4 +140,4 @@ def handle_play_pause(e, page: ft.Page, switch_to, selected_index, screens):
             page.is_running = False
             if bot_task and not bot_task.done():
                 bot_task.cancel()
-            screens[selected_index](page, switch_to, selected_index, screens)
+            screens[selected_index](page, switch_to, selected_index, screens, main_container)

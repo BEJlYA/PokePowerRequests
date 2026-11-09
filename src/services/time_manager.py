@@ -26,9 +26,8 @@ class TimeManager:
 
     @staticmethod
     def calculate_time(time_end: str) -> int:
-        """Calculates the value of subtracting time from the current moment"""
-        time_now = TimeManager.get_current_seconds()
-        return (time_now - int(time_end)).total_seconds()
+        time_now = int(datetime.now().timestamp())
+        return max(0, int(time_end) - time_now)
 
     @staticmethod
     def is_time_in_range(start_hour: int, end_hour: int) -> bool:

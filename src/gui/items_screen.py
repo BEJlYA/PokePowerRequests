@@ -46,9 +46,11 @@ def create_item_field(page: ft.Page, fields_column, name=None, count=None, key=N
             label_style=ft.TextStyle(color="#FFFFFF"),
             hint_text="Название предмета",
             hint_style=ft.TextStyle(color="#FFFFFF"),
-            border_radius=15,
+            border=ft.OutlineInputBorder(
+                border_radius=15,
+                side=ft.BorderSide.none()
+            ),
             bgcolor="#7092BE",
-            border_color="transparent",
             color="#FFFFFF",
             cursor_color="#FFFFFF",
             selection_color=ft.Colors.BLACK_12,
@@ -83,9 +85,11 @@ def create_item_field(page: ft.Page, fields_column, name=None, count=None, key=N
         content=ft.TextField(
             hint_text="Кол-во",
             hint_style=ft.TextStyle(color="#FFFFFF"),
-            border_radius=15,
+            border=ft.OutlineInputBorder(
+                border_radius=15,
+                side=ft.BorderSide.none()
+            ),
             bgcolor="#7092BE",
-            border_color="transparent",
             color="#FFFFFF",
             cursor_color="#FFFFFF",
             selection_color=ft.Colors.BLACK_12,
@@ -108,9 +112,7 @@ def create_item_field(page: ft.Page, fields_column, name=None, count=None, key=N
     return container
 
 
-def items_screen(page: ft.Page, switch_to, selected_index, screens):
-    page.clean()
-
+def items_screen(page: ft.Page, switch_to, selected_index, screens, main_container):
     saved_items = [t for t in config.target_tasks if t.get("kind") == "item"]
 
     async def on_help_click(e):
@@ -162,11 +164,9 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
 
     def add_field(e):
         fields_column.controls.append(create_item_field(page, fields_column))
-        page.update()
 
         if len(fields_column.controls) == 7:
             plus_button.visible = False
-            page.update()
             return
 
     plus_button = ft.Container(
@@ -181,7 +181,7 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
         shadow=ft.BoxShadow(
             blur_radius=10,
             color=ft.Colors.BLACK_26,
-            offset=ft.Offset(0, -2),
+            offset=ft.Offset(0, -2)
         )
     )
 
@@ -190,81 +190,73 @@ def items_screen(page: ft.Page, switch_to, selected_index, screens):
             fields_column,
             plus_button
         ],
-        spacing=10,
+        spacing=37,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-        margin=ft.Margin.only(left=20, top=20),
-        disabled=page.is_running
+        margin=ft.Margin.only(left=20, top=20)
     )
 
     # ============ ПРАВАЯ КОЛОНКА ============
     right_column = ft.Container(
         content=ft.Image(
             src=str(resource_path("assets/images/help_img.png")),
-            width=400,
-            height=400,
+            fit=ft.BoxFit.CONTAIN,
             expand=True
         ),
         on_click = on_help_click,
+        alignment=ft.Alignment.CENTER,
     )
 
     # ============ СБОРКА ============
-    page.add(
-        ft.Stack(
-            [
-                ft.Container(
-                    expand=True,
-                    image=ft.DecorationImage(
-                        src=str(resource_path("assets/images/main_background.png")),
-                        fit=ft.BoxFit.COVER
-                    ),
-                    bgcolor="#4C6186"
+    main_container.content = ft.Stack(
+        [
+            ft.Container(
+                content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
+                alignment=ft.Alignment(-1, 1),
+                margin=10,
+            ),
+            ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Column(
+                            [
+                                ft.ResponsiveRow(
+                                    [
+                                        ft.Container(
+                                            left_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.TOP_LEFT,
+                                        ),
+                                        ft.Container(
+                                            right_column,
+                                            col={"xs": 12, "md": 6},
+                                            alignment=ft.Alignment.CENTER,
+                                        ),
+                                    ],
+                                    alignment=ft.MainAxisAlignment.CENTER,
+                                    vertical_alignment=ft.CrossAxisAlignment.START,
+                                    disabled=page.is_running,
+                                ),
+                            ],
+                            scroll=ft.ScrollMode.AUTO,
+                            expand=True,
+                        ),
+                        ft.Container(
+                            content=bottom_nav(page, switch_to, selected_index, screens, main_container),
+                            alignment=ft.Alignment.BOTTOM_CENTER,
+                        ),
+                    ],
+                    spacing=0,
                 ),
-                ft.Container(
-                    content=ft.Text(f"{config.version}", color="#FFFFFF", size=14),
-                    alignment=ft.Alignment(-1, 1),
-                    margin=10,
-                ),
-                ft.Container(
-                    content=ft.Column(
-                        [
-                            ft.Row(
-                                [
-                                    ft.Container(
-                                        left_column,
-                                        expand=True,
-                                        alignment=ft.Alignment.CENTER,
-                                    ),
-                                    ft.Container(
-                                        right_column,
-                                        expand=True,
-                                        alignment=ft.Alignment.CENTER,
-                                    ),
-                                ],
-                                expand=True,
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                            ),
-                            ft.Container(
-                                content=bottom_nav(page, switch_to, selected_index, screens),
-                                alignment=ft.Alignment.BOTTOM_CENTER,
-                            ),
-                        ],
-                        expand=True,
-                    ),
-                    expand=True,
-                ),
-            ],
-            expand=True,
-        )
+            ),
+        ],
+        expand=True,
     )
-    page.update()
 
     async def on_tasks_changed():
         try:
             if fields_column.page is None:
                 return
             refresh_fields()
-            page.update()
         except RuntimeError:
             return
 

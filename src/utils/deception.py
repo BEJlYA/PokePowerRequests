@@ -1,19 +1,17 @@
-import base64
-import platform
-import random
 from typing import Dict
 
-from src.services.time_manager import TimeManager
+from uaforge.core.generator import UserAgentGenerator
 
 
 class DeceptionManager:
-    @staticmethod
-    async def gen_t():
-        timestamp = TimeManager.get_timestamp_socket()
-        return str(base64.b64encode(timestamp.encode("UTF-8")))[2:-3][0:6]
+    def __init__(self, settings: object):
+        self.agent = UserAgentGenerator(seed=settings.login)
 
-    @staticmethod
-    def random_headers() -> Dict[str, str]:
+    def random_headers(self) -> Dict[str, str]:
+        identity = self.agent.generate()
+
+        headers = identity.get_headers()
+
         base_headers = {
             'Accept': '*/*',
             'Accept-Encoding': 'gzip, deflate, br, zstd',
@@ -25,35 +23,10 @@ class DeceptionManager:
             'Sec-Fetch-Dest': 'empty',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Site': 'same-origin',
-            'User-Agent': '',
             'X-Requested-With': 'XMLHttpRequest'
         }
 
-        desktop_user_agents = [
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36',
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36'
-        ]
-        mobile_user_agents = [
-            'Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36',
-            'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.210 Mobile Safari/537.36',
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1'
-        ]
-
-        desktop_sec_ch_ua = [
-            '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"',
-            '"Chromium";v="139", "Not=A?Brand";v="24", "Google Chrome";v="139"',
-            '"Chromium";v="138", "Not=A?Brand";v="24", "Google Chrome";v="138"'
-        ]
-
-        system = platform.system().lower()
-        if system == 'linux':
-            base_headers['User-Agent'] = random.choice(mobile_user_agents)
-        else:
-            base_headers['User-Agent'] = random.choice(desktop_user_agents)
-            base_headers['Sec-Ch-Ua'] = random.choice(desktop_sec_ch_ua)
-            base_headers['Sec-Ch-Ua-Mobile'] = '?0'
-            base_headers['Sec-Ch-Ua-Platform'] = '"Windows"'
+        base_headers.update(headers)
 
         return base_headers
 
